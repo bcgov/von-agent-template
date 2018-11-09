@@ -1,9 +1,9 @@
 version: '3'
 services:
 
-  caddy:
+  caddyx:
     build:
-      context: ../bcreg-x
+      context: ../von-x-agent
       dockerfile: Dockerfile.caddy
     environment:
       TOB_API_URL: ${TOB_API_URL:-}
@@ -14,18 +14,18 @@ services:
       AGENT_HOST: ${AGENT_HOST:-agent}
       AGENT_PORT: ${AGENT_PORT:-8000}
     links:
-      - bcreg-agent:agent
+      - vonx-agent:agent
     networks:
       - vonx
     ports:
       - ${WEB_HTTP_PORT:-5000}:${WEB_HOST_PORT:-8080}
     volumes:
-      - caddy-data:/root/.caddy
-      - caddy-logs:/srv/logs
+      - caddyx-data:/root/.caddy
+      - caddyx-logs:/srv/logs
 
-  bcreg-agent:
+  vonx-agent:
     build:
-      context: ../bcreg-x
+      context: ../von-x-agent
       dockerfile: Dockerfile
     environment:
       APPLICATION_URL: ${APPLICATION_URL:-http://localhost:5000}
@@ -46,73 +46,25 @@ services:
       POSTGRESQL_WALLET_PASSWORD: ${POSTGRESQL_PASSWORD}
       POSTGRESQL_WALLET_ADMIN_PASSWORD: ${POSTGRESQL_ADMIN_PASSWORD}
       WALLET_ENCRYPTION_KEY: ${WALLET_ENCRYPTION_KEY}
-      INDY_WALLET_SEED: ${INDY_WALLET_SEED:-}
-      INDY_WALLET_DID: ${INDY_WALLET_DID}
+      WALLET_SEED_VONX: ${WALLET_SEED_VONX:-}
+      ISSUER_WALLET_DID: ${ISSUER_WALLET_DID}
+      HTTP_FORCE_CLOSE_CONNECTIONS: "true"
     external_links:
        - tob_tob-api_1:tob-api
     networks:
       - orgbook
       - vonx
     depends_on:
-      - bc-wallet-db
+      - vonx-wallet-db
     entrypoint: >
       /bin/bash -c "
         echo sleeping ...;
         sleep 5;
         ../docker-entrypoint.sh;"
-
-  bcregmara:
-    build:
-      context: ../data-pipeline
-      dockerfile: docker/mara-app/Dockerfile
-    environment:
-      - VONX_API_URL=${VONX_API_URL:-http://bcreg-agent:8000/bcreg}
-      # [bc_registries]
-      - BC_REG_DB_HOST=${BC_REG_DB_HOST:-host.docker.internal}
-      - BC_REG_DB_PORT=${BC_REG_DB_PORT:-5454}
-      - BC_REG_DB_DATABASE=${BC_REG_DB_DATABASE:-BC_REGISTRIES}
-      - BC_REG_DB_USER=${BC_REG_DB_USER}
-      - BC_REG_DB_PASSWORD=${BC_REG_DB_PASSWORD}
-      # [event_processor]
-      - EVENT_PROC_DB_HOST=${EVENT_PROC_DB_HOST:-bcregdb}
-      - EVENT_PROC_DB_PORT=${EVENT_PROC_DB_PORT:-5432}
-      - EVENT_PROC_DB_DATABASE=${EVENT_PROC_DB_DATABASE:-bc_reg_db}
-      - EVENT_PROC_DB_USER=${EVENT_PROC_DB_USER:-bc_reg_db}
-      - EVENT_PROC_DB_PASSWORD=
-      # [mara_db]
-      - MARA_DB_HOST=${MARA_DB_HOST:-bcregdb}
-      - MARA_DB_PORT=${MARA_DB_PORT:-5432}
-      - MARA_DB_DATABASE=${MARA_DB_DATABASE:-mara_db}
-      - MARA_DB_USER=${MARA_DB_USER:-mara_db}
-    networks:
-      - orgbook
-    ports:
-      - "5050:5000"
-    depends_on:
-      - bcregdb
-    entrypoint: >
-      /bin/bash -c "
-        echo sleeping ...;
-        sleep 5;
-        ./docker-entrypoint.sh;"
-
-  bcregdb:
-    build:
-      context: ../data-pipeline
-      dockerfile: docker/postgres/Dockerfile
-    environment:
-      - POSTGRESQL_USER=${POSTGRESQL_USER}
-      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
-      - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
-    networks:
-      - orgbook
-    ports:
-      #- 5432:5432
-      - 5444:5432
     volumes:
-      - mara-data:/var/lib/pgsql/data
+      - vonx-agent-wallet:/home/indy/.indy_client/wallet
 
-  bc-wallet-db:
+  vonx-wallet-db:
     image: registry.access.redhat.com/rhscl/postgresql-95-rhel7:9.5
     environment:
       - POSTGRESQL_USER=${POSTGRESQL_USER}
@@ -122,20 +74,18 @@ services:
     networks:
       - orgbook
     ports:
-      - 5434:5432
+      - 5435:5432
     volumes:
-      - wallet-db:/var/lib/pgsql/data
+      - vonx-wallet-db:/var/lib/pgsql/data
 
 volumes:
-  caddy-data:
-  caddy-logs:
-  mara-data:
-  wallet-db:
+  caddyx-data:
+  caddyx-logs:
+  vonx-agent-wallet:
+  vonx-wallet-db:
 
 networks:
   vonx:
   orgbook:
     external:
       name: tob_tob
-
-

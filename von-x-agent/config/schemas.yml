@@ -1,128 +1,18 @@
-- name: registration.registries.ca
-  version: '1.0.38'
+- name: von-x-credential.my-organization.ca
+  version: '1.0.0'
   attributes:
     registration_id:
-      description: Unique identifer assigned to entity by registrar
+      description: Unique identifer assigned to entity by registrar (requires an existing registration credential)
       required: Y
-    registration_date:
-      description: Date the organization was registered by this registrar
-      required: N
-    registration_expiry_date:
-      description: Date the registration will expire (unless extended)
-      required: N
-    registration_renewal_effective:
-      description: Date the registration renewal became/becomes effective
-      required: N
-    entity_name:
-      description: Legal and principle name assigned to entity by registrar
+    credential_status:
+      description: Status of the credential (ACTive or HIStorical)
       required: Y
-    entity_name_effective:
-      description: Date current name became/becomes effective
+    credential_status_effective:
+      description: Date status became/becomes effective (e.g. can be future dated)
       required: Y
-    entity_name_assumed:
-      description: Name assumed by an extra-provincial entity
-      required: N
-    entity_name_assumed_effective:
-      description: Date assumed name became/becomes effective
-      required: N
-    entity_name_trans:
-      description: Entity name translated into another language
-      required: N
-    entity_name_trans_effective:
-      description: Date translated name became/becomes effective
-      required: N
-    entity_status:
-      description: Status of the organization in jurisdiction of registrar
-      required: Y
-    entity_status_effective:
-      description: Date status became/becomes effective
-      required: Y
-    entity_type:
-      description: Designator for the organiation's legal structure
-      required: Y
-    registered_jurisdiction:
-      description: Name of the jurisdiction that registered the organization
-      required: N
-    extra_jurisdictional_registration:
-      description: Flag to indicate extra-jurisdictional registrations
-      required: N
-    home_jurisdiction:
-      description: Name of home jurisdiction where org is registered
-      required: Y
-    effective_date:
-      description: Date Credential is effective
-      required: Y
-    reason_description:
-      description: Reason for credential issue/update
-      required: N
-
-- name: address.registries.ca
-  version: '1.0.38'
-  attributes:
-    registration_id:
-      description: Unique identifer assigned to entity by registrar
-      required: Y
-    addressee:
-      description: Legal and principle name assigned to entity by registrar
-      required: Y
-    address_type:
-      description: Type designator for this address
-      required: Y
-    civic_address:
-      description: Street number, name, direction, suite, etc.
-      required: Y
-    municipality:
-      description: Name of a recognized municipality
-      required: Y
-    province:
-      description: Name of recognized sub-national territory
-      required: Y
-    postal_code:
-      description: Identifier issued by postal agency
-      required: Y
-    country:
-      description: Name of a recognized national territory
-      required: Y
-    address_effective_date:
-      description: Date current address became/becomes effective
+    credential_status_expiry:
+      description: Date status will expire
       required: N
     effective_date:
-      description: Date Credential is effective
+      description: Date Credential is effective (typically same as date credential is issued)
       required: Y
-    address_expiry_date:
-      description: Date Credential expires
-      required: N
-    reason_description:
-      description: Reason for credential issue/update
-      required: N
-
-- name: relationship.registries.ca
-  version: '1.0.38'
-  attributes:
-    registration_id:
-      description: Unique identifer assigned to entity by registrar
-      required: Y
-    associated_registration_id:
-      description: Registry id(s) of associated organizations/individuals
-      required: Y
-    relationship:
-      description: Name of the relationship
-      required: Y
-    relationship_description:
-      description: Description of the relationship
-      required: Y
-    relationship_status:
-      description: Status of the relationship
-      required: Y
-    relationship_status_effective:
-      description: Date the relationship became/becomes effective
-      required: N
-    effective_date:
-      description: Date Credential is effective
-      required: Y
-    relationship_expiry_date:
-      description: Date Credential expires
-      required: N
-    reason_description:
-      description: Reason for credential issue/update
-      required: N

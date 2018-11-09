@@ -1,89 +1,41 @@
 forms:
-  bcreg-incorp:
-    path: /bcreg/registration
+  vonx-issue:
+    path: /von-x/issue-credential
     type: issue-credential
-    schema_name: registration.registries.ca
-    page_title: BC Corporate Registry
-    title: Registration
+    schema_name: von-x-credential.my-organization.ca
+    page_title: My Organization Credential Issuer
+    title: Issue Sample Credentials
     template: bcgov.index.html
     description: >
-      BC Registries and Online Services administers and supports the legal framework
-      used for operating a business, not-for-profit society, cooperative association
-      or financial institution in B.C. Organizations need to register, file documents
-      and update records, which are kept as a matter of public record.
-    explanation: Use the form below to register a BC corporation.
+      Test Credential Issuer ... TBD.
+    explanation: Use the form below to issue credentials for an existing corporation.
 
     js_includes:
       - src: js/bc_registries.js
 
     fields:
-      - name: entity_name
-        label: Legal Name
+      - name: registration_id
+        label: Company Number
         type: text
         required: true
-
-      - name: address
-        label: Mailing Address
-        type: address
+      - name: credential_status
+        label: Credential Status
+        type: select
+        options:
+          - ACT
+          - HIS
         required: true
-
-    mapping:
-      attributes:
-        - name: registration_id
-          from: helper
-          source: uuid
-
-        - name: registration_id
-          from: previous
-          source: registration_id
-
-        - name: entity_type
-          from: literal
-          source: CO
-
-        - name: effective_date
-          from: helper
-          source: now
-
-  bcreg-dba:
-    path: /bcreg/dba
-    type: issue-credential
-    schema_name: relationship.registries.ca
-    page_title: BC Corporate Registry
-    title: Doing Business As
-    template: bcgov.index.html
-    description: >
-      BC Registries and Online Services administers and supports the legal framework
-      used for operating a business, not-for-profit society, cooperative association
-      or financial institution in B.C. Organizations need to register, file documents
-      and update records, which are kept as a matter of public record.
-    explanation: Use the form below to add a Doing Business As name for your business.
-
-    proof_request:
-      name: registration
-      params:
-        source_id: registration_id
-
-    js_includes:
-      - src: js/bc_registries.js
-
-    hidden:
-      - registration_id
-
-    fields:
-      - name: doing_business_as_name
-        label: Doing Business As Name
-        type: text
+      - name: credential_status_effective
+        label: Credential Effecive Date
+        type: date
         required: true
-
-      - name: address
-        label: Mailing Address
-        type: address
-        required: true
+      - name: credential_status_expiry
+        label: Credential Expiry Date
+        type: date
+        required: false
 
     mapping:
       attributes:
         - name: effective_date
           from: helper
           source: now
-

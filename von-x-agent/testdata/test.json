@@ -1,0 +1,13 @@
+[
+    {
+        "attributes": {
+            "registration_id": "BC0123456",
+            "credential_status": "ACT",
+            "credential_status_effective": "2004-03-06T08:00:00+00:00",
+            "credential_status_expiry": "2024-03-06T08:00:00+00:00",
+            "effective_date": "2004-03-06T08:00:00+00:00"
+        },
+        "schema": "von-x-credential.my-organization.ca",
+        "version": "1.0.0"
+    }
+]
