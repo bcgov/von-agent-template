@@ -1,0 +1,272 @@
+issuers:
+  bcreg:
+    name: BC Corporate Registry
+    abbreviation: BCReg
+    url: https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries/citizens-services/bc-registries-online-services
+    email: bcregistries@gov.bc.ca
+    logo_path: ../assets/img/bcreg-logo-square.jpg
+
+    connection:
+      type: TheOrgBook
+      api_url: $TOB_API_URL
+      sign_target: false
+
+    wallet:
+      name: ${POSTGRESQL_WALLET_NAME:-bcreg_issuer}
+      seed: $INDY_WALLET_SEED
+      type: $WALLET_TYPE
+      params:
+        storage_config:
+          url: "$POSTGRESQL_WALLET_HOST:$POSTGRESQL_WALLET_PORT"
+      access_creds:
+        key: $WALLET_ENCRYPTION_KEY
+        storage_credentials:
+          account: $POSTGRESQL_WALLET_USER
+          password: $POSTGRESQL_WALLET_PASSWORD
+          admin_account: ${POSTGRESQL_WALLET_ADMIN_USER:-postgres}
+          admin_password: $POSTGRESQL_WALLET_ADMIN_PASSWORD
+        key_derivation_method: ARGON2I_MOD
+
+    credential_types:
+      - description: Registration
+        schema: registration.registries.ca
+        issuer_url: $APPLICATION_URL_INCORP
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
+          inactive:
+            input: entity_status
+            from: claim
+            processor:
+              - bcgov.entity_status.is_historical
+        topic:
+          source_id:
+            input: registration_id
+            from: claim
+          type:
+            input: registration
+            from: value
+        mapping:
+          - model: name
+            fields:
+              type:
+                input: entity_name
+                from: value
+              text:
+                input: entity_name
+                from: claim
+          - model: name
+            fields:
+              type:
+                input: entity_name_assumed
+                from: value
+              text:
+                input: entity_name_assumed
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: registration_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: registration_date
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: entity_name_effective
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: entity_name_effective
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: entity_name_assumed_effective
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: entity_name_assumed_effective
+                from: claim
+          - model: category
+            fields:
+              type:
+                input: entity_status
+                from: value
+              value:
+                input: entity_status
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: entity_status_effective
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: entity_status_effective
+                from: claim
+          - model: category
+            fields:
+              type:
+                input: entity_type
+                from: value
+              value:
+                input: entity_type
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: registered_jurisdiction
+                from: value
+              format:
+                input: jurisdiction
+                from: value
+              value:
+                input: registered_jurisdiction
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: home_jurisdiction
+                from: value
+              format:
+                input: jurisdiction
+                from: value
+              value:
+                input: home_jurisdiction
+                from: claim
+          - model: category
+            fields:
+              type:
+                input: reason_description
+                from: value
+              value:
+                input: reason_description
+                from: claim
+
+      - description: Relationship
+        schema: relationship.registries.ca
+        issuer_url: $APPLICATION_URL_DBA
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
+        topic:
+          related_source_id:
+            input: associated_registration_id
+            from: claim
+          related_type:
+            input: registration
+            from: value
+          source_id:
+            input: registration_id
+            from: claim
+          type:
+            input: registration
+            from: value
+        cardinality_fields:
+          - associated_registration_id
+        mapping:
+          - model: category
+            fields:
+              type:
+                input: relationship
+                from: value
+              value:
+                input: relationship
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: relationship_description
+                from: value
+              value:
+                input: relationship_description
+                from: claim
+          - model: category
+            fields:
+              type:
+                input: relationship_status
+                from: value
+              value:
+                input: relationship_status
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: relationship_status_effective
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: relationship_status_effective
+                from: claim
+          - model: category
+            fields:
+              type:
+                input: reason_description
+                from: value
+              value:
+                input: reason_description
+                from: claim
+
+      - description: Corporate Address
+        schema: address.registries.ca
+        issuer_url: $APPLICATION_URL_ADDRESS
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
+        topic:
+          source_id:
+            input: registration_id
+            from: claim
+          type:
+            input: registration
+            from: value
+        cardinality_fields:
+          - address_type
+        mapping:
+          - model: address
+            fields:
+              addressee:
+                input: addressee
+                from: claim
+              civic_address:
+                input: civic_address
+                from: claim
+              city:
+                input: municipality
+                from: claim
+              province:
+                input: province
+                from: claim
+              postal_code:
+                input: postal_code
+                from: claim
+              country:
+                input: country
+                from: claim
+              type:
+                input: address_type
+                from: claim
+          - model: category
+            fields:
+              type:
+                input: reason_description
+                from: value
+              value:
+                input: reason_description
+                from: claim

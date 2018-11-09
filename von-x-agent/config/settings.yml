@@ -1,0 +1,11 @@
+default:
+  APPLICATION_URL_INCORP: $APPLICATION_URL/bcreg/incorporation
+  APPLICATION_URL_DBA: $APPLICATION_URL/bcreg/dba
+  TEMPLATE_PATH: ../templates
+  TOB_API_URL: http://tob-api:8080/api/v2
+  TOB_APP_URL: http://localhost:8080
+  INDY_WALLET_SEED: bc_registries_dev_00000000000000
+  #INDY_WALLET_SEED: TestBCGovSeedforSLN0000000000001
+  #INDY_GENESIS_URL: https://raw.githubusercontent.com/sovrin-foundation/sovrin/1.1.50-master/sovrin/pool_transactions_sandbox_genesis
+  #LEDGER_PROTOCOL_VERSION: "1.3"
+  #AUTO_REGISTER_DID: 0
