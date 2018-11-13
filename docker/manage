@@ -28,21 +28,26 @@ SCRIPT_HOME="$( cd "$( dirname "$0" )" && pwd )"
 usage() {
   cat <<-EOF
 
-  Usage: $0 {start|stop|build|rm}
+  Usage: $0 [command] [options]
 
-  Options:
+  Commands:
 
   build - Build the docker images for the project.
           You need to do this first, since the builds require
           a combination of Docker images.
 
-  start - Creates the application container from the built images
-          and starts the services based on the docker-compose.yml file.
+  up  - Creates the application container from the built images
+        and starts the services based on the docker-compose.yml file.
+  start - Same as up
+
+  logs - Display the logs from the docker compose run (ctrl-c to exit).
 
   stop - Stops the services.  This is a non-destructive process.  The containers
          are not deleted so they will be reused the next time you run start.
 
-  rm - Removes any existing application containers.
+  down - Brings down the services and removes the volumes (storage).  The containers
+         are not deleted so they will be reused the next time you run start.
+  rm - Same as down
 
 EOF
 exit 1
@@ -133,17 +138,7 @@ deleteVolumes() {
   _projectName=${COMPOSE_PROJECT_NAME:-docker}
 
   echo "Stopping and removing any running containers ..."
-  docker-compose rm -svf >/dev/null
-
-  _pattern="^${_projectName}_\|^docker_"
-  _volumes=$(docker volume ls -q | grep ${_pattern})
-
-  if [ ! -z "${_volumes}" ]; then
-    echo "Removing project volumes ..."
-    echo ${_volumes} |  xargs docker volume rm
-  else
-    echo "No project volumes exist."
-  fi
+  docker-compose down -v
 }
 
 # =================================================================================================================
@@ -153,16 +148,21 @@ COMMAND=$1
 shift || true
 
 case "$COMMAND" in
-  start)
+  start|up)
     _startupParams=$(getStartupParams $@)
     configureEnvironment $@
-    docker-compose up ${_startupParams}
+    docker-compose up -d ${_startupParams}
+    docker-compose logs -f
+    ;;
+  logs)
+    configureEnvironment $@
+    docker-compose logs -f
     ;;
   stop)
     configureEnvironment $@
     docker-compose stop
     ;;
-  rm)
+  rm|down)
     configureEnvironment $@
     deleteVolumes
     ;;
