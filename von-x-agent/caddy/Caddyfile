@@ -7,7 +7,7 @@
     tls {%WEB_HOST_TLS%}  # Use `self_signed` to enable self_signed tls, or `off` to disable tls.  TLS not needed for OpenShift.
 
     rewrite {
-        r ^/bcreg/assets/(.*)$
+        r ^/myorg/assets/(.*)$
         to /assets/{1}
     }
 

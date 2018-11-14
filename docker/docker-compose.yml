@@ -14,16 +14,16 @@ services:
       AGENT_HOST: ${AGENT_HOST:-agent}
       AGENT_PORT: ${AGENT_PORT:-8000}
     links:
-      - vonx-agent:agent
+      - myorg-agent:agent
     networks:
-      - vonx
+      - myorg
     ports:
       - ${WEB_HTTP_PORT:-5000}:${WEB_HOST_PORT:-8080}
     volumes:
       - caddyx-data:/root/.caddy
       - caddyx-logs:/srv/logs
 
-  vonx-agent:
+  myorg-agent:
     build:
       context: ../von-x-agent
       dockerfile: Dockerfile
@@ -53,18 +53,18 @@ services:
        - tob_tob-api_1:tob-api
     networks:
       - orgbook
-      - vonx
+      - myorg
     depends_on:
-      - vonx-wallet-db
+      - myorg-wallet-db
     entrypoint: >
       /bin/bash -c "
         echo sleeping ...;
         sleep 5;
         ../docker-entrypoint.sh;"
     volumes:
-      - vonx-agent-wallet:/home/indy/.indy_client/wallet
+      - myorg-agent-wallet:/home/indy/.indy_client/wallet
 
-  vonx-wallet-db:
+  myorg-wallet-db:
     image: registry.access.redhat.com/rhscl/postgresql-95-rhel7:9.5
     environment:
       - POSTGRESQL_USER=${POSTGRESQL_USER}
@@ -76,16 +76,16 @@ services:
     ports:
       - 5435:5432
     volumes:
-      - vonx-wallet-db:/var/lib/pgsql/data
+      - myorg-wallet-db:/var/lib/pgsql/data
 
 volumes:
   caddyx-data:
   caddyx-logs:
-  vonx-agent-wallet:
-  vonx-wallet-db:
+  myorg-agent-wallet:
+  myorg-wallet-db:
 
 networks:
-  vonx:
+  myorg:
   orgbook:
     external:
       name: tob_tob

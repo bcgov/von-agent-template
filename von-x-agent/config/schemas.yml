@@ -1,4 +1,4 @@
-- name: von-x-credential.my-organization.ca
+- name: myorg-credential.my-organization.ca
   version: '1.0.0'
   attributes:
     registration_id:

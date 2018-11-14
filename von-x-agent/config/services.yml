@@ -1,7 +1,7 @@
 issuers:
-  von-x:
+  myorg:
     name: My Test Organization
-    abbreviation: VON-X
+    abbreviation: myorg
     url: https://www2.gov.bc.ca/gov/TBD
     email: TBD@gov.bc.ca
     logo_path: ../assets/img/tbd-logo-square.jpg
@@ -12,7 +12,7 @@ issuers:
       sign_target: false
 
     wallet:
-      name: ${POSTGRESQL_WALLET_NAME:-vonx_issuer}
+      name: ${POSTGRESQL_WALLET_NAME:-myorg_issuer}
       seed: $WALLET_SEED_VONX
       type: $WALLET_TYPE
       params:
@@ -29,7 +29,7 @@ issuers:
 
     credential_types:
       - description: Test Credential
-        schema: von-x-credential.my-organization.ca
+        schema: myorg-credential.my-organization.ca
         issuer_url: $APPLICATION_URL_VONX
         credential:
           effective_date:

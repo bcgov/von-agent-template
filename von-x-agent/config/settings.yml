@@ -1,5 +1,5 @@
 default:
-  APPLICATION_URL_VONX: $APPLICATION_URL/von-x/issue-credential
+  APPLICATION_URL_VONX: $APPLICATION_URL/myorg/issue-credential
   TEMPLATE_PATH: ../templates
   TOB_API_URL: http://tob-api:8080/api/v2
   TOB_APP_URL: http://localhost:8080

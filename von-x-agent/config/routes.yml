@@ -1,8 +1,8 @@
 forms:
-  vonx-issue:
-    path: /von-x/issue-credential
+  myorg-issue:
+    path: /myorg/issue-credential
     type: issue-credential
-    schema_name: von-x-credential.my-organization.ca
+    schema_name: myorg-credential.my-organization.ca
     page_title: My Organization Credential Issuer
     title: Issue Sample Credentials
     template: bcgov.index.html
