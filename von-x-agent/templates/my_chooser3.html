@@ -52,47 +52,22 @@
     <main class="container page-content">
     <div class="row">
         <div class="col-sm-10 col-sm-push-1">
-            <h2>Enter Registration Id</h2>
-            <p>Please enter the company's Registration Id, and select the type of credential you wish to create.</p>
+            <h2>Selected {{ corp_num }} {{ credential_type }} {{ credential_id }}</h2>
+            <p>You have identified Registratio Id {{ corp_num }} and selected to create a Credential of Type {{ credential_type }}</p>
+            <p>You have selected Credential {{ credential_id }} to offer for the supporting Proof Request(s).</p>
+            <p>Please click on the following link to continue:</p>
 
-            <form action="/chooser2" method="post"
+            <a href="/myorg/myorg-credential?credential_ids={{ credential_id }}">
+                /myorg/myorg-credential?credential-ids={{ credential_id }}
+            </a>
+
+            <form action="/chooser" method="get"
                   accept-charset="utf-8" enctype="multipart/form-data" name="chooser"
                   class="form well">
                 <fieldset>
                     <div class="row">
                         <div class="col-md-8 col-md-push-2">
-                            <div class="form-group">
-                                <label class="control-label required" for="line1-input">
-                                    <span class="field-name">Registration Id</span>
-                                    <span class="required">(required)</span></label>
-
-                                <input
-                                    class="form-control"
-                                    type="text"
-                                    name="corp_num"
-                                    size=""
-                                    id="corp_num-input"
-                                    value=""
-                                    required>
-
-                                <label class="control-label required" for="line1-input">
-                                    <span class="field-name">Credential Type</span>
-                                    <span class="required">(required)</span></label>
-
-                                <select
-                                    class="form-control"
-                                    name="credential_type"
-                                    id="credential_type-input"
-                                    required>
-                                    <option value="myorg-credential.my-organization.ca">
-                                        myorg-credential.my-organization.ca
-                                    </option>
-                                    <option value="some_other_cred.my-organization.ca">
-                                        some_other_cred.my-organization.ca
-                                    </option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary"><span class="fa fa-check"></span> Submit </button>
+                            <button type="submit" class="btn btn-primary"><span class="fa fa-check"></span> Start Over </button>
                         </div>
                     </div>
                 </fieldset>
