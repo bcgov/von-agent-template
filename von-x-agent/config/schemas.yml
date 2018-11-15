@@ -1,7 +1,7 @@
 - name: myorg-credential.my-organization.ca
   version: '1.0.0'
   attributes:
-    registration_id:
+    corp_num:
       description: Unique identifer assigned to entity by registrar (requires an existing registration credential)
       required: Y
     credential_status:

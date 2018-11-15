@@ -23,10 +23,16 @@ to be properly initialized before the webserver process has forked.
 
 import logging.config
 
+from aiohttp import web
+
 from vonx.common import config
 from vonx.indy.manager import IndyManager
 from vonx.web import init_web
 
+from .views import get_agent_routes
+
+
+LOGGER = logging.getLogger(__name__)
 
 # Load application settings (environment)
 ENV = config.load_settings()
@@ -42,7 +48,9 @@ def pre_init():
     MANAGER.start_process()
 
 async def init_app():
-    return await init_web(MANAGER)
+    app = await init_web(MANAGER)
+    app.add_routes(get_agent_routes(app))
+    return app
 
 def shutdown():
     MANAGER.stop()

@@ -1,6 +1,6 @@
 forms:
   myorg-issue:
-    path: /myorg/issue-credential
+    path: /myorg/myorg-credential
     type: issue-credential
     schema_name: myorg-credential.my-organization.ca
     page_title: My Organization Credential Issuer
@@ -13,8 +13,12 @@ forms:
     js_includes:
       - src: js/bc_registries.js
 
+    proof_request:
+      id: registration
+      connection_id: bctob
+
     fields:
-      - name: registration_id
+      - name: corp_num
         label: Company Number
         type: text
         required: true

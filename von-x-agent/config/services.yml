@@ -42,7 +42,7 @@ issuers:
               - bcgov.entity_status.is_historical
         topic:
           source_id:
-            input: registration_id
+            input: corp_num
             from: claim
           type:
             input: registration
@@ -78,3 +78,23 @@ issuers:
               value:
                 input: credential_status_expiry
                 from: claim
+
+verifiers:
+  bctob:
+    name: BC OrgBook
+    connection:
+      type: TheOrgBook
+      api_url: $TOB_API_URL
+    wallet:
+      seed: "tob-verifier-wallet-000000000001"
+
+proof_requests:
+  registration:
+    version: '1.0.4'
+    schemas:
+      - key:
+          did: 6qnvgJtqwK44D8LFYnV5Yf
+          name: registration.permitify
+          version: '1.0.4'
+        attributes:
+          - corp_num
