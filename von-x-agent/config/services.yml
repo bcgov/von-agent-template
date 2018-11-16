@@ -98,3 +98,12 @@ proof_requests:
           version: '1.0.4'
         attributes:
           - corp_num
+  cannabis:
+    version: '1.0.0'
+    schemas:
+      - key:
+          did: 6qnvgJtqwK44D8LFYnV5Yf
+          name: registration.permitify
+          version: '1.0.4'
+        attributes:
+          - corp_num
