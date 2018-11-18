@@ -93,7 +93,7 @@ forms:
       attributes:
         - name: tax_number
           from: helper
-          source: pst
+          source: uuid
 
   liquor:
     path: /myorg/liquor
@@ -148,6 +148,12 @@ forms:
         type: date
         required: true
 
+    mapping:
+      attributes:
+        - name: license_number
+          from: helper
+          source: uuid
+
   myorg-issue:
     path: /myorg/myorg-credential
     type: issue-credential
@@ -167,7 +173,7 @@ forms:
       connection_id: bctob
 
     fields:
-      - name: corp_num
+      - name: registration_id
         label: Company Number
         type: text
         required: true

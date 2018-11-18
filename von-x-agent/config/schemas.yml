@@ -15,6 +15,7 @@
     - legal_name
     - postal_code
     - province
+    - effective_date
 
 - name: myorg-tax.my-organization.ca
   version: '1.0.0'

@@ -147,6 +147,53 @@ issuers:
           type:
             input: registration
             from: value
+        mapping:
+          - model: attribute
+            fields:
+              text:
+                input: license_number
+                from: claim
+              type:
+                input: license_number
+                from: value
+          - model: attribute
+            fields:
+              type:
+                input: dancing_permitted
+                from: value
+              value:
+                input: dancing_permitted
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: patio
+                from: value
+              value:
+                input: patio
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: effective_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: effective_date
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: end_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: end_date
+                from: claim
 
       - description: Test Credential
         schema: myorg-credential.my-organization.ca
@@ -221,6 +268,12 @@ proof_requests:
   liquor_and_tax:
     version: '1.0.0'
     schemas:
+      - key:
+          did: 8HkrLGCUemkvspADWnJu4e
+          name: myorg-registration.my-organization.ca
+          version: '1.0.0'
+        attributes:
+          - registration_id
       - key:
           did: 8HkrLGCUemkvspADWnJu4e
           name: myorg-tax.my-organization.ca
