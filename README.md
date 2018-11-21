@@ -68,10 +68,12 @@ To push the changes from the local repo to your fork:
 
 `$ git push
 
-<sub><sup>NOTE: If you wish to contribute back to the main bcgov repo, submit a Pull Request on the GitHub page of your fork repo. Always include a description of the proposed changes in the Pull Request and make sure the changes can merge successfully with the master branch of the main repo.Refer to [CONTRIBUTING](./CONTRIBUTING.md) section for a complete set of intstructions.</sup></sub>
+<sub><sup>NOTE: If you wish to contribute back to the main bcgov repo, submit a Pull Request on the GitHub page of your fork repo. Always include a description of the proposed changes in the Pull Request and make sure the changes can merge successfully with the master branch of the main repo. Refer to [CONTRIBUTING](./CONTRIBUTING.md) guidelines for a complete set of intstructions.</sup></sub>
 
 
 ## Configure your Local VON-X Agent Instance
+
+Check out configurations of other von-x agents like [bcgov/BC Registry](https://github.com/bcgov/von-bc-registries-agent/tree/master/bcreg-x/config) and [ongov/Ontario Business Registry](https://github.com/weiiv/onbis-x) to help you get started.
 
 1. Define the schema for the credential you intend to issue
 
