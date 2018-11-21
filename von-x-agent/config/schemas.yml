@@ -1,0 +1,61 @@
+- name: myorg-registration.my-organization.ca
+  version: '1.0.0'
+  attributes:
+    - registration_id
+    - registration_date
+    - entity_type
+    - entity_status
+    - entity_status_effective
+    - entity_name_effective
+    - address_line_1
+    - address_line_2
+    - addressee
+    - city
+    - country
+    - legal_name
+    - postal_code
+    - province
+    - effective_date
+
+- name: myorg-tax.my-organization.ca
+  version: '1.0.0'
+  attributes:
+    - registration_id
+    - tax_number
+    - effective_date
+
+- name: myorg-liquor.my-organization.ca
+  version: '1.0.0'
+  attributes:
+    - registration_id
+    - license_number
+    - dancing_permitted
+    - patio
+    - effective_date
+    - end_date
+
+- name: myorg-credential.my-organization.ca
+  version: '1.0.0'
+  attributes:
+    registration_id:
+      description: Unique identifer assigned to entity by registrar (requires an existing registration credential)
+      required: Y
+    tax_number:
+      description: Relevant tax number
+      required: Y
+    license_number:
+      description: Relevant liquor license number
+      required: Y
+    credential_status:
+      description: Status of the credential (ACTive or HIStorical)
+      required: Y
+    credential_status_effective:
+      description: Date status became/becomes effective (e.g. can be future dated)
+      required: Y
+    credential_status_expiry:
+      description: Date status will expire
+      required: N
+    effective_date:
+      description: Date Credential is effective (typically same as date credential is issued)
+      required: Y
+

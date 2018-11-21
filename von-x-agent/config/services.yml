@@ -1,0 +1,288 @@
+issuers:
+  myorg:
+    name: My Test Organization
+    abbreviation: myorg
+    url: https://www2.gov.bc.ca/gov/TBD
+    email: TBD@gov.bc.ca
+    logo_path: ../assets/img/tbd-logo-square.jpg
+
+    connection:
+      type: TheOrgBook
+      api_url: $TOB_API_URL
+      sign_target: false
+
+    wallet:
+      name: ${POSTGRESQL_WALLET_NAME:-myorg_issuer}
+      seed: $WALLET_SEED_VONX
+      type: $WALLET_TYPE
+      params:
+        storage_config:
+          url: "$POSTGRESQL_WALLET_HOST:$POSTGRESQL_WALLET_PORT"
+      access_creds:
+        key: $WALLET_ENCRYPTION_KEY
+        storage_credentials:
+          account: $POSTGRESQL_WALLET_USER
+          password: $POSTGRESQL_WALLET_PASSWORD
+          admin_account: ${POSTGRESQL_WALLET_ADMIN_USER:-postgres}
+          admin_password: $POSTGRESQL_WALLET_ADMIN_PASSWORD
+        key_derivation_method: ARGON2I_MOD
+
+    credential_types:
+      - description: Registration
+        schema: myorg-registration.my-organization.ca
+        issuer_url: $APPLICATION_URL_VONX
+        topic:
+          source_id:
+            input: registration_id
+            from: claim
+          type:
+            input: registration
+            from: value
+        mapping:
+          - model: name
+            fields:
+              text:
+                input: legal_name
+                from: claim
+              type:
+                input: legal_name
+                from: value
+          - model: address
+            fields:
+              addressee:
+                input: addressee
+                from: claim
+              civic_address:
+                input: address_line_1
+                from: claim
+              city:
+                input: city
+                from: claim
+              province:
+                input: province
+                from: claim
+              postal_code:
+                input: postal_code
+                from: claim
+              country:
+                input: country
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: registration_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: registration_date
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: entity_type
+                from: value
+              value:
+                input: entity_type
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: entity_status
+                from: value
+              value:
+                input: entity_status
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: entity_status_effective
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: entity_status_effective
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: entity_name_effective
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: entity_name_effective
+                from: claim
+
+      - description: Tax Number
+        schema: myorg-tax.my-organization.ca
+        issuer_url: $APPLICATION_URL_VONX
+        topic:
+          source_id:
+            input: registration_id
+            from: claim
+          type:
+            input: registration
+            from: value
+        mapping:
+          - model: attribute
+            fields:
+              text:
+                input: tax_number
+                from: claim
+              type:
+                input: tax_number
+                from: value
+
+      - description: Liquor License
+        schema: myorg-liquor.my-organization.ca
+        issuer_url: $APPLICATION_URL_VONX
+        topic:
+          source_id:
+            input: registration_id
+            from: claim
+          type:
+            input: registration
+            from: value
+        mapping:
+          - model: attribute
+            fields:
+              text:
+                input: license_number
+                from: claim
+              type:
+                input: license_number
+                from: value
+          - model: attribute
+            fields:
+              type:
+                input: dancing_permitted
+                from: value
+              value:
+                input: dancing_permitted
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: patio
+                from: value
+              value:
+                input: patio
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: effective_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: effective_date
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: end_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: end_date
+                from: claim
+
+      - description: Test Credential
+        schema: myorg-credential.my-organization.ca
+        issuer_url: $APPLICATION_URL_VONX
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
+          inactive:
+            input: credential_status
+            from: claim
+            processor:
+              - bcgov.entity_status.is_historical
+        topic:
+          source_id:
+            input: registration_id
+            from: claim
+          type:
+            input: registration
+            from: value
+        mapping:
+          - model: category
+            fields:
+              type:
+                input: credential_status
+                from: value
+              value:
+                input: credential_status
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: credential_status_effective
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: credential_status_effective
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: credential_status_expiry
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: credential_status_expiry
+                from: claim
+
+verifiers:
+  bctob:
+    name: BC OrgBook
+    connection:
+      type: TheOrgBook
+      api_url: $TOB_API_URL
+    wallet:
+      seed: "tob-verifier-wallet-000000000001"
+
+proof_requests:
+  registration:
+    version: '1.0.0'
+    schemas:
+      - key:
+          did: 8HkrLGCUemkvspADWnJu4e
+          name: myorg-registration.my-organization.ca
+          version: '1.0.0'
+        attributes:
+          - registration_id
+  liquor_and_tax:
+    version: '1.0.0'
+    schemas:
+      - key:
+          did: 8HkrLGCUemkvspADWnJu4e
+          name: myorg-registration.my-organization.ca
+          version: '1.0.0'
+        attributes:
+          - registration_id
+      - key:
+          did: 8HkrLGCUemkvspADWnJu4e
+          name: myorg-tax.my-organization.ca
+          version: '1.0.0'
+        attributes:
+          - tax_number
+      - key:
+          did: 8HkrLGCUemkvspADWnJu4e
+          name: myorg-liquor.my-organization.ca
+          version: '1.0.0'
+        attributes:
+          - license_number

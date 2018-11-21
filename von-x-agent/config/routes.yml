@@ -1,0 +1,200 @@
+forms:
+  myorg-reg:
+    path: /myorg/incorporation
+    type: issue-credential
+    schema_name: myorg-registration.my-organization.ca
+    page_title: Corporate Registry
+    title: Registration
+    template: bcgov.index.html
+    description: >
+      Registries and Online Services administers and supports the legal framework
+      used for operating a business, not-for-profit society, cooperative association
+      or financial institution. Organizations need to register, file documents
+      and update records, which are kept as a matter of public record.
+    explanation: Use the form below to register a Corporation.
+
+    js_includes:
+      - src: js/bc_registries.js
+
+    fields:
+      - name: entity_type
+        label: Registration Type
+        type: select
+        options:
+          - Incorporated Company
+          - Unlimited Liability Company
+          - Continuation In
+          - Continuation In as ULC
+          - Extraprovincial Company
+          - Limited Liability Company
+          - Miscellaneous Firm
+          - Sole Proprietorship
+        required: true
+
+      - name: legal_name
+        label: Legal Name
+        type: text
+        required: true
+
+      - name: address
+        label: Mailing Address
+        type: address
+        required: true
+
+    mapping:
+      attributes:
+        - name: registration_id
+          from: helper
+          source: uuid
+
+        - name: registration_date
+          from: helper
+          source: now_iso
+
+        - name: entity_status
+          from: literal
+          source: Active
+
+        - name: entity_status_effective
+          from: helper
+          source: now_iso
+
+        - name: entity_name_effective
+          from: helper
+          source: now_iso
+
+  finance-tax:
+    path: /myorg/tax
+    type: issue-credential
+    schema_name: myorg-tax.my-organization.ca
+    page_title: Ministry of Taxes
+    title: Tax Number
+    template: bcgov.index.html
+    description: >
+      Obtain a Tax Number
+    explanation: Use the form below to obtain a Tax Number.
+
+    proof_request:
+      id: registration
+      connection_id: bctob
+
+    fields:
+      - name: registration_id
+        label: Registration ID
+        type: text
+        required: true
+
+      - name: legal_name
+        label: Legal Name
+        type: text
+        required: true
+
+    mapping:
+      attributes:
+        - name: tax_number
+          from: helper
+          source: uuid
+
+  liquor:
+    path: /myorg/liquor
+    type: issue-credential
+    schema_name: myorg-liquor.my-organization.ca
+    page_title: Liquor Control and Licensing Branch
+    title: Liquor Control and Licensing Branch
+    template: bcgov.index.html
+    description: >
+      Liquor License
+    explanation: Use the form below to obtain a liquor license.
+
+    proof_request:
+      id: registration
+      connection_id: bctob
+
+    fields:
+      - name: registration_id
+        label: Registration ID
+        type: text
+        required: true
+
+      - name: legal_name
+        label: Legal Name
+        type: text
+        required: true
+
+      - name: dancing_permitted
+        label: >
+          Patron Participation Entertainment - dancing, karaoke or other types entertainment
+          that involve patron participation in the service area
+        type: radio
+        options:
+          - value: true
+            label: Yes
+          - value: false
+            label: No
+        required: true
+
+      - name: patio
+        label: Are you applying for a patio?
+        type: radio
+        options:
+          - value: true
+            label: Yes
+          - value: false
+            label: No
+        required: true
+
+      - name: effective_date
+        label: Effective Date
+        type: date
+        required: true
+
+    mapping:
+      attributes:
+        - name: license_number
+          from: helper
+          source: uuid
+
+  myorg-issue:
+    path: /myorg/myorg-credential
+    type: issue-credential
+    schema_name: myorg-credential.my-organization.ca
+    page_title: My Organization Credential Issuer
+    title: Issue Sample Credentials
+    template: bcgov.index.html
+    description: >
+      Test Credential Issuer ... TBD.
+    explanation: Use the form below to issue credentials for an existing corporation.
+
+    js_includes:
+      - src: js/bc_registries.js
+
+    proof_request:
+      id: liquor_and_tax
+      connection_id: bctob
+
+    fields:
+      - name: registration_id
+        label: Company Number
+        type: text
+        required: true
+      - name: credential_status
+        label: Credential Status
+        type: select
+        options:
+          - ACT
+          - HIS
+        required: true
+      - name: credential_status_effective
+        label: Credential Effecive Date
+        type: date
+        required: true
+      - name: credential_status_expiry
+        label: Credential Expiry Date
+        type: date
+        required: false
+
+    mapping:
+      attributes:
+        - name: effective_date
+          from: helper
+          source: now
