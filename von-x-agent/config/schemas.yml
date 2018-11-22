@@ -32,7 +32,7 @@
     - dancing_permitted
     - patio
     - effective_date
-    - end_date
+    - expiry_date
 
 - name: myorg-credential.my-organization.ca
   version: '1.0.0'
@@ -58,4 +58,7 @@
     effective_date:
       description: Date Credential is effective (typically same as date credential is issued)
       required: Y
+    expiry_date:
+      description: Date Credential expires (typically same as next version of credential is issued)
+      required: N
 

@@ -5,6 +5,7 @@ issuers:
     url: https://www2.gov.bc.ca/gov/TBD
     email: TBD@gov.bc.ca
     logo_path: ../assets/img/tbd-logo-square.jpg
+    endpoint: http://$APPLICATION_URL/
 
     connection:
       type: TheOrgBook
@@ -31,6 +32,10 @@ issuers:
       - description: Registration
         schema: myorg-registration.my-organization.ca
         issuer_url: $APPLICATION_URL_VONX
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
         topic:
           source_id:
             input: registration_id
@@ -116,10 +121,30 @@ issuers:
               value:
                 input: entity_name_effective
                 from: claim
+          - model: attribute
+            fields:
+              type:
+                input: effective_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: effective_date
+                from: claim
 
       - description: Tax Number
         schema: myorg-tax.my-organization.ca
         issuer_url: $APPLICATION_URL_VONX
+        depends_on:
+          - registration
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
+          revoked_date:
+            input: expiry_date
+            from: claim
         topic:
           source_id:
             input: registration_id
@@ -136,10 +161,27 @@ issuers:
               type:
                 input: tax_number
                 from: value
+          - model: attribute
+            fields:
+              type:
+                input: effective_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: effective_date
+                from: claim
 
       - description: Liquor License
         schema: myorg-liquor.my-organization.ca
         issuer_url: $APPLICATION_URL_VONX
+        depends_on:
+          - registration
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
         topic:
           source_id:
             input: registration_id
@@ -186,18 +228,20 @@ issuers:
           - model: attribute
             fields:
               type:
-                input: end_date
+                input: expiry_date
                 from: value
               format:
                 input: datetime
                 from: value
               value:
-                input: end_date
+                input: expiry_date
                 from: claim
 
       - description: Test Credential
         schema: myorg-credential.my-organization.ca
         issuer_url: $APPLICATION_URL_VONX
+        depends_on:
+          - liquor_and_tax
         credential:
           effective_date:
             input: effective_date
@@ -207,6 +251,9 @@ issuers:
             from: claim
             processor:
               - bcgov.entity_status.is_historical
+          revoked_date:
+            input: expiry_date
+            from: claim
         topic:
           source_id:
             input: registration_id
@@ -244,6 +291,28 @@ issuers:
                 from: value
               value:
                 input: credential_status_expiry
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: effective_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: effective_date
+                from: claim
+          - model: attribute
+            fields:
+              type:
+                input: expiry_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: expiry_date
                 from: claim
 
 verifiers:
@@ -286,3 +355,21 @@ proof_requests:
           version: '1.0.0'
         attributes:
           - license_number
+  bcreg_registration:
+    version: '1.0.1'
+    schemas:
+      - key:
+          did: 6qnvgJtqwK44D8LFYnV5Yf
+          name: registration.registries.ca
+          version: '1.0.38'
+        attributes:
+          - registration_id
+  permitify_registration:
+    version: '1.0.2'
+    schemas:
+      - key:
+          did: 6qnvgJtqwK44D8LFYnV5Yf
+          name: registration.permitify
+          version: '1.0.4'
+        attributes:
+          - corp_num
