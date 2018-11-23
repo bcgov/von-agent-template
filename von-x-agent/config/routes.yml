@@ -46,6 +46,11 @@ forms:
         type: date
         required: true
 
+      - name: expiry_date
+        label: Expiry Date
+        type: date
+        required: false
+
     mapping:
       attributes:
         - name: registration_id

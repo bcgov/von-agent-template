@@ -1,38 +1,66 @@
 - name: myorg-registration.my-organization.ca
   version: '1.0.0'
   attributes:
-    - registration_id
-    - registration_date
-    - entity_type
-    - entity_status
-    - entity_status_effective
-    - entity_name_effective
-    - address_line_1
-    - address_line_2
-    - addressee
-    - city
-    - country
-    - legal_name
-    - postal_code
-    - province
-    - effective_date
+    registration_id:
+      required: Y
+    registration_date:
+      required: Y
+    entity_type:
+      required: Y
+    entity_status:
+      required: Y
+    entity_status_effective:
+      required: Y
+    entity_name_effective:
+      required: Y
+    address_line_1:
+      required: Y
+    address_line_2:
+      required: Y
+    addressee:
+      required: Y
+    city:
+      required: Y
+    country:
+      required: Y
+    legal_name:
+      required: Y
+    postal_code:
+      required: Y
+    province:
+      required: Y
+    effective_date:
+      required: Y
+    expiry_date:
+      description: Date Credential expires (typically same as next version of credential is issued)
+      required: N
 
 - name: myorg-tax.my-organization.ca
   version: '1.0.0'
   attributes:
-    - registration_id
-    - tax_number
-    - effective_date
+    registration_id:
+      required: Y
+    tax_number:
+      required: Y
+    effective_date:
+      required: Y
 
 - name: myorg-liquor.my-organization.ca
   version: '1.0.0'
   attributes:
-    - registration_id
-    - license_number
-    - dancing_permitted
-    - patio
-    - effective_date
-    - expiry_date
+    registration_id:
+      required: Y
+    license_number:
+      required: Y
+    dancing_permitted:
+      required: Y
+    patio:
+      required: Y
+    effective_date:
+      required: Y
+    expiry_date:
+      description: Date Credential expires (typically same as next version of credential is issued)
+      required: N
 
 - name: myorg-credential.my-organization.ca
   version: '1.0.0'
