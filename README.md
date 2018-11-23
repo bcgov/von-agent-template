@@ -60,19 +60,21 @@ In the top-right corner of the page, click Fork.
 In your favourite cli, clone YOUR FORK of the repo:
 
 ```
-$ git clone https://github.com/YOUR_GITHUB_USERNAME/von-agent-template
+$ git clone https://github.com/YOUR_GITHUB_USERNAME/von-agent-template.git
 ```
 
 Add the bcgov/von-agent-template repo as upstream to have access to the latest updates.
 
 ```
-$ git remote add upstream https://github.com/bcgov/von-agent-template
+$ git remote add upstream https://github.com/bcgov/von-agent-template.git
 ```
 
 Run the commands below to pull changes from the main repo to your fork and to your local repo:
 
 ```
-$ git fetch upstream;git merge upstream/master master;git push
+$ git fetch upstream
+$ git merge upstream/master master
+$ git push
 ```
 
 To push the changes from the local repo to your fork:
@@ -91,9 +93,10 @@ Check out configurations of other von-x agents like [bcgov/BC Registry](https://
 
 1. Define the schema for the credential you intend to issue
 
-`von-x-agent/config/schemas.yml`
-
-`von-x-agent/testdata/test.json`
+```
+von-x-agent/config/schemas.yml
+von-x-agent/testdata/test.json
+```
 
 1a. Determine pre-requisites (proof requests)
 
@@ -101,33 +104,39 @@ T.B.D.
 
 2. Configure the VON-X Agent UI
 
-`von-x-agent/config/services.yml`
-
-`von-x-agent/config/routes.yml`
-
-`von-x-agent/assets/img/tbd-logo-square.jpg`
+```von-x-agent/config/services.yml
+von-x-agent/config/routes.yml
+von-x-agent/assets/img/tbd-logo-square.jpg
+```
 
 HTML templates are located in von-x-agent/templates.  This application uses Jinja2 templates: http://jinja.pocoo.org/docs/2.10/.
 
 3. Configure other application settings
 
+```
 von-x-agent/config/settings.yml
+```
 
 4. Setup manage and Docker build scripts
 
-`docker/docker-compose.yml`
-
-`docker/manage`
-
+```
+docker/docker-compose.yml
+docker/manage
+```
 
 ## Run and Test Your VON-X Agent Instance
 
 **Make sure that both von-network and TheOrgBook are up and running BEFORE you start VON-X Agent.**
 
-`$ cd YOUR_LOCAL_REPO/docker/`
+```
+$ cd YOUR_LOCAL_REPO/docker/
+$ ./manage start
+```
 
-`$ ./manage start`
+To test code changes, kill the running instance:
 
-To test code changes, kill the running instance `./manage rm`,  rebuild `./manage build`, `./manage start`.
-
-
+```
+./manage stop
+./manage build
+./manage start
+```
