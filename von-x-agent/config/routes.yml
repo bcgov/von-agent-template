@@ -41,6 +41,16 @@ forms:
         type: address
         required: true
 
+      - name: effective_date
+        label: Effective Date
+        type: date
+        required: true
+
+      - name: expiry_date
+        label: Expiry Date
+        type: date
+        required: false
+
     mapping:
       attributes:
         - name: registration_id
@@ -87,6 +97,11 @@ forms:
       - name: legal_name
         label: Legal Name
         type: text
+        required: true
+
+      - name: effective_date
+        label: Effective Date
+        type: date
         required: true
 
     mapping:
@@ -148,6 +163,11 @@ forms:
         type: date
         required: true
 
+      - name: expiry_date
+        label: Expiry Date
+        type: date
+        required: false
+
     mapping:
       attributes:
         - name: license_number
@@ -177,6 +197,7 @@ forms:
         label: Company Number
         type: text
         required: true
+
       - name: credential_status
         label: Credential Status
         type: select
@@ -184,17 +205,23 @@ forms:
           - ACT
           - HIS
         required: true
+
       - name: credential_status_effective
         label: Credential Effecive Date
         type: date
         required: true
+
       - name: credential_status_expiry
         label: Credential Expiry Date
         type: date
         required: false
 
-    mapping:
-      attributes:
-        - name: effective_date
-          from: helper
-          source: now
+      - name: effective_date
+        label: Effective Date
+        type: date
+        required: true
+
+      - name: expiry_date
+        label: Expiry Date
+        type: date
+        required: false
