@@ -22,14 +22,12 @@ A Credential Issuer is required to register their DID with (and publish a DID Do
 
 For testing purposes, it is recommended to run a local instance of an Indy network that is available in the bcgov/von-network repo. A complete how-to for running an instance of von-network is available [here](https://github.com/bcgov/von-network). High level steps to  run a local instance of von-network are as follows:
 
-`$ git clone https://github.com/bcgov/von-network`
-
-`$ cd von-network/docker`
-
-`$ ./manage build`
-
-`$ ./manage start`
-
+```
+$ git clone https://github.com/bcgov/von-network.git
+$ cd von-network
+$ ./manage build
+$ ./manage start
+```
 
 Open `http://localhost:9000` to access the web UI for the network and browse data on the ledger.
 
@@ -38,6 +36,17 @@ Open `http://localhost:9000` to access the web UI for the network and browse dat
 ## Setup a local instance of TheOrgBook
 
 TheOrgBook is an instance of an Indy Enterprise Wallet (with web UI and API interface) that can be used to simulate the receiving end when issuing credentials from a von-x Agent instance.  The how-to for running a local instance of TheOrgBook is available [here] (https://github.com/bcgov/TheOrgBook/blob/master/README.md)
+
+However, the steps to run a local TheOrgBook instance are:
+
+```
+$ git clone https://github.com/bcgov/TheOrgBook.git
+$ cd TheOrgBook/docker
+$ ./manage build
+$ ./manage start seed=<my seed>
+```
+
+... where <my seed> is a unique 32-character string
 
 If all goes well, a local instance of TheOrgBook will be available at `http://localhost:8080` (web UI) and `http://localhost:8081` (API endpoints)
 
@@ -50,23 +59,28 @@ In the top-right corner of the page, click Fork.
 
 In your favourite cli, clone YOUR FORK of the repo:
 
-```$ git clone https://github.com/YOUR_GITHUB_USERNAME/von-agent-template```
+```
+$ git clone https://github.com/YOUR_GITHUB_USERNAME/von-agent-template
+```
 
 Add the bcgov/von-agent-template repo as upstream to have access to the latest updates.
 
-`$ git remote add upstream https://github.com/bcgov/von-agent-template`
+```
+$ git remote add upstream https://github.com/bcgov/von-agent-template
+```
 
 Run the commands below to pull changes from the main repo to your fork and to your local repo:
 
-`$ git fetch upstream;git merge upstream/master master;git push`
+```
+$ git fetch upstream;git merge upstream/master master;git push
+```
 
 To push the changes from the local repo to your fork:
 
-`$ git add .`
-
-`$ git commit -m "YOUR COMMENT"
-
-`$ git push
+```$ git add .
+$ git commit -m "YOUR COMMENT"
+$ git push
+```
 
 <sub><sup>NOTE: If you wish to contribute back to the main bcgov repo, submit a Pull Request on the GitHub page of your fork repo. Always include a description of the proposed changes in the Pull Request and make sure the changes can merge successfully with the master branch of the main repo. Refer to [CONTRIBUTING](./CONTRIBUTING.md) guidelines for a complete set of intstructions.</sup></sub>
 
