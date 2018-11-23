@@ -198,6 +198,21 @@ forms:
         type: text
         required: true
 
+      - name: legal_name
+        label: Legal Name
+        type: text
+        required: true
+
+      - name: tax_number
+        label: Tax Number
+        type: text
+        required: true
+
+      - name: license_number
+        label: Liquor License
+        type: text
+        required: true
+
       - name: credential_status
         label: Credential Status
         type: select

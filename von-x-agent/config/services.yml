@@ -348,6 +348,7 @@ proof_requests:
           version: '1.0.0'
         attributes:
           - registration_id
+          - legal_name
   liquor_and_tax:
     version: '1.0.0'
     schemas:
@@ -357,6 +358,7 @@ proof_requests:
           version: '1.0.0'
         attributes:
           - registration_id
+          - legal_name
       - key:
           did: 8HkrLGCUemkvspADWnJu4e
           name: myorg-tax.my-organization.ca

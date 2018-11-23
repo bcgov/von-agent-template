@@ -93,6 +93,8 @@ T.B.D.
 
 `von-x-agent/assets/img/tbd-logo-square.jpg`
 
+HTML templates are located in von-x-agent/templates.  This application uses Jinja2 templates: http://jinja.pocoo.org/docs/2.10/.
+
 3. Configure other application settings
 
 von-x-agent/config/settings.yml
