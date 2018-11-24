@@ -87,7 +87,61 @@ $ git push
 <sub><sup>NOTE: If you wish to contribute back to the main bcgov repo, submit a Pull Request on the GitHub page of your fork repo. Always include a description of the proposed changes in the Pull Request and make sure the changes can merge successfully with the master branch of the main repo. Refer to [CONTRIBUTING](./CONTRIBUTING.md) guidelines for a complete set of intstructions.</sup></sub>
 
 
-## Configure your Local VON-X Agent Instance
+## Run and Test Your local VON-X Agent Instance
+
+Check out configurations of other von-x agents like [bcgov/BC Registry](https://github.com/bcgov/von-bc-registries-agent/tree/master/bcreg-x/config) and [ongov/Ontario Business Registry](https://github.com/weiiv/onbis-x) to help you get started.
+
+Verify and configure application settings.  The defaults should work but you may need to change depending on your local environment:
+
+```
+von-x-agent/config/settings.yml
+```
+
+**Make sure that both von-network and TheOrgBook are up and running BEFORE you start VON-X Agent.**
+
+```
+$ cd YOUR_LOCAL_REPO/docker/
+$ ./manage build
+$ ./manage start
+```
+
+Open a browser at http://localhost:9000/ and verify that your local ledger browser home page loads.
+
+Open a browser at http://localhost:8080/ and verify that TheOrgBook home page loads.
+
+First create a sample organization based on some pre-set test data:
+
+Open a web service client (such as PostMan) and POST the test data at `YOUR_LOCAL_REPO/von-x-agent/testdata/test.json` to http://localhost:5001/myorg/issue-credential.  The response should include a series of responses similar to the following:
+
+```
+{
+    "success": true,
+    "result": "f93adc90-9cbf-48a1-971a-926c3724260d",
+    "served_by": "7a8dabb4a3c3"
+}
+```
+
+In your TheOrgBook browser instance, refresh the home page (should increment the counts under Current Statistics) and search for "Bob".  Navigate to the organization page for "Bob's Burgers".
+
+Next create a new organization of your own choosing:
+
+Open a web browser and navigate to http://localhost:5001/myorg/incorporation.  Fill in the form values (leave expiry_date empty) and submit.  Verify there are no errors.
+
+Now return to yout TheOrgBook browser instance and search for the organization name you just created.  It should be available with a single credential.  Make a note of the Organization Id (something like "3fcb0d9e-3d3a-4be5-83f2-0c8f29eb6df2") - you will need to copy this value for subsequent web requests.
+
+Navigate to "http://localhost:5001/myorg/tax?org_id=<your org id>" (use the value from the previous step).  Note that the org id and org name are automatically populated - this is from the dependant proof request.  Fill in the required values and submit.
+
+Now return to yout TheOrgBook browser instance and search for this organization again.  There should now be two credentials.
+
+Repeat the above steps with:
+
+```
+http://localhost:5001/myorg/liquor?org_id=<your org id>
+http://localhost:5001/myorg/myorg-credential?org_id=<your org id>
+```
+
+
+## Create a new VON-X Agent Schema
 
 Check out configurations of other von-x agents like [bcgov/BC Registry](https://github.com/bcgov/von-bc-registries-agent/tree/master/bcreg-x/config) and [ongov/Ontario Business Registry](https://github.com/weiiv/onbis-x) to help you get started.
 
@@ -122,47 +176,6 @@ von-x-agent/config/settings.yml
 ```
 docker/docker-compose.yml
 docker/manage
-```
-
-## Run and Test Your local VON-X Agent Instance
-
-**Make sure that both von-network and TheOrgBook are up and running BEFORE you start VON-X Agent.**
-
-```
-$ cd YOUR_LOCAL_REPO/docker/
-$ ./manage build
-$ ./manage start
-```
-
-Open a browser at http://localhost:9000/ and verify that your local ledger browser home page loads.
-
-Open a browser at http://localhost:8080/ and verify that TheOrgBook home page loads.
-
-Open a web service client (such as PostMan) and POST the test data at `YOUR_LOCAL_REPO/von-x-agent/testdata/test.json` to http://localhost:5001/myorg/issue-credential.  The response should include a series of responses similar to the following:
-
-```
-{
-    "success": true,
-    "result": "f93adc90-9cbf-48a1-971a-926c3724260d",
-    "served_by": "7a8dabb4a3c3"
-}
-```
-
-In your TheOrgBook browser instance, refresh the home page (should increment the counts under Current Statistics) and search for "Bob".  Navigate to the organization page for "Bob's Burgers".
-
-Open a web browser and navigate to http://localhost:5001/myorg/incorporation.  Fill in the form values (leave expiry_date empty) and submit.  Verify there are no errors.
-
-Now return to yout TheOrgBook browser instance and search for the organization name you just created.  It should be available with a single credential.  Make a note of the Organization Id (something like "3fcb0d9e-3d3a-4be5-83f2-0c8f29eb6df2") - you will need to copy this value for subsequent web requests.
-
-Navigate to "http://localhost:5001/myorg/tax?org_id=<your org id>" (use the value from the previous step).  Note that the org id and org name are automatically populated - this is from the dependant proof request.  Fill in the required values and submit.
-
-Now return to yout TheOrgBook browser instance and search for this organization again.  There should now be two credentials.
-
-Repeat the above steps with:
-
-```
-http://localhost:5001/myorg/liquor?org_id=<your org id>
-http://localhost:5001/myorg/myorg-credential?org_id=<your org id>
 ```
 
 ## Updating Your local VON-X Agent Instance
