@@ -49,8 +49,6 @@ services:
       WALLET_SEED_VONX: ${WALLET_SEED_VONX:-}
       ISSUER_WALLET_DID: ${ISSUER_WALLET_DID}
       HTTP_FORCE_CLOSE_CONNECTIONS: "true"
-    external_links:
-       - tob_tob-api_1:tob-api
     networks:
       - orgbook
       - myorg
