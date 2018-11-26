@@ -4,7 +4,8 @@
   description: Registration
   issuer_url: $APPLICATION_URL_VONX
   # define the form attributes - these will go in routes.yml
-  form: myorg-reg
+  form:
+    id: myorg-reg
     path: /myorg/incorporation
     type: issue-credential
     schema_name: myorg-registration.my-organization.ca
@@ -149,7 +150,8 @@
   description: Tax Number
   issuer_url: $APPLICATION_URL_VONX
   # define the form attributes - these will go in routes.yml
-  form: finance-tax
+  form: 
+    id: finance-tax
     path: /myorg/tax
     type: issue-credential
     schema_name: myorg-tax.my-organization.ca
@@ -200,6 +202,17 @@
   version: '1.0.0'
   # description and issuer_url for services.yml
   # define the form attributes - these will go in routes.yml
+  form:
+    id: liquor
+    path: /myorg/liquor
+    type: issue-credential
+    schema_name: myorg-liquor.my-organization.ca
+    page_title: Liquor Control and Licensing Branch
+    title: Liquor Control and Licensing Branch
+    template: bcgov.index.html
+    description: >
+      Liquor License
+    explanation: Use the form below to obtain a liquor license.
   # proof request dependency - will go in services.yml and routes.yml
   # attributes are currently matched automatically by name
   proof_request:
@@ -284,6 +297,17 @@
   version: '1.0.0'
   # description and issuer_url for services.yml
   # define the form attributes - these will go in routes.yml
+  form:
+    id: myorg-issue
+    path: /myorg/myorg-credential
+    type: issue-credential
+    schema_name: myorg-credential.my-organization.ca
+    page_title: My Organization Credential Issuer
+    title: Issue Sample Credentials
+    template: bcgov.index.html
+    description: >
+      Test Credential Issuer ... TBD.
+    explanation: Use the form below to issue credentials for an existing corporation.
   # proof request dependency - will go in services.yml and routes.yml
   # attributes are currently matched automatically by name
   proof_request:
