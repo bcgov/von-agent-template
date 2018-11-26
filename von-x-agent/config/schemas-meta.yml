@@ -201,6 +201,8 @@
 - name: myorg-liquor.my-organization.ca
   version: '1.0.0'
   # description and issuer_url for services.yml
+  description: Liquor License
+  issuer_url: $APPLICATION_URL_VONX
   # define the form attributes - these will go in routes.yml
   form:
     id: liquor
@@ -296,6 +298,8 @@
 - name: myorg-credential.my-organization.ca
   version: '1.0.0'
   # description and issuer_url for services.yml
+  description: Test Credential
+  issuer_url: $APPLICATION_URL_VONX
   # define the form attributes - these will go in routes.yml
   form:
     id: myorg-issue
