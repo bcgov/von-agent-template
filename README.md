@@ -16,6 +16,14 @@ By participating in this project you agree to abide by its terms.
 
 # HOWTO Build and Configure a Credential Issuer/Verifier using the VON-X Agent Template
 
+## Prerequisites
+
+- git
+- docker
+- docker-compose
+- a bash shell/terminal (such as git-bash on Windows)
+- curl or an alternative way to run a POST
+
 ## Setup a local instance of Indy network
 
 A Credential Issuer is required to register their DID with (and publish a DID Doc to) a decentralized identity network ledger that uses the Hyperldger Indy technology. A Verifier would use the published DID of the Issuer to verify authenticity of the credential presented to them.
@@ -37,27 +45,27 @@ Open `http://localhost:9000` to access the web UI for the network and browse dat
 
 TheOrgBook is an instance of an Indy Enterprise Wallet (with web UI and API interface) that can be used to simulate the receiving end when issuing credentials from a von-x Agent instance.  The how-to for running a local instance of TheOrgBook is available [here] (https://github.com/bcgov/TheOrgBook/blob/master/README.md)
 
-However, the steps to run a local TheOrgBook instance are:
+Boiled down, the steps to run a local TheOrgBook instance are:
+
+**Make sure von-network is up and running BEFORE you start TheOrgBook.**
 
 ```
 $ git clone https://github.com/bcgov/TheOrgBook.git
 $ cd TheOrgBook/docker
 $ ./manage build
-$ ./manage start seed=<my seed>
+$ ./manage start seed=my_unique_seed_00000000000000000
 ```
 
-... where <my seed> is a unique 32-character string
+You can replace the value of the seed with whatever you want, but it MUST be 32 characters long. 
 
 If all goes well, a local instance of TheOrgBook will be available at `http://localhost:8080` (web UI) and `http://localhost:8081` (API endpoints)
-
-**Make sure von-network is up and running BEFORE you start TheOrgBook.**
 
 ## Fork and Clone this repository
 
 On GitHub, navigate to the bcgov/von-agent-template. 
 In the top-right corner of the page, click Fork.
 
-In your favourite cli, clone YOUR FORK of the repo:
+Clone YOUR FORK of the repo (replace YOUR_GITHUB_USERNAME in the following):
 
 ```
 $ git clone https://github.com/YOUR_GITHUB_USERNAME/von-agent-template.git
@@ -77,27 +85,41 @@ $ git merge upstream/master master
 $ git push
 ```
 
-To push the changes from the local repo to your fork:
+Later, if you want to push changes from the local repo to your fork:
 
-```$ git add .
-$ git commit -m "YOUR COMMENT"
+```
+$ git status # Review the changes you have made - make sure they are what you want to push
+$ git add .
+$ git commit -s -m "YOUR COMMENT"
 $ git push
 ```
 
-<sub><sup>NOTE: If you wish to contribute back to the main bcgov repo, submit a Pull Request on the GitHub page of your fork repo. Always include a description of the proposed changes in the Pull Request and make sure the changes can merge successfully with the master branch of the main repo. Refer to [CONTRIBUTING](./CONTRIBUTING.md) guidelines for a complete set of intstructions.</sup></sub>
+**NOTE:** If you wish to contribute back to the main bcgov repo, submit a Pull Request on the GitHub page of your fork repo. Always include a description of the proposed changes in the Pull Request and make sure the changes can merge successfully with the master branch of the main repo. Refer to [CONTRIBUTING](./CONTRIBUTING.md) guidelines for a complete set of instructions.</sup></sub>
 
 
 ## Run and Test Your local VON-X Agent Instance
 
+Now that you have an instance of VON-X Agent Instance, you can customize it for your use case. In doing that you can customize:
+
+- the schema and they of credential(s) you will issue
+- specify the pre-requisite credentials an organization must have before getting your credentials
+- the test form used for entering data about the credential to be issued
+- the logo for your organization - the issuing entity
+- much, much more if your are creating a production issuer/verifier
+
 Check out configurations of other von-x agents like [bcgov/BC Registry](https://github.com/bcgov/von-bc-registries-agent/tree/master/bcreg-x/config) and [ongov/Ontario Business Registry](https://github.com/weiiv/onbis-x) to help you get started.
 
-Verify and configure application settings.  The defaults should work but you may need to change depending on your local environment:
+Verify and configure application settings.  The defaults will "just work" but you may will eventually need to change them for your needs:
 
 ```
-von-x-agent/config/settings.yml
+$ cat von-x-agent/config/settings.yml
 ```
 
 **Make sure that both von-network and TheOrgBook are up and running BEFORE you start VON-X Agent.**
+
+Open a browser at http://localhost:9000/ and verify that your local ledger browser home page loads.
+
+Open a browser at http://localhost:8080/ and verify that TheOrgBook home page loads.
 
 ```
 $ cd YOUR_LOCAL_REPO/docker/
@@ -105,13 +127,15 @@ $ ./manage build
 $ ./manage start
 ```
 
-Open a browser at http://localhost:9000/ and verify that your local ledger browser home page loads.
+Start by creating a sample organization based on some pre-set test data using curl. Assuming you are in the root directory of your cloned repo, run:
 
-Open a browser at http://localhost:8080/ and verify that TheOrgBook home page loads.
+```
+$ curl -d "@von-x-agent/testdata/test.json" -X POST http://localhost:5001/myorg/issue-credential
+```
 
-First create a sample organization based on some pre-set test data:
+**Note:** The command above assumes you have `curl` installed. You can use other tools like `wget`, or `postman`.
 
-Open a web service client (such as PostMan) and POST the test data at `YOUR_LOCAL_REPO/von-x-agent/testdata/test.json` to http://localhost:5001/myorg/issue-credential.  The response should include a series of responses similar to the following:
+The response should include a series of responses similar to the following:
 
 ```
 {
@@ -121,7 +145,7 @@ Open a web service client (such as PostMan) and POST the test data at `YOUR_LOCA
 }
 ```
 
-In your TheOrgBook browser instance, refresh the home page (should increment the counts under Current Statistics) and search for "Bob".  Navigate to the organization page for "Bob's Burgers".
+In your TheOrgBook browser instance, refresh the home page (should increment the counts under Current Statistics) and search for "Bob".  Navigate to the organization page for "Bob's Burgers". Whoohoo!  We have data loaded.
 
 Next create a new organization of your own choosing:
 
@@ -140,8 +164,9 @@ http://localhost:5001/myorg/liquor?org_id=<your org id>
 http://localhost:5001/myorg/myorg-credential?org_id=<your org id>
 ```
 
-
 ## Create a new VON-X Agent Schema
+
+Now it is time to create your on data for your Agent Schema.
 
 Check out configurations of other von-x agents like [bcgov/BC Registry](https://github.com/bcgov/von-bc-registries-agent/tree/master/bcreg-x/config) and [ongov/Ontario Business Registry](https://github.com/weiiv/onbis-x) to help you get started.
 
