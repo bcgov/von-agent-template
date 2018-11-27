@@ -223,6 +223,10 @@ with open(in_file, 'r') as stream:
                         field['type'] = 'date'
                     elif schema['attributes'][attr]['data_type'] == 'ui_select':
                         field['type'] = 'select'
+                        field['options'] = []
+                        field['options'].append('todo-1')
+                        field['options'].append('todo-2')
+                        field['options'].append('todo-3')
                     else:
                         field['type'] = schema['attributes'][attr]['data_type']
                     field['required'] = schema['attributes'][attr]['required']

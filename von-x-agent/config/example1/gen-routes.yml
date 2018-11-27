@@ -22,6 +22,10 @@ myorgtodo-credential:
   - name: credential_status
     label: credential_status
     type: select
+    options:
+    - todo-1
+    - todo-2
+    - todo-3
     required: true
   - name: effective_date
     label: effective_date
