@@ -230,3 +230,8 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: false
+
+#################################################################
+# TODO insert new schema here:
+
+#################################################################

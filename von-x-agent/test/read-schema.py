@@ -3,6 +3,8 @@
 import yaml
 import argparse
 import os.path
+import os
+import sys
 
 # get name of input file from args
 
@@ -64,7 +66,16 @@ class CustomDumper(yaml.Dumper):
 
 CustomDumper.add_representer(dict, CustomDumper.represent_dict_preserve_order)
 
-with open("config/schemas.yml", 'r') as stream:
+if 2 > len(sys.argv):
+    print("usage:", sys.argv[0], "<input file>")
+    sys.exit()
+
+in_file = sys.argv[1]
+in_dir = os.path.dirname(in_file)
+out_services = in_dir + '/gen-services.yml'
+out_routes = in_dir + '/gen-routes.yml'
+
+with open(in_file, 'r') as stream:
     try:
         schemas = yaml.load(stream) 
         #for schema in schemas:
@@ -242,10 +253,18 @@ with open("config/schemas.yml", 'r') as stream:
 
         #y_schemas = yaml.dump(schemas, default_flow_style=False, Dumper=CustomDumper)
         #print(y_schemas)
-        y_services = yaml.dump(services, default_flow_style=False, Dumper=CustomDumper)
-        print(y_services)
-        y_routes = yaml.dump(routes, default_flow_style=False, Dumper=CustomDumper)
-        print(y_routes)
+
+        #y_services = yaml.dump(services, default_flow_style=False, Dumper=CustomDumper)
+        #print(y_services)
+        print('Writing', out_services)
+        with open(out_services, 'w') as outfile:
+            yaml.dump(services, outfile, default_flow_style=False, Dumper=CustomDumper)
+        
+        #y_routes = yaml.dump(routes, default_flow_style=False, Dumper=CustomDumper)
+        #print(y_routes)
+        print('Writing', out_routes)
+        with open(out_routes, 'w') as outfile:
+            yaml.dump(routes, outfile, default_flow_style=False, Dumper=CustomDumper)
     except yaml.YAMLError as exc:
         print(exc)
 

@@ -347,6 +347,13 @@ issuers:
                 input: expiry_date
                 from: claim
 
+#################################################################
+# TODO insert new service here, note should align like:
+#   credential_types:
+#     - description: Registration
+
+#################################################################
+
 verifiers:
   bctob:
     name: BC OrgBook
