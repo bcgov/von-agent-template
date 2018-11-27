@@ -1,7 +1,11 @@
 forms:
+  # form name - typically one form per credential
   myorg-reg:
+    # path mapped in URL
     path: /myorg/incorporation
+    # type is always "issue-credential"
     type: issue-credential
+    # schema name, and other information that will be displayed on the page
     schema_name: myorg-registration.my-organization.ca
     page_title: Corporate Registry
     title: Registration
@@ -13,13 +17,17 @@ forms:
       and update records, which are kept as a matter of public record.
     explanation: Use the form below to register a Corporation.
 
+    # optionally can serve javascript
     js_includes:
       - src: js/bc_registries.js
 
+    # field information - how to display and generate credential attribute information
+    # "fields" are displayed on the UI for the user to enter values
     fields:
       - name: entity_type
         label: Registration Type
         type: select
+        # "options" are the available values for the field
         options:
           - Incorporated Company
           - Unlimited Liability Company
@@ -51,6 +59,7 @@ forms:
         type: date
         required: false
 
+    # "mapping" identifies attributes that are auto-populated, by "helpers"
     mapping:
       attributes:
         - name: registration_id
@@ -84,11 +93,13 @@ forms:
       Obtain a Tax Number
     explanation: Use the form below to obtain a Tax Number.
 
+    # link to a dependent proof request - attributes are mapped automatically, by name
     proof_request:
       id: registration
       connection_id: bctob
 
     fields:
+      # in this example, the registration_id and legal_name are populated from the proof request, but are displayed to the user
       - name: registration_id
         label: Registration ID
         type: text

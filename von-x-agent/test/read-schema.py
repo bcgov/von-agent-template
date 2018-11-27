@@ -1,18 +1,251 @@
 #!/usr/bin/env python
 
 import yaml
+import argparse
+import os.path
 
-with open("config/schemas-meta.yml", 'r') as stream:
+# get name of input file from args
+
+# get a free-form line of text
+def get_text(prompt='-->', required=False):
+    ret = ''
+    while True:
+        ret = input(prompt)
+        if 0 < len(ret) or not required:
+            return ret
+    return ret
+
+# get a selection from a list (with default)
+def get_option(list, prompt='-->', default=None, required=False, list_style=True):
+    iret = -1
+    while True:
+        items = ''
+        for i in range(len(list)):
+            if default and default == i+1:
+                token = '*'
+            else:
+                if list_style:
+                    token = ' '
+                else:
+                    token = ''
+            if list_style:
+                print(token, i+1, list[i])
+            else:
+                if i > 0:
+                    items = items + '/'
+                items = items + token + list[i]
+        if not list_style:
+            prompt = prompt.format(items)
+        ret = input(prompt)
+        if 0 == len(ret) and default:
+            return list[default-1]
+        if list_style:
+            try:
+                iret = int(ret)
+            except:
+                pass
+            if iret < 1 or iret > 1+len(list):
+                iret = -1
+            else:
+                return list[iret-1]
+        else:
+            if 0 < list.count(ret):
+                return ret
+    return list[iret-1]
+
+def path_to_name(schema_path):
+    return schema_path.replace('/', '')
+
+#Using a custom Dumper class to prevent changing the global state
+class CustomDumper(yaml.Dumper):
+    #Super neat hack to preserve the mapping key order. See https://stackoverflow.com/a/52621703/1497385
+    def represent_dict_preserve_order(self, data):
+        return self.represent_dict(data.items())    
+
+CustomDumper.add_representer(dict, CustomDumper.represent_dict_preserve_order)
+
+with open("config/schemas.yml", 'r') as stream:
     try:
         schemas = yaml.load(stream) 
-        print(schemas)
+        #for schema in schemas:
+        #    ok = 'N'
+        #    while ok == 'N':
+        #        print('Schema:', schema['name'], schema['version'])
+        #        schema['description'] = get_text('  Enter Schema Description: ', True)
+        #        schema['proof_request'] = get_text('  Enter Proof Request: ', False)
+        #        for attr in schema['attributes'].keys():
+        #            print('Enter values for', attr, schema['attributes'][attr]['required'])
+        #            schema['attributes'][attr]['mapping'] = get_option(['name', 'address', 'attribute - text', 'attribute - datetime', 'value'], '  Select ' + attr + ' DATA type: ', 3, True, True)
+        #            schema['attributes'][attr]['ui_type'] = get_option(['address', 'text', 'date', 'select', 'helper', 'value'], '  Select ' + attr + ' UI type: ', 2, True, True)
+        #        print(schema)
+        #        ok = get_option(['Y', 'N'], "Continue [{}]?", 1, True, False)
+        #    y_schema = yaml.dump(schema, default_flow_style=False, Dumper=CustomDumper)
+        #    print(y_schema)
+
+        services = {}
+        services['credential_types'] = []
+        routes = {}
         for schema in schemas:
-            print(schema['name'])
-            print(schema['version'])
-            print(schema['description'])
+            # generate schema-level stuff for services.yml
+            service = {}
+            service['description'] = schema['description']
+            service['schema'] = schema['name']
+            service['issuer_url'] = '$APPLICATION_URL_VONX'
+            if 'proof_request' in schema:
+                service['depends_on'] = []
+                service['depends_on'].append(schema['proof_request'])
+            if 'effective_date' in schema or 'revoked_date' in schema:
+                service['credential'] = {}
+                if 'effective_date' in schema:
+                    service['credential']['effective_date'] = {}
+                    service['credential']['effective_date']['input'] = schema['effective_date']
+                    service['credential']['effective_date']['from'] = 'claim'
+                if 'revoked_date' in schema:
+                    service['credential']['revoked_date'] = {}
+                    service['credential']['revoked_date']['input'] = schema['revoked_date']
+                    service['credential']['revoked_date']['from'] = 'claim'
+            service['topic'] = {}
+            service['topic']['source_id'] = {}
+            service['topic']['source_id']['input'] = schema['topic']
+            service['topic']['source_id']['from'] = 'claim'
+            service['topic']['type'] = {}
+            service['topic']['type']['input'] = 'registration'
+            service['topic']['type']['from'] = 'value'
+            # optional - specify additional cardinality fields
+            #cardinality_fields:
+            #  - additionl_cred_type_attr
+
+            # todo generate attribute-level stuff for services.yml
+            service['mapping'] = []
+            has_name = False
+            has_address = False
             for attr in schema['attributes'].keys():
-                print(' ', attr)
-                print(' ', schema['attributes'][attr]['required'])
+                model = {}
+                if schema['attributes'][attr]['data_type'] == 'ui_name':
+                    if not has_name:
+                        model['model'] = 'name'
+                        model['fields'] = {}
+                        model['fields']['text'] = {}
+                        model['fields']['text']['input'] = attr
+                        model['fields']['text']['from'] = 'claim'
+                        model['fields']['type'] = {}
+                        model['fields']['type']['input'] = attr
+                        model['fields']['type']['from'] = 'value'
+                        service['mapping'].append(model)
+                        has_name = True
+                elif schema['attributes'][attr]['data_type'] == 'ui_address':
+                    if not has_address:
+                        model['model'] = 'address'
+                        model['fields'] = {}
+                        model['fields']['addressee'] = {}
+                        model['fields']['addressee']['input'] = 'addressee'
+                        model['fields']['addressee']['from'] = 'claim'
+                        model['fields']['civic_address'] = {}
+                        model['fields']['civic_address']['input'] = 'address_line_1'
+                        model['fields']['civic_address']['from'] = 'claim'
+                        model['fields']['city'] = {}
+                        model['fields']['city']['input'] = 'city'
+                        model['fields']['city']['from'] = 'claim'
+                        model['fields']['province'] = {}
+                        model['fields']['province']['input'] = 'province'
+                        model['fields']['province']['from'] = 'claim'
+                        model['fields']['postal_code'] = {}
+                        model['fields']['postal_code']['input'] = 'postal_code'
+                        model['fields']['postal_code']['from'] = 'claim'
+                        model['fields']['country'] = {}
+                        model['fields']['country']['input'] = 'country'
+                        model['fields']['country']['from'] = 'claim'
+                        service['mapping'].append(model)
+                        has_address = True
+                else:
+                    model['model'] = 'attribute'
+                    model['fields'] = {}
+                    model['fields']['type'] = {}
+                    model['fields']['type']['input'] = attr
+                    model['fields']['type']['from'] = 'value'
+                    if schema['attributes'][attr]['data_type'] == 'ui_date' or schema['attributes'][attr]['data_type'] == 'helper_now_iso':
+                        model['fields']['format'] = {}
+                        model['fields']['format']['input'] = 'datetime'
+                        model['fields']['format']['from'] = 'value'
+                    model['fields']['value'] = {}
+                    model['fields']['value']['input'] = attr
+                    model['fields']['value']['from'] = 'claim'
+                    service['mapping'].append(model)
+
+            services['credential_types'].append(service)
+
+            # generate schema-level stuff for routes.yml
+            form_name = path_to_name(schema['path'])
+            routes[form_name] = {}
+            routes[form_name]['path'] = schema['path']
+            routes[form_name]['type'] = 'issue-credential'
+            routes[form_name]['schema_name'] = schema['name']
+            routes[form_name]['page_title'] = 'Title for ' + schema['name']
+            routes[form_name]['title'] = 'Title for ' + schema['name']
+            routes[form_name]['template'] = 'bcgov.index.html'
+            routes[form_name]['description'] = schema['description']
+            routes[form_name]['explanation'] = 'Use the form below to issue a Credential.'
+            if 'proof_request' in schema:
+                routes[form_name]['proof_request'] = {}
+                routes[form_name]['proof_request']['id'] = schema['proof_request']
+                routes[form_name]['proof_request']['connection_id'] = 'bctob'
+            # optionally can serve javascript
+            #js_includes:
+            #  - src: js/bc_registries.js
+
+            # generate attribute-level stuff for routes.yml
+            routes[form_name]['fields'] = []
+            has_address = False
+            for attr in schema['attributes'].keys():
+                if schema['attributes'][attr]['data_type'].startswith('ui_'):
+                    field = {}
+                    field['name'] = attr
+                    field['label'] = attr
+                    if schema['attributes'][attr]['data_type'] == 'ui_name':
+                        field['type'] = 'text'
+                    elif schema['attributes'][attr]['data_type'] == 'ui_address':
+                        field['label'] = 'Mailing Address'
+                        field['type'] = 'address'
+                    elif schema['attributes'][attr]['data_type'] == 'ui_text':
+                        field['type'] = 'text'
+                    elif schema['attributes'][attr]['data_type'] == 'ui_date':
+                        field['type'] = 'date'
+                    elif schema['attributes'][attr]['data_type'] == 'ui_select':
+                        field['type'] = 'select'
+                    else:
+                        field['type'] = schema['attributes'][attr]['data_type']
+                    field['required'] = schema['attributes'][attr]['required']
+                    if schema['attributes'][attr]['data_type'] == 'ui_address' and not has_address:
+                        routes[form_name]['fields'].append(field)
+                        has_address = True
+                    elif schema['attributes'][attr]['data_type'] != 'ui_address':
+                        routes[form_name]['fields'].append(field)
+
+            routes[form_name]['mappings'] = {}
+            routes[form_name]['mappings']['attributes'] = []
+            for attr in schema['attributes'].keys():
+                if schema['attributes'][attr]['data_type'].startswith('helper_'):
+                    attribute = {}
+                    attribute['name'] = attr
+                    if schema['attributes'][attr]['data_type'] == 'helper_value':
+                        attribute['from'] = 'literal'
+                        attribute['source'] = 'SomeValue'
+                    else:
+                        attribute['from'] = 'helper'
+                        if schema['attributes'][attr]['data_type'] == 'helper_uuid':
+                            attribute['source'] = 'uuid'
+                        elif schema['attributes'][attr]['data_type'] == 'helper_now_iso':
+                            attribute['source'] = 'now_iso'
+                        else:
+                            attribute['source'] = schema['attributes'][attr]['data_type']
+                    routes[form_name]['mappings']['attributes'].append(attribute)
+
+        #y_schemas = yaml.dump(schemas, default_flow_style=False, Dumper=CustomDumper)
+        #print(y_schemas)
+        y_services = yaml.dump(services, default_flow_style=False, Dumper=CustomDumper)
+        print(y_services)
+        y_routes = yaml.dump(routes, default_flow_style=False, Dumper=CustomDumper)
+        print(y_routes)
     except yaml.YAMLError as exc:
         print(exc)
 

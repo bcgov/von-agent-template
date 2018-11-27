@@ -1,92 +1,232 @@
 - name: myorg-registration.my-organization.ca
   version: '1.0.0'
+  description: Describes the credential
+  # URL mapping, e.g. /path/credential
+  path: /myorg/incorporation
+  # identify the attribute which identify the owning organization
+  topic: registration_id
+  # optionally identify additional attributes to uniquely identify a credential
+  #cardinality: TBD
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  #proof_request: TBD
   attributes:
     registration_id:
-      required: Y
+      description: ID issued by the registering organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
     registration_date:
-      required: Y
+      description: Registration date (set to current date)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_now_iso
+      required: true
     entity_type:
-      required: Y
+      description: From a selection list
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
     entity_status:
-      required: Y
+      description: Set to Active for new organizations
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_value
+      required: true
     entity_status_effective:
-      required: Y
+      description: Set to current date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_now_iso
+      required: true
     entity_name_effective:
-      required: Y
-    address_line_1:
-      required: Y
-    address_line_2:
-      required: Y
-    addressee:
-      required: Y
-    city:
-      required: Y
-    country:
-      required: Y
+      description: Set to current date
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_now_iso
+      required: true
     legal_name:
-      required: Y
+      description: Legal name of the organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_name
+      required: true
+    addressee:
+      description: Mailing Address
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_address
+      required: true
+    address_line_1:
+      description: Mailing Address
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_address
+      required: true
+    address_line_2:
+      description: Mailing Address
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_address
+      required: true
+    city:
+      description: Mailing Address
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_address
+      required: true
+    country:
+      description: Mailing Address
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_address
+      required: true
     postal_code:
-      required: Y
+      description: Mailing Address
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_address
+      required: true
     province:
-      required: Y
+      description: Mailing Address
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_address
+      required: true
     effective_date:
-      required: Y
+      description: Date credential is effective
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
     expiry_date:
       description: Date Credential expires (typically same as next version of credential is issued)
-      required: N
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: false
 
 - name: myorg-tax.my-organization.ca
   version: '1.0.0'
+  description: Describes the credential
+  # URL mapping, e.g. /path/credential
+  path: /myorg/tax
+  # identify the attribute which identify the owning organization
+  topic: registration_id
+  # optionally identify additional attributes to uniquely identify a credential
+  #cardinality: TBD
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  #revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: registration
   attributes:
     registration_id:
-      required: Y
+      description: ID issued by the registering organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
     tax_number:
-      required: Y
+      description: Tax number issued by issuer
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
     effective_date:
-      required: Y
+      description: Date tax number is effective
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
 
 - name: myorg-liquor.my-organization.ca
   version: '1.0.0'
+  description: Describes the credential
+  # URL mapping, e.g. /path/credential
+  path: /myorg/liquor
+  # identify the attribute which identify the owning organization
+  topic: registration_id
+  # optionally identify additional attributes to uniquely identify a credential
+  #cardinality: TBD
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: registration
   attributes:
     registration_id:
-      required: Y
+      description: ID issued by the registering organization
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
     license_number:
-      required: Y
+      description: Liquor license number issued by issuer
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
     dancing_permitted:
-      required: Y
+      description: Dancing permitted yes or no
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
     patio:
-      required: Y
+      description: Patio yes or no
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
     effective_date:
-      required: Y
+      description: Date license is effective
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
     expiry_date:
       description: Date Credential expires (typically same as next version of credential is issued)
-      required: N
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: false
 
 - name: myorg-credential.my-organization.ca
   version: '1.0.0'
+  description: Describes the credential
+  # URL mapping, e.g. /path/credential
+  path: /myorg/myorg-credential
+  # identify the attribute which identify the owning organization
+  topic: registration_id
+  # optionally identify additional attributes to uniquely identify a credential
+  #cardinality: TBD
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: liquor_and_tax
   attributes:
     registration_id:
       description: Unique identifer assigned to entity by registrar (requires an existing registration credential)
-      required: Y
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
     tax_number:
-      description: Relevant tax number
-      required: Y
+      description: Tax number issued by issuer
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
     license_number:
       description: Relevant liquor license number
-      required: Y
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
     credential_status:
       description: Status of the credential (ACTive or HIStorical)
-      required: Y
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
     credential_status_effective:
       description: Date status became/becomes effective (e.g. can be future dated)
-      required: Y
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
     credential_status_expiry:
-      description: Date status will expire
-      required: N
+      description: Date status expired (should not be future dated)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: false
     effective_date:
       description: Date Credential is effective (typically same as date credential is issued)
-      required: Y
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
     expiry_date:
       description: Date Credential expires (typically same as next version of credential is issued)
-      required: N
-
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: false

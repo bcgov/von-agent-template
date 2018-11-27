@@ -32,6 +32,9 @@ issuers:
       - description: Registration
         schema: myorg-registration.my-organization.ca
         issuer_url: $APPLICATION_URL_VONX
+        # define credential meta-data
+        # maps attributes provided in the credential to TOB's credential effective and revoked dates
+        # if not provided TOB will set effective and expiry dates based on current date
         credential:
           effective_date:
             input: effective_date
@@ -39,6 +42,9 @@ issuers:
           revoked_date:
             input: expiry_date
             from: claim
+        # identifies the organization id that owns the credential
+        # "topic" is used as a more generic term since the platform can be used for entities other than organizations
+        # in our deployment the type is always "registration"
         topic:
           source_id:
             input: registration_id
@@ -46,7 +52,12 @@ issuers:
           type:
             input: registration
             from: value
+        # optional - specify additional cardinality fields
+        #cardinality_fields:
+        #  - additionl_cred_type_attr
+        # mapping to the TOB data model - can map to name, address or a generic attribute
         mapping:
+          # "name" is a known mapping; "legal_name" is a known field name
           - model: name
             fields:
               text:
@@ -55,6 +66,7 @@ issuers:
               type:
                 input: legal_name
                 from: value
+          # "address" is a known mapping; it maps to many fields in the model
           - model: address
             fields:
               addressee:
@@ -75,6 +87,10 @@ issuers:
               country:
                 input: country
                 from: claim
+          # "attribute" defines a generic field in the TOB model
+          # "value" identifies where to derive the data value (typically it comes from the claim)
+          # "type" - if "value" - is the name of the attribute
+          # "format" is an optional data format (default text)
           - model: attribute
             fields:
               type:
@@ -163,6 +179,8 @@ issuers:
           type:
             input: registration
             from: value
+        #cardinality_fields:
+        #  - associated_registration_id
         mapping:
           - model: attribute
             fields:
