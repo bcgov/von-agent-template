@@ -1,412 +1,188 @@
 - name: myorg-registration.my-organization.ca
   version: '1.0.0'
-  # description and issuer_url for services.yml
-  description: Registration
-  issuer_url: $APPLICATION_URL_VONX
-  # define the form attributes - these will go in routes.yml
-  form:
-    id: myorg-reg
-    path: /myorg/incorporation
-    type: issue-credential
-    schema_name: myorg-registration.my-organization.ca
-    page_title: Corporate Registry
-    title: Registration
-    template: bcgov.index.html
-    description: >
-      Registries and Online Services administers and supports the legal framework
-      used for operating a business, not-for-profit society, cooperative association
-      or financial institution. Organizations need to register, file documents
-      and update records, which are kept as a matter of public record.
-    explanation: Use the form below to register a Corporation.
-  # proof request dependency could be defined here, but this is a "foundation credential"
-  # define all the attributes for the schema
+  description: Describes the credential
+  path: URL mapping, e.g. /path/credential
+  topic: identify the attribute which identify the owning organization
+  cardinality: optionally identify additional attributes to uniquely identify a credential
+  effective_date: optionally identify the credential attribute to map to the TOB credential effective date
+  revoked_date: optionally identify the credential attribute to map to the TOB credential revoked date
+  proof_request: optionally identify a dependant proof request
   attributes:
     registration_id:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      # this maps the attributes to TOB's source_id (the foundation id for the organization)
-      model: source_id
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # helper defines an automated attribute generator
-      helper:
-        source: uuid
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     registration_date:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      format: datetime
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # helper defines an automated attribute generator
-      helper:
-        source: now_iso
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     entity_type:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping
-      form:
-        label: Registration Type
-        type: select
-        options:
-          - Incorporated Company
-          - Unlimited Liability Company
-          - Continuation In
-          - Continuation In as ULC
-          - Extraprovincial Company
-          - Limited Liability Company
-          - Miscellaneous Firm
-          - Sole Proprietorship
-        required: true    
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     entity_status:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # literal defines an initial value to apply to the element
-      literal:
-        source: Active
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     entity_status_effective:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      format: datetime
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # helper defines an automated attribute generator
-      helper:
-        source: now_iso
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     entity_name_effective:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      format: datetime
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # helper defines an automated attribute generator
-      helper:
-        source: now_iso
-    legal_name:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: name
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping
-      form:
-        label: Legal Name
-        type: text
-        required: true
-    addressee:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: address
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for "address" attributes
-      form:
-        label: Mailing Address
-        type: address
-        required: true
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     address_line_1:
-      required: Y
-      model: address
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     address_line_2:
-      required: Y
-      model: address
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
+    addressee:
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     city:
-      required: Y
-      model: address
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     country:
-      required: Y
-      model: address
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
+    legal_name:
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     postal_code:
-      required: Y
-      model: address
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     province:
-      required: Y
-      model: address
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     effective_date:
-      required: Y
-      # mapping to the credential attributes (services.yml) - effective_date and expiry_date
-      credential: effective_date
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Effective Date
-        type: date
-        required: true
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     expiry_date:
       description: Date Credential expires (typically same as next version of credential is issued)
-      required: N
-      # mapping to the credential attributes (services.yml) - effective_date and expiry_date
-      credential: expiry_date
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Expiry Date
-        type: date
-        required: false
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: false
 
 - name: myorg-tax.my-organization.ca
   version: '1.0.0'
-  # description and issuer_url for services.yml
-  description: Tax Number
-  issuer_url: $APPLICATION_URL_VONX
-  # define the form attributes - these will go in routes.yml
-  form: 
-    id: finance-tax
-    path: /myorg/tax
-    type: issue-credential
-    schema_name: myorg-tax.my-organization.ca
-    page_title: Ministry of Taxes
-    title: Tax Number
-    template: bcgov.index.html
-    description: >
-      Obtain a Tax Number
-    explanation: Use the form below to obtain a Tax Number.
-  # proof request dependency - will go in services.yml and routes.yml
-  # attributes are currently matched automatically by name
-  proof_request:
-    id: registration
-    connection_id: bctob
-  # define all the attributes for the schema
   attributes:
     registration_id:
-      required: Y
-      # mapping to the model (services.yml)
-      # this maps the attributes to TOB's source_id (the foundation id for the organization)
-      model: source_id
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Registration ID
-        type: text
-        required: true
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     tax_number:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # helper defines an automated attribute generator
-      helper:
-        source: uuid
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     effective_date:
-      required: Y
-      # mapping to the credential attributes (services.yml) - effective_date and expiry_date
-      credential: effective_date
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Effective Date
-        type: date
-        required: true
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
 
 - name: myorg-liquor.my-organization.ca
   version: '1.0.0'
-  # description and issuer_url for services.yml
-  description: Liquor License
-  issuer_url: $APPLICATION_URL_VONX
-  # define the form attributes - these will go in routes.yml
-  form:
-    id: liquor
-    path: /myorg/liquor
-    type: issue-credential
-    schema_name: myorg-liquor.my-organization.ca
-    page_title: Liquor Control and Licensing Branch
-    title: Liquor Control and Licensing Branch
-    template: bcgov.index.html
-    description: >
-      Liquor License
-    explanation: Use the form below to obtain a liquor license.
-  # proof request dependency - will go in services.yml and routes.yml
-  # attributes are currently matched automatically by name
-  proof_request:
-    id: registration
-    connection_id: bctob
-  # define all the attributes for the schema
   attributes:
     registration_id:
-      required: Y
-      # mapping to the model (services.yml)
-      # this maps the attributes to TOB's source_id (the foundation id for the organization)
-      model: source_id
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Registration ID
-        type: text
-        required: true
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     license_number:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # helper defines an automated attribute generator
-      helper:
-        source: uuid
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     dancing_permitted:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: >
-          Patron Participation Entertainment - dancing, karaoke or other types entertainment
-          that involve patron participation in the service area
-        type: radio
-        options:
-          - value: true
-            label: Yes
-          - value: false
-            label: No
-        required: true
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     patio:
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Are you applying for a patio?
-        type: radio
-        options:
-          - value: true
-            label: Yes
-          - value: false
-            label: No
-        required: true
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     effective_date:
-      required: Y
-      # mapping to the credential attributes (services.yml) - effective_date and expiry_date
-      credential: effective_date
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Effective Date
-        type: date
-        required: true
+      description: TBD
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     expiry_date:
       description: Date Credential expires (typically same as next version of credential is issued)
-      required: N
-      # mapping to the credential attributes (services.yml) - effective_date and expiry_date
-      credential: expiry_date
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Expiry Date
-        type: date
-        required: false
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: false
 
 - name: myorg-credential.my-organization.ca
   version: '1.0.0'
-  # description and issuer_url for services.yml
-  description: Test Credential
-  issuer_url: $APPLICATION_URL_VONX
-  # define the form attributes - these will go in routes.yml
-  form:
-    id: myorg-issue
-    path: /myorg/myorg-credential
-    type: issue-credential
-    schema_name: myorg-credential.my-organization.ca
-    page_title: My Organization Credential Issuer
-    title: Issue Sample Credentials
-    template: bcgov.index.html
-    description: >
-      Test Credential Issuer ... TBD.
-    explanation: Use the form below to issue credentials for an existing corporation.
-  # proof request dependency - will go in services.yml and routes.yml
-  # attributes are currently matched automatically by name
-  proof_request:
-    id: registration
-    connection_id: bctob
-  # define all the attributes for the schema
   attributes:
     registration_id:
       description: Unique identifer assigned to entity by registrar (requires an existing registration credential)
-      required: Y
-      # mapping to the model (services.yml)
-      # this maps the attributes to TOB's source_id (the foundation id for the organization)
-      model: source_id
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Registration ID
-        type: text
-        required: true
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     tax_number:
       description: Relevant tax number
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Tax Number
-        type: text
-        required: true
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     license_number:
       description: Relevant liquor license number
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Liquor License Number
-        type: text
-        required: true
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     credential_status:
       description: Status of the credential (ACTive or HIStorical)
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Credential Status
-        type: select
-        options:
-          - ACT
-          - HIS
-        required: true
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     credential_status_effective:
       description: Date status became/becomes effective (e.g. can be future dated)
-      required: Y
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Credential Effecive Date
-        type: date
-        required: true
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     credential_status_expiry:
       description: Date status will expire
-      required: N
-      # mapping to the model (services.yml) - source_id, name, address, attribute
-      model: attribute
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Credential Expiry Date
-        type: date
-        required: false
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: false
     effective_date:
-      required: Y
-      # mapping to the credential attributes (services.yml) - effective_date and expiry_date
-      credential: effective_date
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Effective Date
-        type: date
-        required: true
+      description: Date Credential is effective (typically same as date credential is issued)
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: true
     expiry_date:
       description: Date Credential expires (typically same as next version of credential is issued)
-      required: N
-      # mapping to the credential attributes (services.yml) - effective_date and expiry_date
-      credential: expiry_date
-      # mapping to form (routes.yml) - can be helper:, literal:, or form:
-      # form defines a UI field mapping - only needs to appear once for address attributes
-      form:
-        label: Expiry Date
-        type: date
-        required: false
+      data_type: name, address, attr_text, attr_date
+      source: ui_text, ui_address, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      required: false
+
