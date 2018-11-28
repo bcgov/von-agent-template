@@ -5,7 +5,7 @@ issuers:
     url: https://www2.gov.bc.ca/gov/TBD
     email: TBD@gov.bc.ca
     logo_path: ../assets/img/tbd-logo-square.jpg
-    endpoint: $APPLICATION_URL
+    endpoint: $ENDPOINT_URL
 
     connection:
       type: TheOrgBook

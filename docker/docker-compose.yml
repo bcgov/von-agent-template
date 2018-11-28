@@ -29,6 +29,7 @@ services:
       dockerfile: Dockerfile
     environment:
       APPLICATION_URL: ${APPLICATION_URL:-http://localhost:5000}
+      ENDPOINT_URL: ${ENDPOINT_URL:-http://localhost:5000}
       CONFIG_ROOT: ../config
       ENVIRONMENT: ${ENVIRONMENT:-default}
       ENABLE_GUNICORN: ${ENABLE_GUNICORN:-0}
