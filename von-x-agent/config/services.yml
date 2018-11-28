@@ -355,7 +355,7 @@ issuers:
         schema: toto-rename-me.my-organization.ca
         issuer_url: $APPLICATION_URL_VONX
         depends_on:
-        - permitify_registration
+        - permitify_restaurant
         credential:
           effective_date:
             input: effective_date
@@ -484,6 +484,15 @@ proof_requests:
       - key:
           did: 6qnvgJtqwK44D8LFYnV5Yf
           name: registration.permitify
+          version: '1.0.4'
+        attributes:
+          - corp_num
+  permitify_restaurant:
+    version: '1.0.2'
+    schemas:
+      - key:
+          did: L6SJy7gNRCLUp8dV94hfex
+          name: operating_permit.permitify
           version: '1.0.4'
         attributes:
           - corp_num
