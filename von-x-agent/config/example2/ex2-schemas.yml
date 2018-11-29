@@ -1,4 +1,4 @@
-- name: toto-rename-me.my-organization.ca
+- name: todo-rename-me2.my-organization.ca
   version: '1.0.0'
   description: Describes the credential - depends on permitifys foundation credential
   # URL mapping, e.g. /path/credential
@@ -12,7 +12,7 @@
   # optionally identify the credential attribute to map to the TOB credential revoked date
   revoked_date: expiry_date
   # optionally identify a dependant proof request
-  proof_request: permitify_registration
+  proof_request: permitify_operating_permit
   attributes:
     corp_num:
       description: Unique identifer assigned to entity by registrar (requires an existing registration credential)

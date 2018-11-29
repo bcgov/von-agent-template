@@ -1,14 +1,14 @@
 myorgtodo-credential:
   path: /myorg/todo-credential
   type: issue-credential
-  schema_name: todo-rename-me1.my-organization.ca
-  page_title: Title for todo-rename-me1.my-organization.ca
-  title: Title for todo-rename-me1.my-organization.ca
+  schema_name: todo-rename-me2.my-organization.ca
+  page_title: Title for todo-rename-me2.my-organization.ca
+  title: Title for todo-rename-me2.my-organization.ca
   template: bcgov.index.html
   description: Describes the credential - depends on permitifys foundation credential
   explanation: Use the form below to issue a Credential.
   proof_request:
-    id: permitify_registration
+    id: permitify_operating_permit
     connection_id: bctob
   fields:
   - name: corp_num

@@ -1,9 +1,9 @@
 credential_types:
-- description: Describes the credential - depends on permitifys foundation credential
-  schema: todo-rename-me1.my-organization.ca
+- description: Describes the credential - depends on myorg foundation credential
+  schema: todo-rename-me3.my-organization.ca
   issuer_url: $APPLICATION_URL_VONX
   depends_on:
-  - permitify_registration
+  - registration
   credential:
     effective_date:
       input: effective_date
@@ -13,7 +13,7 @@ credential_types:
       from: claim
   topic:
     source_id:
-      input: corp_num
+      input: registration_id
       from: claim
     type:
       input: registration
@@ -22,10 +22,10 @@ credential_types:
   - model: attribute
     fields:
       type:
-        input: corp_num
+        input: registration_id
         from: value
       value:
-        input: corp_num
+        input: registration_id
         from: claim
   - model: attribute
     fields:
@@ -34,6 +34,14 @@ credential_types:
         from: value
       value:
         input: credential_id
+        from: claim
+  - model: attribute
+    fields:
+      type:
+        input: credential_subtype
+        from: value
+      value:
+        input: credential_subtype
         from: claim
   - model: attribute
     fields:

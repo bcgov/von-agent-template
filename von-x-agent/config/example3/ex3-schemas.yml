@@ -1,20 +1,20 @@
-- name: toto-rename-me.my-organization.ca
+- name: todo-rename-me3.my-organization.ca
   version: '1.0.0'
-  description: Describes the credential - depends on permitifys foundation credential
+  description: Describes the credential - depends on myorg foundation credential
   # URL mapping, e.g. /path/credential
   path: /myorg/todo-credential
   # identify the attribute which identify the owning organization
-  topic: corp_num
+  topic: registration_id
   # optionally identify additional attributes to uniquely identify a credential
-  #cardinality: TBD
+  cardinality: credential_subtype
   # optionally identify the credential attribute to map to the TOB credential effective date
   effective_date: effective_date
   # optionally identify the credential attribute to map to the TOB credential revoked date
   revoked_date: expiry_date
   # optionally identify a dependant proof request
-  proof_request: permitify_registration
+  proof_request: registration
   attributes:
-    corp_num:
+    registration_id:
       description: Unique identifer assigned to entity by registrar (requires an existing registration credential)
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_text
@@ -23,6 +23,11 @@
       description: Some internal generated credential id
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: helper_uuid
+      required: true
+    credential_subtype:
+      description: Subtype of the credential (for supporting cardinality)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
       required: true
     credential_text:
       description: Some random text about the credential

@@ -1,4 +1,4 @@
-- name: toto-rename-me.my-organization.ca
+- name: todo-rename-me1.my-organization.ca
   version: '1.0.0'
   description: Describes the credential - depends on permitifys foundation credential
   # URL mapping, e.g. /path/credential
