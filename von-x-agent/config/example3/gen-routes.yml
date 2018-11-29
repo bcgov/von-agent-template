@@ -1,50 +1,50 @@
-myorgtodo-credential:
-  path: /myorg/todo-credential
-  type: issue-credential
-  schema_name: todo-rename-me3.my-organization.ca
-  page_title: Title for todo-rename-me3.my-organization.ca
-  title: Title for todo-rename-me3.my-organization.ca
-  template: bcgov.index.html
-  description: Describes the credential - depends on myorg foundation credential
-  explanation: Use the form below to issue a Credential.
-  proof_request:
-    id: registration
-    connection_id: bctob
-  fields:
-  - name: registration_id
-    label: registration_id
-    type: text
-    required: true
-  - name: credential_subtype
-    label: credential_subtype
-    type: select
-    options:
-    - todo-1
-    - todo-2
-    - todo-3
-    required: true
-  - name: credential_text
-    label: credential_text
-    type: text
-    required: true
-  - name: credential_status
-    label: credential_status
-    type: select
-    options:
-    - todo-1
-    - todo-2
-    - todo-3
-    required: true
-  - name: effective_date
-    label: effective_date
-    type: date
-    required: true
-  - name: expiry_date
-    label: expiry_date
-    type: date
-    required: false
-  mappings:
-    attributes:
-    - name: credential_id
-      from: helper
-      source: uuid
+  myorgtodo-credential:
+    path: /myorg/todo-credential
+    type: issue-credential
+    schema_name: todo-rename-me3.my-organization.ca
+    page_title: Title for todo-rename-me3.my-organization.ca
+    title: Title for todo-rename-me3.my-organization.ca
+    template: bcgov.index.html
+    description: Describes the credential - depends on myorg foundation credential
+    explanation: Use the form below to issue a Credential.
+    proof_request:
+      id: registration
+      connection_id: bctob
+    fields:
+    - name: registration_id
+      label: registration_id
+      type: text
+      required: true
+    - name: credential_subtype
+      label: credential_subtype
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    - name: credential_text
+      label: credential_text
+      type: text
+      required: true
+    - name: credential_status
+      label: credential_status
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
+    mappings:
+      attributes:
+      - name: credential_id
+        from: helper
+        source: uuid
