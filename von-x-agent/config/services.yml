@@ -411,7 +411,7 @@ proof_requests:
       - key:
           did: 6qnvgJtqwK44D8LFYnV5Yf
           name: registration.permitify
-          version: '1.0.4'
+          version: '1.0.5'
         attributes:
           - corp_num
   permitify_operating_permit:
@@ -420,6 +420,6 @@ proof_requests:
       - key:
           did: L6SJy7gNRCLUp8dV94hfex
           name: operating_permit.permitify
-          version: '1.0.4'
+          version: '1.0.5'
         attributes:
           - corp_num
