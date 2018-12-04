@@ -410,8 +410,8 @@ proof_requests:
     schemas:
       - key:
           did: 6qnvgJtqwK44D8LFYnV5Yf
-          name: registration.permitify
-          version: '1.0.5'
+          name: registration.dflow
+          version: '1.0.0'
         attributes:
           - corp_num
   permitify_operating_permit:
@@ -419,7 +419,7 @@ proof_requests:
     schemas:
       - key:
           did: L6SJy7gNRCLUp8dV94hfex
-          name: operating_permit.permitify
-          version: '1.0.5'
+          name: operating_permit.dflow
+          version: '1.0.0'
         attributes:
           - corp_num
