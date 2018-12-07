@@ -126,7 +126,8 @@ with open(in_file, 'r') as stream:
         #    y_schema = yaml.dump(schema, default_flow_style=False, Dumper=CustomDumper)
         #    print(y_schema)
 
-        services = []
+        services = {}
+        services['credential_types'] = []
         routes = {}
         testdata = []
         for schema in schemas:
@@ -216,7 +217,7 @@ with open(in_file, 'r') as stream:
                     model['fields']['value']['from'] = 'claim'
                     service['mapping'].append(model)
 
-            services.append(service)
+            services['credential_types'].append(service)
 
             # generate schema-level stuff for routes.yml
             form_name = path_to_name(schema['path'])
