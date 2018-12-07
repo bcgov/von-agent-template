@@ -14,13 +14,6 @@ export MY_SEED=`echo ${MY_ORG}_00000000000000000000000000000000 | cut -c 1-32`
 # BC DEV ledger:
 export LEDGER=http://159.89.115.24
 
-# VON Agent host name on play-with-docker, 
-# e.g. ssh ip172-18-0-16-bg5dvdk3uhdg00cihaa0@direct.labs.play-with-docker.com
-#      --> ip172-18-0-16-bg5dvdk3uhdg00cihaa0-5001.direct.labs.play-with-docker.com
-export ENDPOINT_HOST=<your play-with-docker host name>
-echo export ENDPOINT_HOST=${ENDPOINT_HOST} > set-host.sh
-. set-host.sh
-
 # Register DID
 # https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
 echo ""
