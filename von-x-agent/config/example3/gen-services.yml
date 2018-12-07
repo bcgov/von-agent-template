@@ -1,7 +1,6 @@
-      credential_types:
       - description: Describes the credential - depends on myorg foundation credential
         schema: todo-rename-me3.my-organization.ca
-        issuer_url: $APPLICATION_URL_VONX
+        issuer_url: $ENDPOINT_URL/myorg/todo-credential3
         depends_on:
         - registration
         credential:
@@ -18,6 +17,8 @@
           type:
             input: registration
             from: value
+        cardinality_fields:
+        - credential_subtype
         mapping:
         - model: attribute
           fields:

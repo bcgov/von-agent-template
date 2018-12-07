@@ -1,5 +1,5 @@
-  myorgtodo-credential:
-    path: /myorg/todo-credential
+  myorgtodo-credential3:
+    path: /myorg/todo-credential3
     type: issue-credential
     schema_name: todo-rename-me3.my-organization.ca
     page_title: Title for todo-rename-me3.my-organization.ca

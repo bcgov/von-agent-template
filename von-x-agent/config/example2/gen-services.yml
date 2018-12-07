@@ -1,7 +1,6 @@
-      credential_types:
       - description: Describes the credential - depends on permitifys foundation credential
         schema: todo-rename-me2.my-organization.ca
-        issuer_url: $APPLICATION_URL_VONX
+        issuer_url: $ENDPOINT_URL/myorg/todo-credential2
         depends_on:
         - permitify_operating_permit
         credential:

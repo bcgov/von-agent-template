@@ -126,8 +126,7 @@ with open(in_file, 'r') as stream:
         #    y_schema = yaml.dump(schema, default_flow_style=False, Dumper=CustomDumper)
         #    print(y_schema)
 
-        services = {}
-        services['credential_types'] = []
+        services = []
         routes = {}
         testdata = []
         for schema in schemas:
@@ -135,7 +134,7 @@ with open(in_file, 'r') as stream:
             service = {}
             service['description'] = schema['description']
             service['schema'] = schema['name']
-            service['issuer_url'] = '$APPLICATION_URL_VONX'
+            service['issuer_url'] = schema['endpoint'] + schema['path']
             if 'proof_request' in schema:
                 service['depends_on'] = []
                 service['depends_on'].append(schema['proof_request'])
@@ -156,9 +155,9 @@ with open(in_file, 'r') as stream:
             service['topic']['type'] = {}
             service['topic']['type']['input'] = 'registration'
             service['topic']['type']['from'] = 'value'
-            # optional - specify additional cardinality fields
-            #cardinality_fields:
-            #  - additionl_cred_type_attr
+            if 'cardinality' in schema:
+                service['cardinality_fields'] = []
+                service['cardinality_fields'].append(schema['cardinality'])
 
             # todo generate attribute-level stuff for services.yml
             service['mapping'] = []
@@ -217,7 +216,7 @@ with open(in_file, 'r') as stream:
                     model['fields']['value']['from'] = 'claim'
                     service['mapping'].append(model)
 
-            services['credential_types'].append(service)
+            services.append(service)
 
             # generate schema-level stuff for routes.yml
             form_name = path_to_name(schema['path'])
