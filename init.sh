@@ -42,7 +42,7 @@ while [ "${MY_DID}" == "" ]; do
 done
 
 find von-x-agent/config -name "*.yml" -exec sed -i s/my-organization/$MY_ORG/g {} +
-find von-x-agent/config -name "*.yml" -exec sed -i s/8HkrLGCUemkvspADWnJu4e/$MY_SEED/g {} +
+find von-x-agent/config -name "*.yml" -exec sed -i s/8HkrLGCUemkvspADWnJu4e/$MY_DID/g {} +
 sed -i s/bc_von_x_dev_0000000000000000000/$MY_SEED/g von-x-agent/config/settings.yml
 
 echo -------------------------
@@ -50,3 +50,4 @@ echo The following updates were made to the configuration files:
 echo ""
 
 grep -r ${MY_ORG} von-x-agent/config
+
