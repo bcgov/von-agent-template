@@ -352,6 +352,81 @@ issuers:
 #   credential_types:
 #     - description: Registration
       - description: Describes the credential - depends on permitifys foundation credential
+        schema: todo-rename-me1.my-organization.ca
+        issuer_url: $APPLICATION_URL_VONX
+        depends_on:
+        - permitify_registration
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
+          revoked_date:
+            input: expiry_date
+            from: claim
+        topic:
+          source_id:
+            input: corp_num
+            from: claim
+          type:
+            input: registration
+            from: value
+        mapping:
+        - model: attribute
+          fields:
+            type:
+              input: corp_num
+              from: value
+            value:
+              input: corp_num
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_id
+              from: value
+            value:
+              input: credential_id
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_text
+              from: value
+            value:
+              input: credential_text
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_status
+              from: value
+            value:
+              input: credential_status
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: effective_date
+              from: value
+            format:
+              input: datetime
+              from: value
+            value:
+              input: effective_date
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: expiry_date
+              from: value
+            format:
+              input: datetime
+              from: value
+            value:
+              input: expiry_date
+              from: claim
+
+      - description: Describes the credential - depends on permitifys foundation credential
         schema: todo-rename-me2.my-organization.ca
         issuer_url: $APPLICATION_URL_VONX
         depends_on:
