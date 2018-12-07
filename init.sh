@@ -24,13 +24,13 @@ curl -d "@tmp.json" -X POST ${LEDGER}/register
 rm tmp.json
 echo ""
 # Find DID on ledger
-PAGE=1
+PAGE=0
 export MY_DID=""
 # http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-7.html
 while [ "${MY_DID}" == "" ]; do
     export MY_DID=`curl -s ${LEDGER}/ledger/domain?page=${PAGE} | grep ${MY_ORG} -A 2 | grep dest | sed 's/^.*: \"//' | sed 's/\",//'`
     let PAGE=PAGE+1
-    if [ ${PAGE} -eq 5 ]; then
+    if [ ${PAGE} -eq 9 ]; then
         echo 'Error: I really tried, but I could not find DID (supposedly) written to the Ledger. Exiting.'
         exit 1
     fi
