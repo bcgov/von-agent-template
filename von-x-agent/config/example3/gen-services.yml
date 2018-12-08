@@ -1,15 +1,11 @@
-      credential_types:
       - description: Describes the credential - depends on myorg foundation credential
         schema: todo-rename-me3.my-organization.ca
-        issuer_url: $APPLICATION_URL_VONX
+        issuer_url: $ENDPOINT_URL/myorg/todo-credential3
         depends_on:
         - registration
         credential:
           effective_date:
             input: effective_date
-            from: claim
-          revoked_date:
-            input: expiry_date
             from: claim
         topic:
           source_id:
@@ -18,6 +14,8 @@
           type:
             input: registration
             from: value
+        cardinality_fields:
+        - credential_subtype
         mapping:
         - model: attribute
           fields:
@@ -70,14 +68,5 @@
             value:
               input: effective_date
               from: claim
-        - model: attribute
-          fields:
-            type:
-              input: expiry_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: expiry_date
-              from: claim
+
+### eof ###

@@ -1,4 +1,4 @@
-- name: myorg-registration.my-organization.ca
+- name: myorg-registration.ian_company.ca
   version: '1.0.0'
   description: Describes the credential
   # URL mapping, e.g. /path/credential
@@ -95,7 +95,7 @@
       data_type: ui_date
       required: false
 
-- name: myorg-tax.my-organization.ca
+- name: myorg-tax.ian_company.ca
   version: '1.0.0'
   description: Describes the credential
   # URL mapping, e.g. /path/credential
@@ -126,8 +126,13 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
+    expiry_date:
+      description: Date Credential expires (typically same as next version of credential is issued)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: false
 
-- name: myorg-liquor.my-organization.ca
+- name: myorg-liquor.ian_company.ca
   version: '1.0.0'
   description: Describes the credential
   # URL mapping, e.g. /path/credential
@@ -168,8 +173,13 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
+    expiry_date:
+      description: Date Credential expires (typically same as next version of credential is issued)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: false
 
-- name: myorg-credential.my-organization.ca
+- name: myorg-credential.ian_company.ca
   version: '1.0.0'
   description: Describes the credential
   # URL mapping, e.g. /path/credential
@@ -228,8 +238,97 @@
 
 #################################################################
 # TODO insert new schema here:
+- name: todo-rename-me1.ian_company.ca
+  version: '1.0.0'
+  description: Describes the credential - depends on permitifys foundation credential
+  # endpoint - base url for agent
+  endpoint: $ENDPOINT_URL
+  # URL mapping, e.g. /path/credential
+  path: /myorg/todo-credential1
+  # identify the attribute which identify the owning organization
+  topic: corp_num
+  # optionally identify additional attributes to uniquely identify a credential
+  #cardinality: TBD
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  #revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: permitify_registration
+  attributes:
+    corp_num:
+      description: Unique identifer assigned to entity by registrar (requires an existing registration credential)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    credential_id:
+      description: Some internal generated credential id
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
+    credential_text:
+      description: Some random text about the credential
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    credential_status:
+      description: Status of the credential (ACTive or HIStorical)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    effective_date:
+      description: Date Credential is effective (typically same as date credential is issued)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
+      
+- name: todo-rename-me3.ian_company.ca
+  version: '1.0.0'
+  description: Describes the credential - depends on myorg foundation credential
+  # endpoint - base url for agent
+  endpoint: $ENDPOINT_URL
+  # URL mapping, e.g. /path/credential
+  path: /myorg/todo-credential3
+  # identify the attribute which identify the owning organization
+  topic: registration_id
+  # optionally identify additional attributes to uniquely identify a credential
+  cardinality: credential_subtype
+  # optionally identify the credential attribute to map to the TOB credential effective date
+  effective_date: effective_date
+  # optionally identify the credential attribute to map to the TOB credential revoked date
+  #revoked_date: expiry_date
+  # optionally identify a dependant proof request
+  proof_request: registration
+  attributes:
+    registration_id:
+      description: Unique identifer assigned to entity by registrar (requires an existing registration credential)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    credential_id:
+      description: Some internal generated credential id
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: helper_uuid
+      required: true
+    credential_subtype:
+      description: Subtype of the credential (for supporting cardinality)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    credential_text:
+      description: Some random text about the credential
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_text
+      required: true
+    credential_status:
+      description: Status of the credential (ACTive or HIStorical)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_select
+      required: true
+    effective_date:
+      description: Date Credential is effective (typically same as date credential is issued)
+      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
+      data_type: ui_date
+      required: true
 
-#################################################################
-
-### eof ###
-
+###########################################################

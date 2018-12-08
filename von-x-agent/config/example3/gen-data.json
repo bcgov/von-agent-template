@@ -5,11 +5,11 @@
             "credential_status": "Select",
             "credential_subtype": "Select",
             "credential_text": "Text",
-            "effective_date": "2018-11-29T22:09:37.604703+00:00",
-            "expiry_date": "2018-11-29T22:09:37.604804+00:00",
+            "effective_date": "2018-12-07T18:23:02.308057+00:00",
             "registration_id": "Text"
         },
         "schema": "todo-rename-me3.my-organization.ca",
         "version": "1.0.0"
     }
 ]
+

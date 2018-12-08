@@ -1,5 +1,5 @@
-  myorgtodo-credential:
-    path: /myorg/todo-credential
+  myorgtodo-credential1:
+    path: /myorg/todo-credential1
     type: issue-credential
     schema_name: todo-rename-me1.my-organization.ca
     page_title: Title for todo-rename-me1.my-organization.ca
@@ -31,12 +31,10 @@
       label: effective_date
       type: date
       required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
     mappings:
       attributes:
       - name: credential_id
         from: helper
         source: uuid
+
+### eof ###

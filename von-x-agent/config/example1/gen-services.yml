@@ -1,15 +1,11 @@
-      credential_types:
       - description: Describes the credential - depends on permitifys foundation credential
         schema: todo-rename-me1.my-organization.ca
-        issuer_url: $APPLICATION_URL_VONX
+        issuer_url: $ENDPOINT_URL/myorg/todo-credential1
         depends_on:
         - permitify_registration
         credential:
           effective_date:
             input: effective_date
-            from: claim
-          revoked_date:
-            input: expiry_date
             from: claim
         topic:
           source_id:
@@ -62,14 +58,6 @@
             value:
               input: effective_date
               from: claim
-        - model: attribute
-          fields:
-            type:
-              input: expiry_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: expiry_date
-              from: claim
+
+### eof ###
+

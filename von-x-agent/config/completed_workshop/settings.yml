@@ -8,7 +8,7 @@ default:
   TOB_API_URL: https://django-devex-von-dev.pathfinder.gov.bc.ca/api/v2
   TOB_APP_URL: https://devex-von-dev.pathfinder.gov.bc.ca
    TODO update your seed and register on the ledger
-  WALLET_SEED_VONX: bc_von_x_dev_0000000000000000000
+  WALLET_SEED_VONX: ian_company_00000000000000000000
   # Example parameters to connect to a Sovrin ledger
   #INDY_GENESIS_URL: https://raw.githubusercontent.com/sovrin-foundation/sovrin/1.1.50-master/sovrin/pool_transactions_sandbox_genesis
   #LEDGER_PROTOCOL_VERSION: "1.3"
@@ -17,7 +17,3 @@ default:
   INDY_GENESIS_URL: http://159.89.115.24/genesis
   LEDGER_PROTOCOL_VERSION: "1.6"
   AUTO_REGISTER_DID: false
-
-
-### eof ###
-

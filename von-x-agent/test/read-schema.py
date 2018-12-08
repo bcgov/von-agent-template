@@ -127,15 +127,18 @@ with open(in_file, 'r') as stream:
         #    print(y_schema)
 
         services = {}
-        services['credential_types'] = []
+        services['issuers'] = {}
+        services['issuers']['myorg'] = {}
+        services['issuers']['myorg']['credential_types'] = []
         routes = {}
+        routes['forms'] = {}
         testdata = []
         for schema in schemas:
             # generate schema-level stuff for services.yml
             service = {}
             service['description'] = schema['description']
             service['schema'] = schema['name']
-            service['issuer_url'] = '$APPLICATION_URL_VONX'
+            service['issuer_url'] = schema['endpoint'] + schema['path']
             if 'proof_request' in schema:
                 service['depends_on'] = []
                 service['depends_on'].append(schema['proof_request'])
@@ -156,9 +159,9 @@ with open(in_file, 'r') as stream:
             service['topic']['type'] = {}
             service['topic']['type']['input'] = 'registration'
             service['topic']['type']['from'] = 'value'
-            # optional - specify additional cardinality fields
-            #cardinality_fields:
-            #  - additionl_cred_type_attr
+            if 'cardinality' in schema:
+                service['cardinality_fields'] = []
+                service['cardinality_fields'].append(schema['cardinality'])
 
             # todo generate attribute-level stuff for services.yml
             service['mapping'] = []
@@ -217,29 +220,29 @@ with open(in_file, 'r') as stream:
                     model['fields']['value']['from'] = 'claim'
                     service['mapping'].append(model)
 
-            services['credential_types'].append(service)
+            services['issuers']['myorg']['credential_types'].append(service)
 
             # generate schema-level stuff for routes.yml
             form_name = path_to_name(schema['path'])
-            routes[form_name] = {}
-            routes[form_name]['path'] = schema['path']
-            routes[form_name]['type'] = 'issue-credential'
-            routes[form_name]['schema_name'] = schema['name']
-            routes[form_name]['page_title'] = 'Title for ' + schema['name']
-            routes[form_name]['title'] = 'Title for ' + schema['name']
-            routes[form_name]['template'] = 'bcgov.index.html'
-            routes[form_name]['description'] = schema['description']
-            routes[form_name]['explanation'] = 'Use the form below to issue a Credential.'
+            routes['forms'][form_name] = {}
+            routes['forms'][form_name]['path'] = schema['path']
+            routes['forms'][form_name]['type'] = 'issue-credential'
+            routes['forms'][form_name]['schema_name'] = schema['name']
+            routes['forms'][form_name]['page_title'] = 'Title for ' + schema['name']
+            routes['forms'][form_name]['title'] = 'Title for ' + schema['name']
+            routes['forms'][form_name]['template'] = 'bcgov.index.html'
+            routes['forms'][form_name]['description'] = schema['description']
+            routes['forms'][form_name]['explanation'] = 'Use the form below to issue a Credential.'
             if 'proof_request' in schema:
-                routes[form_name]['proof_request'] = {}
-                routes[form_name]['proof_request']['id'] = schema['proof_request']
-                routes[form_name]['proof_request']['connection_id'] = 'bctob'
+                routes['forms'][form_name]['proof_request'] = {}
+                routes['forms'][form_name]['proof_request']['id'] = schema['proof_request']
+                routes['forms'][form_name]['proof_request']['connection_id'] = 'bctob'
             # optionally can serve javascript
             #js_includes:
             #  - src: js/bc_registries.js
 
             # generate attribute-level stuff for routes.yml
-            routes[form_name]['fields'] = []
+            routes['forms'][form_name]['fields'] = []
             has_address = False
             for attr in schema['attributes'].keys():
                 if schema['attributes'][attr]['data_type'].startswith('ui_'):
@@ -265,13 +268,13 @@ with open(in_file, 'r') as stream:
                         field['type'] = schema['attributes'][attr]['data_type']
                     field['required'] = schema['attributes'][attr]['required']
                     if schema['attributes'][attr]['data_type'] == 'ui_address' and not has_address:
-                        routes[form_name]['fields'].append(field)
+                        routes['forms'][form_name]['fields'].append(field)
                         has_address = True
                     elif schema['attributes'][attr]['data_type'] != 'ui_address':
-                        routes[form_name]['fields'].append(field)
+                        routes['forms'][form_name]['fields'].append(field)
 
-            routes[form_name]['mappings'] = {}
-            routes[form_name]['mappings']['attributes'] = []
+            routes['forms'][form_name]['mappings'] = {}
+            routes['forms'][form_name]['mappings']['attributes'] = []
             for attr in schema['attributes'].keys():
                 if schema['attributes'][attr]['data_type'].startswith('helper_'):
                     attribute = {}
@@ -287,7 +290,7 @@ with open(in_file, 'r') as stream:
                             attribute['source'] = 'now_iso'
                         else:
                             attribute['source'] = schema['attributes'][attr]['data_type']
-                    routes[form_name]['mappings']['attributes'].append(attribute)
+                    routes['forms'][form_name]['mappings']['attributes'].append(attribute)
 
             datapacket = {}
             datapacket['schema'] = schema['name']

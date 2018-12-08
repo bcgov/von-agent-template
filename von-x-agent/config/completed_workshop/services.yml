@@ -30,7 +30,7 @@ issuers:
 
     credential_types:
       - description: Registration
-        schema: myorg-registration.my-organization.ca
+        schema: myorg-registration.ian_company.ca
         issuer_url: $ENDPOINT_URL/myorg/incorporation
         # define credential meta-data
         # maps attributes provided in the credential to TOB's credential effective and revoked dates
@@ -38,6 +38,9 @@ issuers:
         credential:
           effective_date:
             input: effective_date
+            from: claim
+          revoked_date:
+            input: expiry_date
             from: claim
         # identifies the organization id that owns the credential
         # "topic" is used as a more generic term since the platform can be used for entities other than organizations
@@ -148,9 +151,20 @@ issuers:
               value:
                 input: effective_date
                 from: claim
+          - model: attribute
+            fields:
+              type:
+                input: expiry_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: expiry_date
+                from: claim
 
       - description: Tax Number
-        schema: myorg-tax.my-organization.ca
+        schema: myorg-tax.ian_company.ca
         issuer_url: $ENDPOINT_URL/myorg/tax
         depends_on:
           - registration
@@ -189,13 +203,16 @@ issuers:
                 from: claim
 
       - description: Liquor License
-        schema: myorg-liquor.my-organization.ca
+        schema: myorg-liquor.ian_company.ca
         issuer_url: $ENDPOINT_URL/myorg/liquor
         depends_on:
           - registration
         credential:
           effective_date:
             input: effective_date
+            from: claim
+          revoked_date:
+            input: expiry_date
             from: claim
         topic:
           source_id:
@@ -240,9 +257,20 @@ issuers:
               value:
                 input: effective_date
                 from: claim
+          - model: attribute
+            fields:
+              type:
+                input: expiry_date
+                from: value
+              format:
+                input: datetime
+                from: value
+              value:
+                input: expiry_date
+                from: claim
 
       - description: Test Credential
-        schema: myorg-credential.my-organization.ca
+        schema: myorg-credential.ian_company.ca
         issuer_url: $ENDPOINT_URL/myorg/myorg-credential
         depends_on:
           - liquor_and_tax
@@ -323,6 +351,151 @@ issuers:
 # TODO insert new service here, note should align like:
 #   credential_types:
 #     - description: Registration
+      - description: Describes the credential - depends on permitifys foundation credential
+        schema: todo-rename-me1.ian_company.ca
+        issuer_url: $ENDPOINT_URL/myorg/todo-credential1
+        depends_on:
+        - permitify_registration
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
+          revoked_date:
+            input: expiry_date
+            from: claim
+        topic:
+          source_id:
+            input: corp_num
+            from: claim
+          type:
+            input: registration
+            from: value
+        mapping:
+        - model: attribute
+          fields:
+            type:
+              input: corp_num
+              from: value
+            value:
+              input: corp_num
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_id
+              from: value
+            value:
+              input: credential_id
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_text
+              from: value
+            value:
+              input: credential_text
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_status
+              from: value
+            value:
+              input: credential_status
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: effective_date
+              from: value
+            format:
+              input: datetime
+              from: value
+            value:
+              input: effective_date
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: expiry_date
+              from: value
+            format:
+              input: datetime
+              from: value
+            value:
+              input: expiry_date
+              from: claim
+              
+      - description: Describes the credential - depends on myorg foundation credential
+        schema: todo-rename-me3.ian_company.ca
+        issuer_url: $ENDPOINT_URL/myorg/todo-credential3
+        depends_on:
+        - registration
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
+        topic:
+          source_id:
+            input: registration_id
+            from: claim
+          type:
+            input: registration
+            from: value
+        cardinality_fields:
+        - credential_subtype
+        mapping:
+        - model: attribute
+          fields:
+            type:
+              input: registration_id
+              from: value
+            value:
+              input: registration_id
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_id
+              from: value
+            value:
+              input: credential_id
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_subtype
+              from: value
+            value:
+              input: credential_subtype
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_text
+              from: value
+            value:
+              input: credential_text
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_status
+              from: value
+            value:
+              input: credential_status
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: effective_date
+              from: value
+            format:
+              input: datetime
+              from: value
+            value:
+              input: effective_date
+              from: claim
 
 #################################################################
 
@@ -340,8 +513,8 @@ proof_requests:
     version: '1.0.0'
     schemas:
       - key:
-          did: 8HkrLGCUemkvspADWnJu4e
-          name: myorg-registration.my-organization.ca
+          did: UAQM8wzfoLtzPemFDisgCo
+          name: myorg-registration.ian_company.ca
           version: '1.0.0'
         attributes:
           - registration_id
@@ -350,21 +523,21 @@ proof_requests:
     version: '1.0.0'
     schemas:
       - key:
-          did: 8HkrLGCUemkvspADWnJu4e
-          name: myorg-registration.my-organization.ca
+          did: UAQM8wzfoLtzPemFDisgCo
+          name: myorg-registration.ian_company.ca
           version: '1.0.0'
         attributes:
           - registration_id
           - legal_name
       - key:
-          did: 8HkrLGCUemkvspADWnJu4e
-          name: myorg-tax.my-organization.ca
+          did: UAQM8wzfoLtzPemFDisgCo
+          name: myorg-tax.ian_company.ca
           version: '1.0.0'
         attributes:
           - tax_number
       - key:
-          did: 8HkrLGCUemkvspADWnJu4e
-          name: myorg-liquor.my-organization.ca
+          did: UAQM8wzfoLtzPemFDisgCo
+          name: myorg-liquor.ian_company.ca
           version: '1.0.0'
         attributes:
           - license_number
@@ -395,6 +568,3 @@ proof_requests:
           version: '1.0.0'
         attributes:
           - corp_num
-
-
-### eof ###
