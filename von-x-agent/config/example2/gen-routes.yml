@@ -31,10 +31,6 @@
       label: effective_date
       type: date
       required: true
-    - name: expiry_date
-      label: expiry_date
-      type: date
-      required: false
     mappings:
       attributes:
       - name: credential_id

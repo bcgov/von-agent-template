@@ -1,0 +1,338 @@
+forms:
+  # form name - typically one form per credential
+  myorg-reg:
+    # path mapped in URL
+    path: /myorg/incorporation
+    # type is always "issue-credential"
+    type: issue-credential
+    # schema name, and other information that will be displayed on the page
+    schema_name: myorg-registration.ian_company.ca
+    page_title: Corporate Registry
+    title: Registration
+    template: bcgov.index.html
+    description: >
+      Registries and Online Services administers and supports the legal framework
+      used for operating a business, not-for-profit society, cooperative association
+      or financial institution. Organizations need to register, file documents
+      and update records, which are kept as a matter of public record.
+    explanation: Use the form below to register a Corporation.
+
+    # optionally can serve javascript
+    js_includes:
+      - src: js/bc_registries.js
+
+    # field information - how to display and generate credential attribute information
+    # "fields" are displayed on the UI for the user to enter values
+    fields:
+      - name: entity_type
+        label: Registration Type
+        type: select
+        # "options" are the available values for the field
+        options:
+          - Incorporated Company
+          - Unlimited Liability Company
+          - Continuation In
+          - Continuation In as ULC
+          - Extraprovincial Company
+          - Limited Liability Company
+          - Miscellaneous Firm
+          - Sole Proprietorship
+        required: true
+
+      - name: legal_name
+        label: Legal Name
+        type: text
+        required: true
+
+      - name: address
+        label: Mailing Address
+        type: address
+        required: true
+
+      - name: effective_date
+        label: Effective Date
+        type: date
+        required: true
+
+    # "mapping" identifies attributes that are auto-populated, by "helpers"
+    mapping:
+      attributes:
+        - name: registration_id
+          from: helper
+          source: uuid
+
+        - name: registration_date
+          from: helper
+          source: now_iso
+
+        - name: entity_status
+          from: literal
+          source: ACT
+
+        - name: entity_status_effective
+          from: helper
+          source: now_iso
+
+        - name: entity_name_effective
+          from: helper
+          source: now_iso
+
+  finance-tax:
+    path: /myorg/tax
+    type: issue-credential
+    schema_name: myorg-tax.ian_company.ca
+    page_title: Ministry of Taxes
+    title: Tax Number
+    template: bcgov.index.html
+    description: >
+      Obtain a Tax Number
+    explanation: Use the form below to obtain a Tax Number.
+
+    # link to a dependent proof request - attributes are mapped automatically, by name
+    proof_request:
+      id: registration
+      connection_id: bctob
+
+    fields:
+      # in this example, the registration_id and legal_name are populated from the proof request, but are displayed to the user
+      - name: registration_id
+        label: Registration ID
+        type: text
+        required: true
+
+      - name: legal_name
+        label: Legal Name
+        type: text
+        required: true
+
+      - name: effective_date
+        label: Effective Date
+        type: date
+        required: true
+
+    mapping:
+      attributes:
+        - name: tax_number
+          from: helper
+          source: uuid
+
+  liquor:
+    path: /myorg/liquor
+    type: issue-credential
+    schema_name: myorg-liquor.ian_company.ca
+    page_title: Liquor Control and Licensing Branch
+    title: Liquor Control and Licensing Branch
+    template: bcgov.index.html
+    description: >
+      Liquor License
+    explanation: Use the form below to obtain a liquor license.
+
+    proof_request:
+      id: registration
+      connection_id: bctob
+
+    fields:
+      - name: registration_id
+        label: Registration ID
+        type: text
+        required: true
+
+      - name: legal_name
+        label: Legal Name
+        type: text
+        required: true
+
+      - name: dancing_permitted
+        label: >
+          Patron Participation Entertainment - dancing, karaoke or other types entertainment
+          that involve patron participation in the service area
+        type: radio
+        options:
+          - value: true
+            label: Yes
+          - value: false
+            label: No
+        required: true
+
+      - name: patio
+        label: Are you applying for a patio?
+        type: radio
+        options:
+          - value: true
+            label: Yes
+          - value: false
+            label: No
+        required: true
+
+      - name: effective_date
+        label: Effective Date
+        type: date
+        required: true
+
+    mapping:
+      attributes:
+        - name: license_number
+          from: helper
+          source: uuid
+
+  myorg-issue:
+    path: /myorg/myorg-credential
+    type: issue-credential
+    schema_name: myorg-credential.ian_company.ca
+    page_title: My Organization Credential Issuer
+    title: Issue Sample Credentials
+    template: bcgov.index.html
+    description: >
+      Test Credential Issuer ... TBD.
+    explanation: Use the form below to issue credentials for an existing corporation.
+
+    js_includes:
+      - src: js/bc_registries.js
+
+    proof_request:
+      id: liquor_and_tax
+      connection_id: bctob
+
+    fields:
+      - name: registration_id
+        label: Company Number
+        type: text
+        required: true
+
+      - name: legal_name
+        label: Legal Name
+        type: text
+        required: true
+
+      - name: tax_number
+        label: Tax Number
+        type: text
+        required: true
+
+      - name: license_number
+        label: Liquor License
+        type: text
+        required: true
+
+      - name: credential_status
+        label: Credential Status
+        type: select
+        options:
+          - ACT
+          - HIS
+        required: true
+
+      - name: credential_status_effective
+        label: Credential Effecive Date
+        type: date
+        required: true
+
+      - name: credential_status_expiry
+        label: Credential Expiry Date
+        type: date
+        required: false
+
+      - name: effective_date
+        label: Effective Date
+        type: date
+        required: true
+
+      - name: expiry_date
+        label: Expiry Date
+        type: date
+        required: true
+
+#################################################################
+# TODO insert new route here, note should align like:
+# myorg-reg:
+  myorgtodo-credential1:
+    path: /myorg/todo-credential1
+    type: issue-credential
+    schema_name: todo-rename-me1.ian_company.ca
+    page_title: Title for todo-rename-me1.ian_company.ca
+    title: Title for todo-rename-me1.ian_company.ca
+    template: bcgov.index.html
+    description: Describes the credential - depends on permitifys foundation credential
+    explanation: Use the form below to issue a Credential.
+    proof_request:
+      id: permitify_registration
+      connection_id: bctob
+    fields:
+    - name: corp_num
+      label: corp_num
+      type: text
+      required: true
+    - name: credential_text
+      label: credential_text
+      type: text
+      required: true
+    - name: credential_status
+      label: credential_status
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
+    - name: expiry_date
+      label: expiry_date
+      type: date
+      required: false
+    mappings:
+      attributes:
+      - name: credential_id
+        from: helper
+        source: uuid
+
+  myorgtodo-credential3:
+    path: /myorg/todo-credential3
+    type: issue-credential
+    schema_name: todo-rename-me3.ian_company.ca
+    page_title: Title for todo-rename-me3.ian_company.ca
+    title: Title for todo-rename-me3.ian_company.ca
+    template: bcgov.index.html
+    description: Describes the credential - depends on myorg foundation credential
+    explanation: Use the form below to issue a Credential.
+    proof_request:
+      id: registration
+      connection_id: bctob
+    fields:
+    - name: registration_id
+      label: registration_id
+      type: text
+      required: true
+    - name: credential_subtype
+      label: credential_subtype
+      type: select
+      options:
+      - Red
+      - Green
+      - Blue
+      required: true
+    - name: credential_text
+      label: credential_text
+      type: text
+      required: true
+    - name: credential_status
+      label: credential_status
+      type: select
+      options:
+      - Active
+      - Passive
+      - Other
+      required: true
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
+    mappings:
+      attributes:
+      - name: credential_id
+        from: helper
+        source: uuid
+
+############################################################

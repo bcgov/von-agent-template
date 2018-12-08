@@ -7,9 +7,6 @@
           effective_date:
             input: effective_date
             from: claim
-          revoked_date:
-            input: expiry_date
-            from: claim
         topic:
           source_id:
             input: corp_num
@@ -60,15 +57,4 @@
               from: value
             value:
               input: effective_date
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: expiry_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: expiry_date
               from: claim
