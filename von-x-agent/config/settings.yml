@@ -21,3 +21,7 @@ default:
 
 ### eof ###
 
+# BC TEST endpoints:
+#dFlow: https://devex-von-dflow-test.pathfinder.gov.bc.ca/
+#ToB: https://devex-von-test.pathfinder.gov.bc.ca/
+#Ledger: http://138.197.138.255
