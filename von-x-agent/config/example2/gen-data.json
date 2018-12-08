@@ -5,10 +5,10 @@
             "credential_id": "UUID",
             "credential_status": "Select",
             "credential_text": "Text",
-            "effective_date": "2018-12-07T17:38:48.024732+00:00",
-            "expiry_date": "2018-12-07T17:38:48.024798+00:00"
+            "effective_date": "2018-12-07T17:38:48.024732+00:00"
         },
         "schema": "todo-rename-me2.my-organization.ca",
         "version": "1.0.0"
     }
 ]
+

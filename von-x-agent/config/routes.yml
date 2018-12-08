@@ -240,10 +240,14 @@ forms:
       - name: expiry_date
         label: Expiry Date
         type: date
-        required: true
+        required: false
 
 #################################################################
 # TODO insert new route here, note should align like:
 # myorg-reg:
 
 #################################################################
+
+
+### eof ###
+

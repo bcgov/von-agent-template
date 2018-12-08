@@ -39,9 +39,6 @@ issuers:
           effective_date:
             input: effective_date
             from: claim
-          revoked_date:
-            input: expiry_date
-            from: claim
         # identifies the organization id that owns the credential
         # "topic" is used as a more generic term since the platform can be used for entities other than organizations
         # in our deployment the type is always "registration"
@@ -151,17 +148,6 @@ issuers:
               value:
                 input: effective_date
                 from: claim
-          - model: attribute
-            fields:
-              type:
-                input: expiry_date
-                from: value
-              format:
-                input: datetime
-                from: value
-              value:
-                input: expiry_date
-                from: claim
 
       - description: Tax Number
         schema: myorg-tax.my-organization.ca
@@ -211,9 +197,6 @@ issuers:
           effective_date:
             input: effective_date
             from: claim
-          revoked_date:
-            input: expiry_date
-            from: claim
         topic:
           source_id:
             input: registration_id
@@ -256,17 +239,6 @@ issuers:
                 from: value
               value:
                 input: effective_date
-                from: claim
-          - model: attribute
-            fields:
-              type:
-                input: expiry_date
-                from: value
-              format:
-                input: datetime
-                from: value
-              value:
-                input: expiry_date
                 from: claim
 
       - description: Test Credential
@@ -423,3 +395,6 @@ proof_requests:
           version: '1.0.0'
         attributes:
           - corp_num
+
+
+### eof ###

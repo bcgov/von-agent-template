@@ -126,11 +126,6 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
-    expiry_date:
-      description: Date Credential expires (typically same as next version of credential is issued)
-      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_date
-      required: false
 
 - name: myorg-liquor.my-organization.ca
   version: '1.0.0'
@@ -173,11 +168,6 @@
       # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
       data_type: ui_date
       required: true
-    expiry_date:
-      description: Date Credential expires (typically same as next version of credential is issued)
-      # one of: ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
-      data_type: ui_date
-      required: false
 
 - name: myorg-credential.my-organization.ca
   version: '1.0.0'
@@ -240,3 +230,6 @@
 # TODO insert new schema here:
 
 #################################################################
+
+### eof ###
+
