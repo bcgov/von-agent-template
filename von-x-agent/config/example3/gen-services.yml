@@ -1,72 +1,75 @@
-      - description: Describes the credential - depends on myorg foundation credential
-        schema: todo-rename-me3.my-organization.ca
-        issuer_url: $ENDPOINT_URL/myorg/todo-credential3
-        depends_on:
-        - registration
-        credential:
-          effective_date:
-            input: effective_date
+issuers:
+  myorg:
+    credential_types:
+    - description: Describes the credential - depends on myorg foundation credential
+      schema: todo-rename-me3.my-organization.ca
+      issuer_url: $ENDPOINT_URL/myorg/todo-credential3
+      depends_on:
+      - registration
+      credential:
+        effective_date:
+          input: effective_date
+          from: claim
+      topic:
+        source_id:
+          input: registration_id
+          from: claim
+        type:
+          input: registration
+          from: value
+      cardinality_fields:
+      - credential_subtype
+      mapping:
+      - model: attribute
+        fields:
+          type:
+            input: credential_id
+            from: value
+          value:
+            input: credential_id
             from: claim
-        topic:
-          source_id:
+      - model: attribute
+        fields:
+          type:
+            input: registration_id
+            from: value
+          value:
             input: registration_id
             from: claim
+      - model: attribute
+        fields:
           type:
-            input: registration
+            input: credential_text
             from: value
-        cardinality_fields:
-        - credential_subtype
-        mapping:
-        - model: attribute
-          fields:
-            type:
-              input: registration_id
-              from: value
-            value:
-              input: registration_id
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: credential_id
-              from: value
-            value:
-              input: credential_id
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: credential_subtype
-              from: value
-            value:
-              input: credential_subtype
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: credential_text
-              from: value
-            value:
-              input: credential_text
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: credential_status
-              from: value
-            value:
-              input: credential_status
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: effective_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: effective_date
-              from: claim
+          value:
+            input: credential_text
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: effective_date
+            from: value
+          format:
+            input: datetime
+            from: value
+          value:
+            input: effective_date
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: credential_subtype
+            from: value
+          value:
+            input: credential_subtype
+            from: claim
+      - model: attribute
+        fields:
+          type:
+            input: credential_status
+            from: value
+          value:
+            input: credential_status
+            from: claim
 
 ### eof ###

@@ -21,18 +21,18 @@ issuers:
       - model: attribute
         fields:
           type:
-            input: corp_num
+            input: credential_id
             from: value
           value:
-            input: corp_num
+            input: credential_id
             from: claim
       - model: attribute
         fields:
           type:
-            input: credential_id
+            input: corp_num
             from: value
           value:
-            input: credential_id
+            input: corp_num
             from: claim
       - model: attribute
         fields:
@@ -61,3 +61,5 @@ issuers:
           value:
             input: effective_date
             from: claim
+
+### eof ###
