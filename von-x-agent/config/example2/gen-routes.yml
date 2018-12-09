@@ -1,3 +1,4 @@
+forms:
   myorgtodo-credential2:
     path: /myorg/todo-credential2
     type: issue-credential
@@ -36,5 +37,3 @@
       - name: credential_id
         from: helper
         source: uuid
-
-### eof ###

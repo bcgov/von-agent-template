@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import yaml
+#import yaml
+import oyaml as yaml
 import argparse
 import os.path
 import os
@@ -8,6 +9,9 @@ import sys
 import datetime
 import pytz
 import json
+
+# this is for the 2.7 sorting
+from collections import OrderedDict
 
 
 # get name of input file from args
@@ -87,6 +91,22 @@ def sample_data(attr_name, data_type):
     else:
         return 'Unknown type'
 
+# add a dictionary to our outbound yaml
+def add_dict(yaml_struct, entry_name):
+    yaml_struct[entry_name] = {}
+
+# add an item to the dict
+def add_item_to_dict(yaml_struct, entry_name, item_name, item_value):
+    yaml_struct[entry_name][item_name] = item_value
+
+# add an array to our outbound yaml
+def add_array(yaml_struct, entry_name):
+    yaml_struct[entry_name] = []
+
+# add a item to the array
+def add_item_to_array(yaml_struct, entry_name, item_value):
+    yaml_struct[entry_name].append(item_value)
+
 #Using a custom Dumper class to prevent changing the global state
 class CustomDumper(yaml.Dumper):
     #Super neat hack to preserve the mapping key order. See https://stackoverflow.com/a/52621703/1497385
@@ -95,6 +115,7 @@ class CustomDumper(yaml.Dumper):
 
 CustomDumper.add_representer(dict, CustomDumper.represent_dict_preserve_order)
 
+print("Python version:", sys.version_info.major)
 if 2 > len(sys.argv):
     print("usage:", sys.argv[0], "<input file>")
     sys.exit()
@@ -306,12 +327,20 @@ with open(in_file, 'r') as stream:
         #y_services = yaml.dump(services, default_flow_style=False, Dumper=CustomDumper)
         #print(y_services)
         print('Writing', out_services)
+        #if sys.version_info.major == 2:
+        #    with open(out_services, 'w') as outfile:
+        #        yaml.dump(services, outfile, default_flow_style=False)
+        #else:
         with open(out_services, 'w') as outfile:
             yaml.dump(services, outfile, default_flow_style=False, Dumper=CustomDumper)
         
         #y_routes = yaml.dump(routes, default_flow_style=False, Dumper=CustomDumper)
         #print(y_routes)
         print('Writing', out_routes)
+        #if sys.version_info.major == 2:
+        #    with open(out_routes, 'w') as outfile:
+        #        yaml.dump(routes, outfile, default_flow_style=False)
+        #else:
         with open(out_routes, 'w') as outfile:
             yaml.dump(routes, outfile, default_flow_style=False, Dumper=CustomDumper)
 

@@ -31,7 +31,7 @@ issuers:
     credential_types:
       - description: Registration
         schema: myorg-registration.my-organization.ca
-        issuer_url: $ENDPOINT_URL/myorg/incorporation
+        issuer_url: http://localhost:5001/myorg/incorporation
         # define credential meta-data
         # maps attributes provided in the credential to TOB's credential effective and revoked dates
         # if not provided TOB will set effective and expiry dates based on current date
@@ -151,7 +151,7 @@ issuers:
 
       - description: Tax Number
         schema: myorg-tax.my-organization.ca
-        issuer_url: $ENDPOINT_URL/myorg/tax
+        issuer_url: http://localhost:5001/myorg/tax
         depends_on:
           - registration
         credential:
@@ -190,7 +190,7 @@ issuers:
 
       - description: Liquor License
         schema: myorg-liquor.my-organization.ca
-        issuer_url: $ENDPOINT_URL/myorg/liquor
+        issuer_url: http://localhost:5001/myorg/liquor
         depends_on:
           - registration
         credential:
@@ -243,7 +243,7 @@ issuers:
 
       - description: Test Credential
         schema: myorg-credential.my-organization.ca
-        issuer_url: $ENDPOINT_URL/myorg/myorg-credential
+        issuer_url: http://localhost:5001/myorg/myorg-credential
         depends_on:
           - liquor_and_tax
         credential:
@@ -323,6 +323,66 @@ issuers:
 # TODO insert new service here, note should align like:
 #   credential_types:
 #     - description: Registration
+      - description: Describes the credential - depends on permitifys foundation credential
+        schema: todo-rename-me1.my-organization.ca
+        issuer_url: $ENDPOINT_URL/myorg/todo-credential1
+        depends_on:
+        - permitify_registration
+        credential:
+          effective_date:
+            input: effective_date
+            from: claim
+        topic:
+          source_id:
+            input: corp_num
+            from: claim
+          type:
+            input: registration
+            from: value
+        mapping:
+        - model: attribute
+          fields:
+            type:
+              input: corp_num
+              from: value
+            value:
+              input: corp_num
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_id
+              from: value
+            value:
+              input: credential_id
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_text
+              from: value
+            value:
+              input: credential_text
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: credential_status
+              from: value
+            value:
+              input: credential_status
+              from: claim
+        - model: attribute
+          fields:
+            type:
+              input: effective_date
+              from: value
+            format:
+              input: datetime
+              from: value
+            value:
+              input: effective_date
+              from: claim
 
 #################################################################
 
