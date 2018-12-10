@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import yaml
+#import oyaml as yaml
 import argparse
 import os.path
 import os
@@ -8,6 +9,9 @@ import sys
 import datetime
 import pytz
 import json
+
+# this is for the 2.7 sorting
+from collections import OrderedDict
 
 
 # get name of input file from args
@@ -87,14 +91,47 @@ def sample_data(attr_name, data_type):
     else:
         return 'Unknown type'
 
+# return a bare dict
+def bare_dict():
+    if sys.version_info.major == 2:
+        return OrderedDict()
+    else:
+        return {}
+
+# return a bare array
+def bare_array():
+    return []
+
+# add a dictionary to our outbound yaml
+def add_dict(yaml_struct, entry_name):
+    yaml_struct[entry_name] = {}
+
+# add an item to the dict
+def add_item_to_dict(yaml_struct, entry_name, item_name, item_value):
+    yaml_struct[entry_name][item_name] = item_value
+
+# add an array to our outbound yaml
+def add_array(yaml_struct, entry_name):
+    yaml_struct[entry_name] = []
+
+# add a item to the array
+def add_item_to_array(yaml_struct, entry_name, item_value):
+    yaml_struct[entry_name].append(item_value)
+
+# for python 2.7
+def ordered_dict_representer(self, value):  # can be a lambda if that's what you prefer
+    return self.represent_mapping('tag:yaml.org,2002:map', value.items())
+yaml.add_representer(OrderedDict, ordered_dict_representer)
+
+# for python 3+
 #Using a custom Dumper class to prevent changing the global state
 class CustomDumper(yaml.Dumper):
     #Super neat hack to preserve the mapping key order. See https://stackoverflow.com/a/52621703/1497385
     def represent_dict_preserve_order(self, data):
         return self.represent_dict(data.items())    
-
 CustomDumper.add_representer(dict, CustomDumper.represent_dict_preserve_order)
 
+print("Python version:", sys.version_info.major)
 if 2 > len(sys.argv):
     print("usage:", sys.argv[0], "<input file>")
     sys.exit()
@@ -111,72 +148,58 @@ out_data = in_dir + '/gen-data.json'
 with open(in_file, 'r') as stream:
     try:
         schemas = yaml.load(stream) 
-        #for schema in schemas:
-        #    ok = 'N'
-        #    while ok == 'N':
-        #        print('Schema:', schema['name'], schema['version'])
-        #        schema['description'] = get_text('  Enter Schema Description: ', True)
-        #        schema['proof_request'] = get_text('  Enter Proof Request: ', False)
-        #        for attr in schema['attributes'].keys():
-        #            print('Enter values for', attr, schema['attributes'][attr]['required'])
-        #            schema['attributes'][attr]['mapping'] = get_option(['name', 'address', 'attribute - text', 'attribute - datetime', 'value'], '  Select ' + attr + ' DATA type: ', 3, True, True)
-        #            schema['attributes'][attr]['ui_type'] = get_option(['address', 'text', 'date', 'select', 'helper', 'value'], '  Select ' + attr + ' UI type: ', 2, True, True)
-        #        print(schema)
-        #        ok = get_option(['Y', 'N'], "Continue [{}]?", 1, True, False)
-        #    y_schema = yaml.dump(schema, default_flow_style=False, Dumper=CustomDumper)
-        #    print(y_schema)
 
-        services = {}
-        services['issuers'] = {}
-        services['issuers']['myorg'] = {}
-        services['issuers']['myorg']['credential_types'] = []
-        routes = {}
-        routes['forms'] = {}
-        testdata = []
+        services = bare_dict()
+        add_dict(services, 'issuers')
+        services['issuers']['myorg'] = bare_dict()
+        services['issuers']['myorg']['credential_types'] = bare_array()
+        routes = bare_dict()
+        routes['forms'] = bare_dict()
+        testdata = bare_array()
         for schema in schemas:
             # generate schema-level stuff for services.yml
-            service = {}
+            service = bare_dict()
             service['description'] = schema['description']
             service['schema'] = schema['name']
             service['issuer_url'] = schema['endpoint'] + schema['path']
             if 'proof_request' in schema:
-                service['depends_on'] = []
+                service['depends_on'] = bare_array()
                 service['depends_on'].append(schema['proof_request'])
             if 'effective_date' in schema or 'revoked_date' in schema:
-                service['credential'] = {}
+                service['credential'] = bare_dict()
                 if 'effective_date' in schema:
-                    service['credential']['effective_date'] = {}
+                    service['credential']['effective_date'] = bare_dict()
                     service['credential']['effective_date']['input'] = schema['effective_date']
                     service['credential']['effective_date']['from'] = 'claim'
                 if 'revoked_date' in schema:
-                    service['credential']['revoked_date'] = {}
+                    service['credential']['revoked_date'] = bare_dict()
                     service['credential']['revoked_date']['input'] = schema['revoked_date']
                     service['credential']['revoked_date']['from'] = 'claim'
-            service['topic'] = {}
-            service['topic']['source_id'] = {}
+            service['topic'] = bare_dict()
+            service['topic']['source_id'] = bare_dict()
             service['topic']['source_id']['input'] = schema['topic']
             service['topic']['source_id']['from'] = 'claim'
-            service['topic']['type'] = {}
+            service['topic']['type'] = bare_dict()
             service['topic']['type']['input'] = 'registration'
             service['topic']['type']['from'] = 'value'
             if 'cardinality' in schema:
-                service['cardinality_fields'] = []
+                service['cardinality_fields'] = bare_array()
                 service['cardinality_fields'].append(schema['cardinality'])
 
             # todo generate attribute-level stuff for services.yml
-            service['mapping'] = []
+            service['mapping'] = bare_array()
             has_name = False
             has_address = False
             for attr in schema['attributes'].keys():
-                model = {}
+                model = bare_dict()
                 if schema['attributes'][attr]['data_type'] == 'ui_name':
                     if not has_name:
                         model['model'] = 'name'
-                        model['fields'] = {}
-                        model['fields']['text'] = {}
+                        model['fields'] = bare_dict()
+                        model['fields']['text'] = bare_dict()
                         model['fields']['text']['input'] = attr
                         model['fields']['text']['from'] = 'claim'
-                        model['fields']['type'] = {}
+                        model['fields']['type'] = bare_dict()
                         model['fields']['type']['input'] = attr
                         model['fields']['type']['from'] = 'value'
                         service['mapping'].append(model)
@@ -184,38 +207,38 @@ with open(in_file, 'r') as stream:
                 elif schema['attributes'][attr]['data_type'] == 'ui_address':
                     if not has_address:
                         model['model'] = 'address'
-                        model['fields'] = {}
-                        model['fields']['addressee'] = {}
+                        model['fields'] = bare_dict()
+                        model['fields']['addressee'] = bare_dict()
                         model['fields']['addressee']['input'] = 'addressee'
                         model['fields']['addressee']['from'] = 'claim'
-                        model['fields']['civic_address'] = {}
+                        model['fields']['civic_address'] = bare_dict()
                         model['fields']['civic_address']['input'] = 'address_line_1'
                         model['fields']['civic_address']['from'] = 'claim'
-                        model['fields']['city'] = {}
+                        model['fields']['city'] = bare_dict()
                         model['fields']['city']['input'] = 'city'
                         model['fields']['city']['from'] = 'claim'
-                        model['fields']['province'] = {}
+                        model['fields']['province'] = bare_dict()
                         model['fields']['province']['input'] = 'province'
                         model['fields']['province']['from'] = 'claim'
-                        model['fields']['postal_code'] = {}
+                        model['fields']['postal_code'] = bare_dict()
                         model['fields']['postal_code']['input'] = 'postal_code'
                         model['fields']['postal_code']['from'] = 'claim'
-                        model['fields']['country'] = {}
+                        model['fields']['country'] = bare_dict()
                         model['fields']['country']['input'] = 'country'
                         model['fields']['country']['from'] = 'claim'
                         service['mapping'].append(model)
                         has_address = True
                 else:
                     model['model'] = 'attribute'
-                    model['fields'] = {}
-                    model['fields']['type'] = {}
+                    model['fields'] = bare_dict()
+                    model['fields']['type'] = bare_dict()
                     model['fields']['type']['input'] = attr
                     model['fields']['type']['from'] = 'value'
                     if schema['attributes'][attr]['data_type'] == 'ui_date' or schema['attributes'][attr]['data_type'] == 'helper_now_iso':
-                        model['fields']['format'] = {}
+                        model['fields']['format'] = bare_dict()
                         model['fields']['format']['input'] = 'datetime'
                         model['fields']['format']['from'] = 'value'
-                    model['fields']['value'] = {}
+                    model['fields']['value'] = bare_dict()
                     model['fields']['value']['input'] = attr
                     model['fields']['value']['from'] = 'claim'
                     service['mapping'].append(model)
@@ -224,7 +247,7 @@ with open(in_file, 'r') as stream:
 
             # generate schema-level stuff for routes.yml
             form_name = path_to_name(schema['path'])
-            routes['forms'][form_name] = {}
+            routes['forms'][form_name] = bare_dict()
             routes['forms'][form_name]['path'] = schema['path']
             routes['forms'][form_name]['type'] = 'issue-credential'
             routes['forms'][form_name]['schema_name'] = schema['name']
@@ -234,7 +257,7 @@ with open(in_file, 'r') as stream:
             routes['forms'][form_name]['description'] = schema['description']
             routes['forms'][form_name]['explanation'] = 'Use the form below to issue a Credential.'
             if 'proof_request' in schema:
-                routes['forms'][form_name]['proof_request'] = {}
+                routes['forms'][form_name]['proof_request'] = bare_dict()
                 routes['forms'][form_name]['proof_request']['id'] = schema['proof_request']
                 routes['forms'][form_name]['proof_request']['connection_id'] = 'bctob'
             # optionally can serve javascript
@@ -242,11 +265,11 @@ with open(in_file, 'r') as stream:
             #  - src: js/bc_registries.js
 
             # generate attribute-level stuff for routes.yml
-            routes['forms'][form_name]['fields'] = []
+            routes['forms'][form_name]['fields'] = bare_array()
             has_address = False
             for attr in schema['attributes'].keys():
                 if schema['attributes'][attr]['data_type'].startswith('ui_'):
-                    field = {}
+                    field = bare_dict()
                     field['name'] = attr
                     field['label'] = attr
                     if schema['attributes'][attr]['data_type'] == 'ui_name':
@@ -260,7 +283,7 @@ with open(in_file, 'r') as stream:
                         field['type'] = 'date'
                     elif schema['attributes'][attr]['data_type'] == 'ui_select':
                         field['type'] = 'select'
-                        field['options'] = []
+                        field['options'] = bare_array()
                         field['options'].append('todo-1')
                         field['options'].append('todo-2')
                         field['options'].append('todo-3')
@@ -273,11 +296,11 @@ with open(in_file, 'r') as stream:
                     elif schema['attributes'][attr]['data_type'] != 'ui_address':
                         routes['forms'][form_name]['fields'].append(field)
 
-            routes['forms'][form_name]['mappings'] = {}
-            routes['forms'][form_name]['mappings']['attributes'] = []
+            routes['forms'][form_name]['mappings'] = bare_dict()
+            routes['forms'][form_name]['mappings']['attributes'] = bare_array()
             for attr in schema['attributes'].keys():
                 if schema['attributes'][attr]['data_type'].startswith('helper_'):
-                    attribute = {}
+                    attribute = bare_dict()
                     attribute['name'] = attr
                     if schema['attributes'][attr]['data_type'] == 'helper_value':
                         attribute['from'] = 'literal'
@@ -292,6 +315,7 @@ with open(in_file, 'r') as stream:
                             attribute['source'] = schema['attributes'][attr]['data_type']
                     routes['forms'][form_name]['mappings']['attributes'].append(attribute)
 
+            # no worries about writing jwon output for test data
             datapacket = {}
             datapacket['schema'] = schema['name']
             datapacket['version'] = schema['version']
@@ -300,17 +324,10 @@ with open(in_file, 'r') as stream:
                 datapacket['attributes'][attr] = sample_data(attr, schema['attributes'][attr]['data_type'])
             testdata.append(datapacket)
 
-        #y_schemas = yaml.dump(schemas, default_flow_style=False, Dumper=CustomDumper)
-        #print(y_schemas)
-
-        #y_services = yaml.dump(services, default_flow_style=False, Dumper=CustomDumper)
-        #print(y_services)
         print('Writing', out_services)
         with open(out_services, 'w') as outfile:
             yaml.dump(services, outfile, default_flow_style=False, Dumper=CustomDumper)
         
-        #y_routes = yaml.dump(routes, default_flow_style=False, Dumper=CustomDumper)
-        #print(y_routes)
         print('Writing', out_routes)
         with open(out_routes, 'w') as outfile:
             yaml.dump(routes, outfile, default_flow_style=False, Dumper=CustomDumper)

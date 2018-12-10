@@ -1,14 +1,13 @@
 [
     {
         "attributes": {
-            "corp_num": "Text",
-            "credential_id": "UUID",
-            "credential_status": "Select",
-            "credential_text": "Text",
-            "effective_date": "2018-12-07T17:38:45.481972+00:00"
-        },
-        "schema": "todo-rename-me1.my-organization.ca",
+            "corp_num": "Text", 
+            "credential_id": "UUID", 
+            "credential_status": "Select", 
+            "credential_text": "Text", 
+            "effective_date": "2018-12-09T20:36:44.432851+00:00"
+        }, 
+        "schema": "todo-rename-me1.my-organization.ca", 
         "version": "1.0.0"
     }
 ]
-

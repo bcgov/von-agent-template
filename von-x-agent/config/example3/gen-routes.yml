@@ -1,3 +1,4 @@
+forms:
   myorgtodo-credential3:
     path: /myorg/todo-credential3
     type: issue-credential
@@ -15,6 +16,14 @@
       label: registration_id
       type: text
       required: true
+    - name: credential_text
+      label: credential_text
+      type: text
+      required: true
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
     - name: credential_subtype
       label: credential_subtype
       type: select
@@ -23,10 +32,6 @@
       - todo-2
       - todo-3
       required: true
-    - name: credential_text
-      label: credential_text
-      type: text
-      required: true
     - name: credential_status
       label: credential_status
       type: select
@@ -34,10 +39,6 @@
       - todo-1
       - todo-2
       - todo-3
-      required: true
-    - name: effective_date
-      label: effective_date
-      type: date
       required: true
     mappings:
       attributes:

@@ -1,3 +1,4 @@
+forms:
   myorgtodo-credential1:
     path: /myorg/todo-credential1
     type: issue-credential
