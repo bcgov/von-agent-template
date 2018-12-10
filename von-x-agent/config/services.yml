@@ -16,7 +16,7 @@ issuers:
       name: ${POSTGRESQL_WALLET_NAME:-myorg_issuer}
       seed: $WALLET_SEED_VONX
       type: $WALLET_TYPE
-      params:
+      params:$ENDPOINT_URL
         storage_config:
           url: "$POSTGRESQL_WALLET_HOST:$POSTGRESQL_WALLET_PORT"
       access_creds:
@@ -31,7 +31,7 @@ issuers:
     credential_types:
     - description: Registration
       schema: myorg-registration.my-organization.ca
-      issuer_url: http://localhost:5001/myorg/incorporation
+      issuer_url: $ENDPOINT_URL/myorg/incorporation
       # define credential meta-data
       # maps attributes provided in the credential to TOB's credential effective and revoked dates
       # if not provided TOB will set effective and expiry dates based on current date
@@ -151,7 +151,7 @@ issuers:
 
     - description: Tax Number
       schema: myorg-tax.my-organization.ca
-      issuer_url: http://localhost:5001/myorg/tax
+      issuer_url: $ENDPOINT_URL/myorg/tax
       depends_on:
         - registration
       credential:
@@ -190,7 +190,7 @@ issuers:
 
     - description: Liquor License
       schema: myorg-liquor.my-organization.ca
-      issuer_url: http://localhost:5001/myorg/liquor
+      issuer_url: $ENDPOINT_URL/myorg/liquor
       depends_on:
         - registration
       credential:
@@ -243,7 +243,7 @@ issuers:
 
     - description: Test Credential
       schema: myorg-credential.my-organization.ca
-      issuer_url: http://localhost:5001/myorg/myorg-credential
+      issuer_url: $ENDPOINT_URL/myorg/myorg-credential
       depends_on:
         - liquor_and_tax
       credential:
