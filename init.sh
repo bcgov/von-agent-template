@@ -12,6 +12,8 @@ echo ""
 export MY_SEED=`echo ${MY_ORG}_00000000000000000000000000000000 | cut -c 1-32`
 
 # BC DEV ledger:
+#export LEDGER=http://159.89.115.24
+# BC TEST ledger:
 export LEDGER=http://138.197.138.255
 
 # Register DID
