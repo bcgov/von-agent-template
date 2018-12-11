@@ -16,7 +16,7 @@ issuers:
       name: ${POSTGRESQL_WALLET_NAME:-myorg_issuer}
       seed: $WALLET_SEED_VONX
       type: $WALLET_TYPE
-      params:$ENDPOINT_URL
+      params:
         storage_config:
           url: "$POSTGRESQL_WALLET_HOST:$POSTGRESQL_WALLET_PORT"
       access_creds:
