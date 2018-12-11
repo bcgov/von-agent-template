@@ -4,6 +4,9 @@ default:
   # use the following 2 TOB configs for a local environment (note also un-comment references to the orgbook network in docker-compose.yml)
   #TOB_API_URL: http://tob-api:8080/api/v2
   #TOB_APP_URL: http://localhost:8080
+  # use the following 2 TOB configs to connect to the BC Gov DEV environment
+  #TOB_API_URL: https://django-devex-von-dev.pathfinder.gov.bc.ca/api/v2
+  #TOB_APP_URL: https://devex-von-dev.pathfinder.gov.bc.ca
   # use the following 2 TOB configs to connect to the BC Gov TEST environment
   TOB_API_URL: https://django-devex-von-test.pathfinder.gov.bc.ca/api/v2
   TOB_APP_URL: https://devex-von-test.pathfinder.gov.bc.ca
@@ -13,6 +16,8 @@ default:
   #INDY_GENESIS_URL: https://raw.githubusercontent.com/sovrin-foundation/sovrin/1.1.50-master/sovrin/pool_transactions_sandbox_genesis
   #LEDGER_PROTOCOL_VERSION: "1.3"
   #AUTO_REGISTER_DID: false
+  # the following is for the BC Gov DEV environment (comment out for a local environment)
+  #INDY_GENESIS_URL: http://159.89.115.24/genesis
   # use these 3 parameters to connect to the BC Gov TEST environment (comment out for a local environment)
   INDY_GENESIS_URL: http://138.197.138.255/genesis
   LEDGER_PROTOCOL_VERSION: "1.6"
