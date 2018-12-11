@@ -47,6 +47,7 @@ $(function () {
       // }
 
       console.log('Result: ', response)
+      window.alert(JSON.stringify(response))
 
       console.log('TheOrgBook URL: ', THE_ORG_BOOK_APP_URL)
       if(THE_ORG_BOOK_APP_URL && response.result && response.result.id) {

@@ -18,8 +18,8 @@ forms:
     explanation: Use the form below to register a Corporation.
 
     # optionally can serve javascript
-    js_includes:
-      - src: js/bc_registries.js
+    #js_includes:
+    #  - src: js/bc_registries.js
 
     # field information - how to display and generate credential attribute information
     # "fields" are displayed on the UI for the user to enter values
@@ -186,8 +186,8 @@ forms:
       Test Credential Issuer ... TBD.
     explanation: Use the form below to issue credentials for an existing corporation.
 
-    js_includes:
-      - src: js/bc_registries.js
+    #js_includes:
+    #  - src: js/bc_registries.js
 
     proof_request:
       id: liquor_and_tax
