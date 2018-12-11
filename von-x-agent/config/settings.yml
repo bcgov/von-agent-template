@@ -5,7 +5,7 @@ default:
   #TOB_API_URL: http://tob-api:8080/api/v2
   #TOB_APP_URL: http://localhost:8080
   # use the following 2 TOB configs to connect to the BC Gov TEST environment
-  TOB_API_URL: https://django-devex-von-test.pathfinder.gov.bc.ca/api/v2
+  TOB_API_URL: https://devex-von-test.pathfinder.gov.bc.ca/api/
   TOB_APP_URL: https://devex-von-test.pathfinder.gov.bc.ca
   # TODO update your seed and register on the ledger
   WALLET_SEED_VONX: bc_von_x_dev_0000000000000000000
