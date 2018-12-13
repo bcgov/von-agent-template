@@ -6,7 +6,7 @@ forms:
     # type is always "issue-credential"
     type: issue-credential
     # schema name, and other information that will be displayed on the page
-    schema_name: myorg-registration.ian_company.ca
+    schema_name: myorg-registration.workshop_dec13_prep.ca
     page_title: Corporate Registry
     title: Registration
     template: bcgov.index.html
@@ -18,8 +18,8 @@ forms:
     explanation: Use the form below to register a Corporation.
 
     # optionally can serve javascript
-    js_includes:
-      - src: js/bc_registries.js
+    #js_includes:
+    #  - src: js/bc_registries.js
 
     # field information - how to display and generate credential attribute information
     # "fields" are displayed on the UI for the user to enter values
@@ -80,7 +80,7 @@ forms:
   finance-tax:
     path: /myorg/tax
     type: issue-credential
-    schema_name: myorg-tax.ian_company.ca
+    schema_name: myorg-tax.workshop_dec13_prep.ca
     page_title: Ministry of Taxes
     title: Tax Number
     template: bcgov.index.html
@@ -119,7 +119,7 @@ forms:
   liquor:
     path: /myorg/liquor
     type: issue-credential
-    schema_name: myorg-liquor.ian_company.ca
+    schema_name: myorg-liquor.workshop_dec13_prep.ca
     page_title: Liquor Control and Licensing Branch
     title: Liquor Control and Licensing Branch
     template: bcgov.index.html
@@ -178,7 +178,7 @@ forms:
   myorg-issue:
     path: /myorg/myorg-credential
     type: issue-credential
-    schema_name: myorg-credential.ian_company.ca
+    schema_name: myorg-credential.workshop_dec13_prep.ca
     page_title: My Organization Credential Issuer
     title: Issue Sample Credentials
     template: bcgov.index.html
@@ -186,8 +186,8 @@ forms:
       Test Credential Issuer ... TBD.
     explanation: Use the form below to issue credentials for an existing corporation.
 
-    js_includes:
-      - src: js/bc_registries.js
+    #js_includes:
+    #  - src: js/bc_registries.js
 
     proof_request:
       id: liquor_and_tax
@@ -240,7 +240,7 @@ forms:
       - name: expiry_date
         label: Expiry Date
         type: date
-        required: true
+        required: false
 
 #################################################################
 # TODO insert new route here, note should align like:
@@ -248,9 +248,9 @@ forms:
   myorgtodo-credential1:
     path: /myorg/todo-credential1
     type: issue-credential
-    schema_name: todo-rename-me1.ian_company.ca
-    page_title: Title for todo-rename-me1.ian_company.ca
-    title: Title for todo-rename-me1.ian_company.ca
+    schema_name: todo-rename-me1.workshop_dec13_prep.ca
+    page_title: Title for todo-rename-me1.workshop_dec13_prep.ca
+    title: Title for todo-rename-me1.workshop_dec13_prep.ca
     template: bcgov.index.html
     description: Describes the credential - depends on permitifys foundation credential
     explanation: Use the form below to issue a Credential.
@@ -278,10 +278,49 @@ forms:
       label: effective_date
       type: date
       required: true
-    - name: expiry_date
-      label: expiry_date
+    mappings:
+      attributes:
+      - name: credential_id
+        from: helper
+        source: uuid
+
+  myorgtodo-credential2:
+    path: /myorg/todo-credential2
+    type: issue-credential
+    schema_name: todo-rename-me2.workshop_dec13_prep.ca
+    page_title: Title for todo-rename-me2.workshop_dec13_prep.ca
+    title: Title for todo-rename-me2.workshop_dec13_prep.ca
+    template: bcgov.index.html
+    description: Describes the credential - depends on permitifys foundation credential
+    explanation: Use the form below to issue a Credential.
+    proof_request:
+      id: permitify_operating_permit
+      connection_id: bctob
+    fields:
+    - name: corp_num
+      label: corp_num
+      type: text
+      required: true
+    - name: credential_text
+      label: credential_text
+      type: text
+      required: true
+    - name: effective_date
+      label: effective_date
       type: date
-      required: false
+      required: true
+    - name: new_cred_attr
+      label: new_cred_attr
+      type: text
+      required: true
+    - name: credential_status
+      label: credential_status
+      type: select
+      options:
+      - todo-1
+      - todo-2
+      - todo-3
+      required: true
     mappings:
       attributes:
       - name: credential_id
@@ -291,9 +330,9 @@ forms:
   myorgtodo-credential3:
     path: /myorg/todo-credential3
     type: issue-credential
-    schema_name: todo-rename-me3.ian_company.ca
-    page_title: Title for todo-rename-me3.ian_company.ca
-    title: Title for todo-rename-me3.ian_company.ca
+    schema_name: todo-rename-me3.workshop_dec13_prep.ca
+    page_title: Title for todo-rename-me3.workshop_dec13_prep.ca
+    title: Title for todo-rename-me3.workshop_dec13_prep.ca
     template: bcgov.index.html
     description: Describes the credential - depends on myorg foundation credential
     explanation: Use the form below to issue a Credential.
@@ -305,29 +344,30 @@ forms:
       label: registration_id
       type: text
       required: true
+    - name: credential_text
+      label: credential_text
+      type: text
+      required: true
+    - name: effective_date
+      label: effective_date
+      type: date
+      required: true
     - name: credential_subtype
       label: credential_subtype
       type: select
       options:
-      - Red
-      - Green
-      - Blue
-      required: true
-    - name: credential_text
-      label: credential_text
-      type: text
+      - Active
+      - Passive
+      - Something
+      - Other
       required: true
     - name: credential_status
       label: credential_status
       type: select
       options:
-      - Active
-      - Passive
-      - Other
-      required: true
-    - name: effective_date
-      label: effective_date
-      type: date
+      - todo-1
+      - todo-2
+      - todo-3
       required: true
     mappings:
       attributes:
@@ -335,4 +375,7 @@ forms:
         from: helper
         source: uuid
 
-############################################################
+#################################################################
+
+
+### eof ##
