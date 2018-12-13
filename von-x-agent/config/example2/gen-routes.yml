@@ -9,7 +9,7 @@ forms:
     description: Describes the credential - depends on permitifys foundation credential
     explanation: Use the form below to issue a Credential.
     proof_request:
-      id: permitify_operating_permit
+      id: permitify_registration
       connection_id: bctob
     fields:
     - name: corp_num
