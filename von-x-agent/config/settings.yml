@@ -8,8 +8,8 @@ default:
   #TOB_API_URL: https://django-devex-von-dev.pathfinder.gov.bc.ca/api/v2
   #TOB_APP_URL: https://devex-von-dev.pathfinder.gov.bc.ca
   # use the following 2 TOB configs to connect to the BC Gov TEST environment
-  TOB_API_URL: https://django-devex-von-test.pathfinder.gov.bc.ca/api/v2
-  TOB_APP_URL: https://devex-von-test.pathfinder.gov.bc.ca
+  TOB_API_URL: https://demo-api.orgbook.gov.bc.ca/api/v2/
+  TOB_APP_URL: https://demo.orgbook.gov.bc.ca/en/home
   # TODO update your seed and register on the ledger
   WALLET_SEED_VONX: bc_von_x_dev_0000000000000000000
   # Example parameters to connect to a Sovrin ledger
