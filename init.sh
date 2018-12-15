@@ -6,7 +6,8 @@ if [ -z ${MY_ORG+x} ]; then
     read -p 'Please provide a name for your permit-issueing organization (e.g. yourname-org): ' MY_ORG
 fi
 
-echo ""
+# MY ORG name stripped from white spaces to avoid issues with paths
+MY_ORG=`echo ${MY_ORG// /} | xargs`
 
 # Generate the seed from MY_ORG, making sure it is 32 characters long
 export MY_SEED=`echo ${MY_ORG}_00000000000000000000000000000000 | cut -c 1-32`
@@ -47,5 +48,5 @@ echo -------------------------
 echo The following updates were made to the configuration files:
 echo ""
 
-grep -r ${MY_ORG} von-x-agent/config
+grep -r "${MY_ORG}" von-x-agent/config
 
