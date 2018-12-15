@@ -23,21 +23,9 @@ echo ""
 echo Registering DID on Ledger ${LEDGER}
 echo ""
 echo \{\"role\":\"TRUST_ANCHOR\",\"alias\":\"${MY_ORG}\",\"did\":null,\"seed\":\"${MY_SEED}\"\} >tmp.json
-curl -d "@tmp.json" -X POST ${LEDGER}/register
+MY_DID=`curl -s -d "@tmp.json" -X POST ${LEDGER}/register | awk -F'"' '/did/ { print $4 }'`
 rm tmp.json
 echo ""
-# Find DID on ledger
-PAGE=0
-export MY_DID=""
-# http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-7.html
-while [ "${MY_DID}" == "" ]; do
-    export MY_DID=`curl -s ${LEDGER}/ledger/domain?page=${PAGE} | grep ${MY_ORG} -A 2 | grep dest | sed 's/^.*: \"//' | sed 's/\",//'`
-    let PAGE=PAGE+1
-    if [ ${PAGE} -eq 9 ]; then
-        echo 'Error: I really tried, but I could not find DID (supposedly) written to the Ledger. Exiting.'
-        exit 1
-    fi
-done
 
 find von-x-agent/config -name "*.yml" -exec sed -i s/my-organization/$MY_ORG/g {} +
 find von-x-agent/testdata -name "sample*.json" -exec sed -i s/my-organization/$MY_ORG/g {} +
