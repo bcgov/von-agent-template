@@ -1,10 +1,10 @@
 issuers:
   myorg:
-    name: My Test Organization
-    abbreviation: myorg
-    url: https://www2.gov.bc.ca/gov/issuer-info-page
-    email: TBD@gov.bc.ca
-    logo_path: ../assets/img/tbd-logo.jpg
+    name: my-org-full-name
+    abbreviation: my-organization
+    url: https://www.my-organization.ca/my-organization-info-page
+    email: info@my-organization.ca
+    logo_path: ../assets/img/my-organization-logo.jpg
     endpoint: $ENDPOINT_URL
 
     connection:
@@ -29,9 +29,11 @@ issuers:
         key_derivation_method: ARGON2I_MOD
 
     credential_types:
-    - description: Registration
-      schema: myorg-registration.my-organization.ca
-      issuer_url: $ENDPOINT_URL/myorg/incorporation
+    - description: Permit
+      schema: my-organization-my-permit.my-organization.ca
+      issuer_url: http://localhost:5001/my-organization/my-permit
+      depends_on:
+        - permitify_registration
       # define credential meta-data
       # maps attributes provided in the credential to TOB's credential effective and revoked dates
       # if not provided TOB will set effective and expiry dates based on current date
@@ -64,26 +66,26 @@ issuers:
               input: legal_name
               from: value
         # "address" is a known mapping; it maps to many fields in the model
-        - model: address
-          fields:
-            addressee:
-              input: addressee
-              from: claim
-            civic_address:
-              input: address_line_1
-              from: claim
-            city:
-              input: city
-              from: claim
-            province:
-              input: province
-              from: claim
-            postal_code:
-              input: postal_code
-              from: claim
-            country:
-              input: country
-              from: claim
+        # - model: address
+        #   fields:
+        #     addressee:
+        #       input: addressee
+        #       from: claim
+        #     civic_address:
+        #       input: address_line_1
+        #       from: claim
+        #     city:
+        #       input: city
+        #       from: claim
+        #     province:
+        #       input: province
+        #       from: claim
+        #     postal_code:
+        #       input: postal_code
+        #       from: claim
+        #     country:
+        #       input: country
+        #       from: claim
         # "attribute" defines a generic field in the TOB model
         # "value" identifies where to derive the data value (typically it comes from the claim)
         # "type" - if "value" - is the name of the attribute
@@ -91,51 +93,29 @@ issuers:
         - model: attribute
           fields:
             type:
-              input: registration_date
+              input: permit_issued_date
               from: value
             format:
               input: datetime
               from: value
             value:
-              input: registration_date
+              input: permit_issued_date
               from: claim
         - model: attribute
           fields:
             type:
-              input: entity_type
+              input: permit_type
               from: value
             value:
-              input: entity_type
+              input: permit_type
               from: claim
         - model: attribute
           fields:
             type:
-              input: entity_status
+              input: permit_status
               from: value
             value:
-              input: entity_status
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: entity_status_effective
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: entity_status_effective
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: entity_name_effective
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: entity_name_effective
+              input: permit_status
               from: claim
         - model: attribute
           fields:
@@ -149,175 +129,6 @@ issuers:
               input: effective_date
               from: claim
 
-    - description: Tax Number
-      schema: myorg-tax.my-organization.ca
-      issuer_url: $ENDPOINT_URL/myorg/tax
-      depends_on:
-        - registration
-      credential:
-        effective_date:
-          input: effective_date
-          from: claim
-      topic:
-        source_id:
-          input: registration_id
-          from: claim
-        type:
-          input: registration
-          from: value
-      #cardinality_fields:
-      #  - associated_registration_id
-      mapping:
-        - model: attribute
-          fields:
-            text:
-              input: tax_number
-              from: claim
-            type:
-              input: tax_number
-              from: value
-        - model: attribute
-          fields:
-            type:
-              input: effective_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: effective_date
-              from: claim
-
-    - description: Liquor License
-      schema: myorg-liquor.my-organization.ca
-      issuer_url: $ENDPOINT_URL/myorg/liquor
-      depends_on:
-        - registration
-      credential:
-        effective_date:
-          input: effective_date
-          from: claim
-      topic:
-        source_id:
-          input: registration_id
-          from: claim
-        type:
-          input: registration
-          from: value
-      mapping:
-        - model: attribute
-          fields:
-            text:
-              input: license_number
-              from: claim
-            type:
-              input: license_number
-              from: value
-        - model: attribute
-          fields:
-            type:
-              input: dancing_permitted
-              from: value
-            value:
-              input: dancing_permitted
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: patio
-              from: value
-            value:
-              input: patio
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: effective_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: effective_date
-              from: claim
-
-    - description: Test Credential
-      schema: myorg-credential.my-organization.ca
-      issuer_url: $ENDPOINT_URL/myorg/myorg-credential
-      depends_on:
-        - liquor_and_tax
-      credential:
-        effective_date:
-          input: effective_date
-          from: claim
-        inactive:
-          input: credential_status
-          from: claim
-          processor:
-            - bcgov.entity_status.is_historical
-        revoked_date:
-          input: expiry_date
-          from: claim
-      topic:
-        source_id:
-          input: registration_id
-          from: claim
-        type:
-          input: registration
-          from: value
-      mapping:
-        - model: category
-          fields:
-            type:
-              input: credential_status
-              from: value
-            value:
-              input: credential_status
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: credential_status_effective
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: credential_status_effective
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: credential_status_expiry
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: credential_status_expiry
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: effective_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: effective_date
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: expiry_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: expiry_date
-              from: claim
 
 #################################################################
 # TODO insert new service here, note should align like:
@@ -326,72 +137,24 @@ issuers:
 
 #################################################################
 
-verifiers:
-  bctob:
-    name: BC OrgBook
-    connection:
-      type: TheOrgBook
-      api_url: $TOB_API_URL
-    wallet:
-      seed: "tob-verifier-wallet-000000000001"
+# verifiers:
+#   bctob:
+#     name: BC OrgBook
+#     connection:
+#       type: TheOrgBook
+#       api_url: $TOB_API_URL
+#     wallet:
+#       seed: "tob-verifier-wallet-000000000001"
 
 proof_requests:
-  registration:
-    version: '1.0.0'
-    schemas:
-      - key:
-          did: 8HkrLGCUemkvspADWnJu4e
-          name: myorg-registration.my-organization.ca
-          version: '1.0.0'
-        attributes:
-          - registration_id
-          - legal_name
-  liquor_and_tax:
-    version: '1.0.0'
-    schemas:
-      - key:
-          did: 8HkrLGCUemkvspADWnJu4e
-          name: myorg-registration.my-organization.ca
-          version: '1.0.0'
-        attributes:
-          - registration_id
-          - legal_name
-      - key:
-          did: 8HkrLGCUemkvspADWnJu4e
-          name: myorg-tax.my-organization.ca
-          version: '1.0.0'
-        attributes:
-          - tax_number
-      - key:
-          did: 8HkrLGCUemkvspADWnJu4e
-          name: myorg-liquor.my-organization.ca
-          version: '1.0.0'
-        attributes:
-          - license_number
-  bcreg_registration:
-    version: '1.0.1'
-    schemas:
-      - key:
-          did: 6qnvgJtqwK44D8LFYnV5Yf
-          name: registration.registries.ca
-          version: '1.0.38'
-        attributes:
-          - registration_id
+  # Your DID - for proof requests based on this Issuer's Credentials
+  #      MY-DID
   permitify_registration:
     version: '1.0.2'
     schemas:
       - key:
           did: 6qnvgJtqwK44D8LFYnV5Yf
           name: registration.dflow
-          version: '1.0.0'
-        attributes:
-          - corp_num
-  permitify_operating_permit:
-    version: '1.0.2'
-    schemas:
-      - key:
-          did: L6SJy7gNRCLUp8dV94hfex
-          name: operating_permit.dflow
           version: '1.0.0'
         attributes:
           - corp_num
