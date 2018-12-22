@@ -25,10 +25,10 @@ forms:
   
     # Short description of the form
     description: >
-      my-org-full-name issues my-permit credentials to Organizations to authorize the Organizations to be able to do something.
+      my-org-full-name issues my-permit credentials to organizations to authorize those organizations to be able to do something.
   
     # Short explanation of how to use the form
-    explanation: Use the form below to apply for a my-permit for your Organization.
+    explanation: Use the form below to apply for a my-permit for your organization.
 
     # optionally can serve javascript
     #js_includes:

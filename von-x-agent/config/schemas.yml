@@ -25,13 +25,13 @@
   # For each, data_type is one of:
   #      ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
   attributes:
-    registration_id:
-      description: ID of the organization to be issued a permit-name Credential
+    corp_num:
+      description: Corporate Registries ID of the organization to be issued the permit-name Credential
       data_type: ui_text
       required: true
     legal_name:
-      description: Legal name of the organization
-      data_type: ui_name
+      description: Legal name of the organization (from Corporate Registries)
+      data_type: ui_text
       required: true
     permit_id:
       description: ID of the permit-name issued by my-organization
@@ -47,7 +47,7 @@
       required: true
     permit_status:
       description: Permit status (set to active)
-      data_type: helper_vlue
+      data_type: helper_value
       required: true
     effective_date:
       description: Date credential is effective
