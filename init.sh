@@ -66,7 +66,6 @@ echo ""
 find von-x-agent/config -name "*.yml" -exec sed -i "s/my-org-full-name/$ORG_TITLE/g" {} +
 find von-x-agent/config -name "*.yml" -exec sed -i s/my-organization/$MY_ORG/g {} +
 find von-x-agent/config -name "*.yml" -exec sed -i s/my-permit/$MY_PERMIT/g {} +
-find von-x-agent/config -name "*.yml" -exec sed -i s/MY-DID/$MY_DID/g {} +
 sed -i s/MY-SEED/$MY_SEED/g von-x-agent/config/settings.yml
 
 # Register DID
@@ -79,6 +78,9 @@ MY_DID=`curl -s -d "@tmp.json" -X POST ${LEDGER}/register | awk -F'"' '/did/ { p
 echo My DID was registered as: $MY_DID
 rm tmp.json
 echo ""
+
+# Update the MY-DID entries in the yml files
+find von-x-agent/config -name "*.yml" -exec sed -i s/MY-DID/$MY_DID/g {} +
 
 echo -------------------------
 echo The following updates were made to the configuration files:

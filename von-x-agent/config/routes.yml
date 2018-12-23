@@ -30,6 +30,11 @@ forms:
     # Short explanation of how to use the form
     explanation: Use the form below to apply for a my-permit for your organization.
 
+    # link to a dependent proof request - attributes are mapped automatically, by name
+    proof_request:
+      id: permitify_registration
+      connection_id: bctob
+
     # optionally can serve javascript
     #js_includes:
     #  - src: js/bc_registries.js

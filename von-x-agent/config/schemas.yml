@@ -9,7 +9,7 @@
   # URL mapping, e.g. /path/credential
   path: /my-organization/my-permit
   # Topic: The attribute from the list below which identifies the owning organization
-  topic: registration_id
+  topic: corp_num
   # Cardinality: Any additional attributes from the list below that uniquely identifies an instance of this credential
   #     When a credential with the same values in the topic and optional cardinality attributes is received, 
   #     the previous credential is marked as "revoked".
