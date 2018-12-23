@@ -148,7 +148,7 @@ verifiers:
 
 proof_requests:
   # Your DID - for proof requests based on this Issuer's Credentials
-  #      MY-DID
+  #      X3tCbZSE9uUb223KYDWd6o
   permitify_registration:
     version: '1.0.0'
     schemas:

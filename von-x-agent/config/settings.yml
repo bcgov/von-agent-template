@@ -14,7 +14,7 @@ default:
   # TOB_APP_URL: https://demo.orgbook.gov.bc.ca/en/home
 
   # TODO update your seed and register on the ledger
-  WALLET_SEED_VONX: MY-SEED
+  WALLET_SEED_VONX: my-organization_0000000000000000
 
   # Parameters to connect to a Sovrin ledger
   #INDY_GENESIS_URL: https://raw.githubusercontent.com/sovrin-foundation/sovrin/1.1.50-master/sovrin/pool_transactions_sandbox_genesis

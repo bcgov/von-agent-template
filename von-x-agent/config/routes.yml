@@ -42,6 +42,11 @@ forms:
     # Fields - define how to display and generate credential attribute information
     # "fields" are displayed on the UI for the user to enter values
     fields:
+      - name: corp_num
+        label: Corp Num
+        type: text
+        required: true
+
       - name: legal_name
         label: Legal Name
         type: text

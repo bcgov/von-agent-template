@@ -1,11 +1,13 @@
 #/bin/bash
 
-ORG_TITLE=my-org-full-name
-MY_ORG=my-organization
-MY_PERMIT=my-permit
-
 echo This script initializes some config data a run of a new VON Issuer/Verifier Agent.
 echo Please answer the following questions and we will get things all set up for you.
+
+# Uncomment and edit these to bypass the prompts for the values.
+#    If commented out, the reads will be used to ask the user for the config values
+# ORG_TITLE=my-org-full-name
+# MY_ORG=my-organization
+# MY_PERMIT=my-permit
 
 if [ -z ${ORG_TITLE+x} ]; then
     read -p 'Please provide a descriptive title for your permit-issuing organization (e.g. City of Victoria): ' ORG_TITLE
@@ -63,10 +65,11 @@ select example in "1" "2" "3"; do
 done
 echo ""
 
-find von-x-agent/config -name "*.yml" -exec sed -i "s/my-org-full-name/$ORG_TITLE/g" {} +
-find von-x-agent/config -name "*.yml" -exec sed -i s/my-organization/$MY_ORG/g {} +
-find von-x-agent/config -name "*.yml" -exec sed -i s/my-permit/$MY_PERMIT/g {} +
-sed -i s/MY-SEED/$MY_SEED/g von-x-agent/config/settings.yml
+find von-x-agent/config -name "*.yml" -exec sed -i.bak "s/my-org-full-name/$ORG_TITLE/g" {} +
+find von-x-agent/config -name "*.yml" -exec sed -i.bak s/my-organization/$MY_ORG/g {} +
+find von-x-agent/config -name "*.yml" -exec sed -i.bak s/my-permit/$MY_PERMIT/g {} +
+sed -i s/my-organization_0000000000000000/$MY_SEED/g von-x-agent/config/settings.yml
+find von-x-agent -name "*.bak" -type f|xargs rm -f
 
 # Register DID
 # https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
@@ -80,7 +83,8 @@ rm tmp.json
 echo ""
 
 # Update the MY-DID entries in the yml files
-find von-x-agent/config -name "*.yml" -exec sed -i s/MY-DID/$MY_DID/g {} +
+find von-x-agent/config -name "*.yml" -exec sed -i.bak s/X3tCbZSE9uUb223KYDWd6o/$MY_DID/g {} +
+find von-x-agent -name "*.bak" -type f|xargs rm -f
 
 echo -------------------------
 echo The following updates were made to the configuration files:
