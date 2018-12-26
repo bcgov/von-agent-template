@@ -1,0 +1,16 @@
+[
+{
+    "attributes": {
+        "corp_num": "replace:6ca02b7f-c235-4c07-88fc-9462b5aa5aea",
+        "legal_name": "replace:Cloud Compass Computing, Inc.",
+	"permit_id": "123834234234223",
+	"permit_type": "Unlimited Use Authorization",
+        "permit_issued_date": "2018-11-01T08:00:00+00:00",
+        "permit_status": "ACT",
+        "effective_date": "2018-11-05T08:00:00+00:00"
+    },
+    "schema": "my-permit.my-organization.ca",
+    "version": "1.0.0"
+}
+]
+

@@ -21,8 +21,7 @@ This Getting Started guide is to get someone new to VON Agents up and running wi
     - [File: routes.yml](#file-routesyml)
     - [File: services.yml](#file-servicesyml)
   - [Step 4: Issuing a Credential using dFlow](#step-4-issuing-a-credential-using-dflow)
-  - [Step 5: Issuing a Credential directly using the Agent Form](#step-5-issuing-a-credential-directly-using-the-agent-form)
-  - [Step 6: Issuing a Credential using a JSON File](#step-6-issuing-a-credential-using-a-json-file)
+  - [Step 5: Issuing a Credential using a JSON File](#step-5-issuing-a-credential-using-a-json-file)
   - [Step 7: Customizing your Credential](#step-7-customizing-your-credential)
   - [Step 8: Adding a second, multi-cardinality Credential](#step-8-adding-a-second-multi-cardinality-credential)
 
@@ -221,21 +220,33 @@ Now let's use some techniques to trigger your agent to issue a credential to the
 
 Go to the `dFlow URL` (local, in browser) and select your Credential as the target Credential you want to be issued. In the Company field, either leave it blank or select a company that you created in Step 1. Click `Begin` and you should see a dFlow with the dFlow "Registration" as the first Credential, and your Agent's Credential as the second. Go through the process to collect each Credential, to make sure everything is working.
 
-Go into OrgBook (in browser, local), search for the company and review it's credentials. It should now have the first ever Credential issued by your Agent.  Cool!
+Go into OrgBook (in browser, local), search for the company and review it's credentials. It should now have the first ever Credential issued by your Agent.  Cool! If you want, go back and try to issue a few more credentials.
 
 Good stuff. You have a working Agent that issues a basic Credential.
 
-## Step 5: Issuing a Credential directly using the Agent Form
+## Step 5: Issuing a Credential using a JSON File
 
-- Entering the URL - no argument
-- Getting the Credential ID
-- Adding the Credential ID
-- Completing the add
+Now that we have seen how a user can trigger the issuance of a Verifiable Credential via a Web form, let's look at how an app can issue a one via an API call. In most production cases, Verifiable Credentials will be issued using the API - an existing backend application for a Service will be adjusted so that when a permit or licence is issued or updated, an "issue Verifiable Credential" API call is made with the Credential data passed in a chunk of JSON. Let's see how that works.
 
-## Step 6: Issuing a Credential using a JSON File
+> **NOTE:** If you are running this using the "Local Machine" approach - make sure that you have curl installed. At the command just run "curl" and see if the command is found. If not, see the prerequisites for how you can install it.
 
-- Edit file
-- submit file using curl
+Rememeber that your credential is set up to depend on a dFlow Registration credential. To populate the JSTON structure, we need to get some information from an existing Registration credential. Recall one that you have already issued (or issue a new one using dFlow), and then find it in the OrgBook on a screen where you can see the  Registration ID and the Legal Name of the company. Recall that in the dFlow run we did previously, those fields came from the Proof Request. In this case, we're not going to do the Proof Request, so we need to (correctly!) populate them in the JSON for the API call.
+
+The JSON File we're going to submit is in the `von-agent-template` repo, in the `von-x-agent/testdata` folder. Edit that file and the following changes:
+
+- set the "corp_num" field to the "Registration ID" field from OrgBook
+- set the "legal_name" field to the legal name of the company from OrgBook.
+- change "my-permit" and "my-organization" in the "schema" name to the permit and organization fields that you entered when you initialized the settings.
+- as you want - update any of the other data elements, making sure that you retain the JSON structure.
+
+Save your file and then, from the root folder of the `von-agent-template`, execute this command REPLACING "my-organization" with the name of your organization:
+
+```
+$ curl -vX POST http://$ENDPOINT_HOST/my-organization/issue-credential -d @von-x-agent/testdata/sample_permit.json --header "Content-Type: application/json"
+```
+
+You should see the results from the `curl` command with an HTTP response of `200` (success) and 
+
 - checking the results
 
 ## Step 7: Customizing your Credential
