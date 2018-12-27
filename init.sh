@@ -50,6 +50,7 @@ select example in "1" "2" "3"; do
             export ENDPOINT_HOST=localhost:5001
             export DOCKERHOST=${APPLICATION_URL-$(docker run --rm --net=host codenvy/che-ip)}
             export LEDGER=http://${DOCKERHOST}:9000
+            export LEDGER=http://localhost:9000
             export GENESIS_URL=${LEDGER}/genesis
 
             break;;
@@ -68,7 +69,7 @@ echo ""
 find von-x-agent/config -name "*.yml" -exec sed -i.bak "s/my-org-full-name/$ORG_TITLE/g" {} +
 find von-x-agent/config -name "*.yml" -exec sed -i.bak s/my-organization/$MY_ORG/g {} +
 find von-x-agent/config -name "*.yml" -exec sed -i.bak s/my-permit/$MY_PERMIT/g {} +
-sed -i s/my-organization_0000000000000000/$MY_SEED/g von-x-agent/config/settings.yml
+sed -i.bak s/my-organization_0000000000000000/$MY_SEED/g von-x-agent/config/settings.yml
 find von-x-agent -name "*.bak" -type f|xargs rm -f
 
 # Register DID

@@ -22,8 +22,10 @@ This Getting Started guide is to get someone new to VON Agents up and running wi
     - [File: services.yml](#file-servicesyml)
   - [Step 4: Issuing a Credential using dFlow](#step-4-issuing-a-credential-using-dflow)
   - [Step 5: Issuing a Credential using a JSON File](#step-5-issuing-a-credential-using-a-json-file)
-  - [Step 7: Customizing your Credential](#step-7-customizing-your-credential)
-  - [Step 8: Adding a second, multi-cardinality Credential](#step-8-adding-a-second-multi-cardinality-credential)
+  - [Step 6: Customizing your Credential](#step-6-customizing-your-credential)
+    - [Stopping and restarting your Agent](#stopping-and-restarting-your-agent)
+  - [Step 7: Changing a Dependency](#step-7-changing-a-dependency)
+  - [Step 7: Adding a second, multi-cardinality Credential](#step-7-adding-a-second-multi-cardinality-credential)
 
 ## Running in your Browser or on Local Machine
 
@@ -212,7 +214,7 @@ The "Credentials" provides information for TheOrgBook to process a newly issued 
 
 We'll see how these work later in this Guide.
 
-Enough with the configurations - let's get on with issueing credentials.
+Enough with the configurations - let's get on with issuing credentials.
 
 ## Step 4: Issuing a Credential using dFlow
 
@@ -245,16 +247,51 @@ Save your file and then, from the root folder of the `von-agent-template`, execu
 $ curl -vX POST http://$ENDPOINT_HOST/my-organization/issue-credential -d @von-x-agent/testdata/sample_permit.json --header "Content-Type: application/json"
 ```
 
-You should see the results from the `curl` command with an HTTP response of `200` (success) and 
+You should see the results from the `curl` command with an HTTP response of `200` (success) and JSON structure with the status, usually:
 
-- checking the results
+```
+{"success": false, "result": "Bad response from post_json: (400) Issuer registration 'topic' must specify at least one valid topic name OR topic type and topic source_id"}
+```
 
-## Step 7: Customizing your Credential
+If the `curl` command failed - check for typos in your JSON structure and the command you submitted.  Did you remember to change "my-organization" to the name of your organization?
 
-- Adding/changing fields
-- Changing dependencies
+Once the `curl` command succeeds and the Verifiable Credential has been issued, go into OrgBook, find the Organization again and verify that the Credential was indeed issued.  If you want, update the dates on the attributes and re-submit the curl command again. Each time you do, OrgBook will:
 
-## Step 8: Adding a second, multi-cardinality Credential
+- mark the previous version of the Credential as "revoked"
+- make the newly issued Verifiable Credential the currently active one.
+
+Note that it's up to the submitter to make sure that the dates make sense. OrgBook has very limited business rules knowledge and knows nothing about the process your organization uses for issuing/revoking Credentials. As such, the business rules for making sure the right Verifiable Credentials are issued must be within your agent.
+
+So, we have a working Agent, and we can issue Credentials using a Form or an API.  Time to make some changes to the Credential we are issuing.
+
+## Step 6: Customizing your Credential
+
+The first thing we are going to change are the attributes (claims) within your Credential - changing the name of an attribute and adding a new one. What exactly you change is up to you - within limits.  You can't change the "corp_num" or "legal_name" fields, since they come from the prerequisite Verifiable Credential - dFlow Registration. All others can be renamed and please add a new field.  Things to remember:
+
+1. The files to be edited are in the `von-x-agent/config` folder - `schema.yml`, `routes.yml` and `services.yml`. No need to change `settings.yml`
+2. If you rename an attribute, check in all three files for the name and change it in all three.
+3. If you add an attribute, you need only add it in `schema.yml` and `routes.yml`. Recall that in `routes.yml` you are defining how to populate the attribute when submitting the Credential data via a form. Best choice for this exercise is to add it as a visible form field (e.g. below `permit_type`).
+4. See the `Stopping and restarting` notes below to see if you need to change the `version` of your schema.
+5. Remember to save your files.
+6. If you are using `Play with Docker` and the `Play with Docker` editor - be warned - it has a bad habit of deleting characters at the bottom of a file (it's a known problem).  If you have a problem in doing this exercise - check for that.
+
+### Stopping and restarting your Agent
+
+When you make changes to the configuration, you will need to stop, rebuild and redeploy your Agent.  Here's some guidance about doing that.
+
+1. To stop the Agent but keep it's wallet, go to the Agent's docker folder and run the command `./manage stop`. To stop the Agent *AND* delete the wallet, run the command `./manage down`.
+2. Once you've made your changes and are ready to test them, run the commands `./manage build` and `./manage start`. You **must** run the `build` command to pick up your configuration changes.
+3. If you are keeping the Ledger you are using (e.g. always when using Play With Docker and when you don't bring down and restart your Local Ledger), you will need to bump the `version` of your schema in `schemas.yml`.
+
+Once you have restarted your Agent, try the steps to issue a new Credential using dFlow.  All good? Great! If not, make sure you carried out all the steps and try again.
+
+## Step 7: Changing a Dependency
+
+Another quick change you can make is to change the dFlow prerequisites to add another Credential. To do that, we need to edit the `services.yml` file and add a second proof request dependency. We're going to add the dFlow PST Number Credential as a dependency. Here's what you have to do:
+
+1. Add `pst_number` after `permitfy_registration` in the `depends_on` config element. 
+
+## Step 7: Adding a second, multi-cardinality Credential
 
 - Adding a second dependent credential with an Address and Address type
 - Adding multiple instances of the credential

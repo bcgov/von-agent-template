@@ -1,5 +1,5 @@
 issuers:
-  myorg:
+  my-organization:
     name: my-org-full-name
     abbreviation: my-organization
     url: https://www.my-organization.ca/my-organization-info-page
