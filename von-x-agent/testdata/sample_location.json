@@ -1,0 +1,19 @@
+[
+{
+    "attributes": {
+        "corp_num": "Change-8c588cc1-734a-44b7-809b-63b336658cb8",
+        "permit_id": "Change-501ac705-6567-41b7-8200-9121fcef71d9",
+        "location_name": "Change-CN Tower",
+        "addressee": "Change-John Doe",
+        "civic_address": "123 Any Street",
+        "city": "Vancouver",
+        "postal_code": "V1V 1V1",
+        "province": "BC",
+        "country": "CAN",
+        "effective_date": "2017-11-01T08:00:00+00:00"
+    },
+    "schema": "Change-my-permit.my-organization.ca",
+    "version": "Change-1.0.0"
+}
+]
+

@@ -1,3 +1,5 @@
+# Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
+
 issuers:
   my-organization:
     name: my-org-full-name
@@ -34,16 +36,13 @@ issuers:
       issuer_url: http://localhost:5001/my-organization/my-permit
       depends_on:
         - permitify_registration
-      # define credential meta-data
-      # maps attributes provided in the credential to TOB's credential effective and revoked dates
-      # if not provided TOB will set effective and expiry dates based on current date
       credential:
         effective_date:
           input: effective_date
           from: claim
-      # identifies the organization id that owns the credential
-      # "topic" is used as a more generic term since the platform can be used for entities other than organizations
-      # in our deployment the type is always "registration"
+
+      # topic identifies the organization id is the subject of the credential
+      # in BC Gov deployment  type is always "registration"
       topic:
         source_id:
           input: corp_num
@@ -51,10 +50,7 @@ issuers:
         type:
           input: registration
           from: value
-      # optional - specify additional cardinality fields
-      #cardinality_fields:
-      #  - additionl_cred_type_attr
-      # mapping to the TOB data model - can map to name, address or a generic attribute
+
       mapping:
         # "name" is a known mapping; "legal_name" is a known field name
         - model: name
@@ -65,27 +61,7 @@ issuers:
             type:
               input: legal_name
               from: value
-        # "address" is a special mapping that creates a series of fields in the model
-        # - model: address
-        #   fields:
-        #     addressee:
-        #       input: addressee
-        #       from: claim
-        #     civic_address:
-        #       input: address_line_1
-        #       from: claim
-        #     city:
-        #       input: city
-        #       from: claim
-        #     province:
-        #       input: province
-        #       from: claim
-        #     postal_code:
-        #       input: postal_code
-        #       from: claim
-        #     country:
-        #       input: country
-        #       from: claim
+
         # "attribute" defines a generic field in the TOB model
         # "value" identifies where to derive the data value (typically it comes from the claim)
         # "type" - if "value" - is the name of the attribute
@@ -129,14 +105,6 @@ issuers:
               input: effective_date
               from: claim
 
-
-#################################################################
-# TODO insert new service here, note should align like:
-#   credential_types:
-#   - description: Registration
-
-#################################################################
-
 verifiers:
   bctob:
     name: BC OrgBook
@@ -147,7 +115,7 @@ verifiers:
       seed: "tob-verifier-wallet-000000000001"
 
 proof_requests:
-  # Your DID - for proof requests based on this Issuer's Credentials
+  # This Agent's DID - for proof requests based on this Issuer's Credentials
   #      X3tCbZSE9uUb223KYDWd6o
   permitify_registration:
     version: '1.0.0'

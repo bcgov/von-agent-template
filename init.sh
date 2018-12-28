@@ -48,8 +48,6 @@ select example in "1" "2" "3"; do
             break;;
         2 ) 
             export ENDPOINT_HOST=localhost:5001
-            export DOCKERHOST=${APPLICATION_URL-$(docker run --rm --net=host codenvy/che-ip)}
-            export LEDGER=http://${DOCKERHOST}:9000
             export LEDGER=http://localhost:9000
             export GENESIS_URL=${LEDGER}/genesis
 

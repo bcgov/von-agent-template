@@ -16,16 +16,18 @@ This Getting Started guide is to get someone new to VON Agents up and running wi
   - [Step 1: Looking At What's Already Started](#step-1-looking-at-whats-already-started)
   - [Step 2: Get your VON-Agent Running](#step-2-get-your-von-agent-running)
   - [Step 3: Review the Configuration Files](#step-3-review-the-configuration-files)
-    - [File: schemas.yml](#file-schemasyml)
-    - [File: settings.yml](#file-settingsyml)
-    - [File: routes.yml](#file-routesyml)
-    - [File: services.yml](#file-servicesyml)
   - [Step 4: Issuing a Credential using dFlow](#step-4-issuing-a-credential-using-dflow)
   - [Step 5: Issuing a Credential using a JSON File](#step-5-issuing-a-credential-using-a-json-file)
   - [Step 6: Customizing your Credential](#step-6-customizing-your-credential)
     - [Stopping and restarting your Agent](#stopping-and-restarting-your-agent)
   - [Step 7: Changing a Dependency](#step-7-changing-a-dependency)
   - [Step 7: Adding a second, multi-cardinality Credential](#step-7-adding-a-second-multi-cardinality-credential)
+    - [schemas.yml](#schemasyml)
+    - [In `routes.yml`](#in-routesyml)
+    - [In `services.yml`](#in-servicesyml)
+    - [Stop and Start the Agent](#stop-and-start-the-agent)
+  - [Conclusion](#conclusion)
+    - [Next Steps](#next-steps)
 
 ## Running in your Browser or on Local Machine
 
@@ -164,55 +166,7 @@ All good?  Whoohoo!
 
 Your Agent is configured using the YAML files in the [von-x-agent/config](von-x-agent/config) folder in this repo. Let's take a look at the files in that folder. If you browse the files in your installation, you'll see the `./init.sh` updates you made to the names.
 
-In this step, we'll quickly review the current files to get a feel for them. No need to learn all the details - when the time comes, documentation for the files can be found in the [VON Agent Configuration Guide](von-x-agent/config/ConfigurationGuide.md). 
-
-### File: [schemas.yml](von-x-agent/config/schemas.yml)
-
-`schemas.yml` holds the list of Credentials to be issued by the Agent. In this repo, the file starts with just a single Credential.  The file includes the following pieces of information:
-
-- A few pieces of metadata about the schema (version, name, description, the HTTP path for the Credential).
-- Some specific information used by TheOrgBook to control behaviour when a Credential is issued (topic, cardinality, effective date). More about this information later.
-- An optional proof request that must be satisfied before this Credential can be issued.
-- The list of attributes (claims) that can (or must) be populated in the Credential.
-
-### File: [settings.yml](von-x-agent/config/settings.yml)
-
-This is the most obvious of the files - a list of environment variables that must be set appropriately to run the Agent. Of course the values change with each environment (e.g. Local, In Browser, Dev, Test and Prod), so managing the file does get interesting.
-
-> You won't have to touch this file in this Guide.
-
-### File: [routes.yml](von-x-agent/config/routes.yml)
-
-This file configures the Web Server routes for the API and Web Forms that are used in the application. The Agent Web Forms are unlikely ever to be used in a production instance of the VON-Agent, but the form is super useful for testing. It enables the display of dynamic form (based on the claim names and attributes) so that a user can fill in the fields for a Credential.  There should be a "form" section for each Credential, containing the following information: 
-
-- Form metadata, including the URL for the form, the credential schema upon which it is based, titles to display, a form template to use, etc.
-- A reference to a proof request.
-  - If a proof request is included, on loading, the form contacts TheOrgBook to process the proof request.
-- A list of the attributes to be displayed on the form.
-  - If a proof request is executed before displaying the form, like named fields from the proof request will be pre-populated.
-- A list of the attributes that are auto-populated with specific values - e.g. uuids, literals or the current date.
-
-### File: [services.yml](von-x-agent/config/services.yml)
-
-The fourth file, `services.yml` is the least obvious of the files. It's primary purpose is to provide information to the TheOrgBook about the Issuer Organization and issued the Credentials. The following sections are in the file:
-
-- The "issuers" section has information about the Issuers and the issued Credentials
-  - Metadata about the Issuer - name, website, email contact, logo etc.
-  - Configuration information about the Agent's Wallet/database.
-  - A section about each issued Credential type. Additional detail is given below about this section.
-- A "verifiers" section with information about the connection to TheOrgBook for verifying Proof Requests.
-- A "proof-requests" section with details about the proof-requests upon which the issued Credentials depend.
-
-The "Credentials" provides information for TheOrgBook to process a newly issued credential. Specifically:
-
-- "topic" is the attribute that links an Issued credential with the Organization that is the subject of the Credential.
-- "cardinality_fields" tells TheOrgBook what to do when the additional instances of a Credential Type is received for an Organization.
-  - Notably, should the previous version by marked as "revoked" or can multiple instances of the Credential be active at the same time.
-- "mappings" tell TheOrgBook what attributes in the Credential should be added to which of TheOrgBook's Search indices.
-  - TheOrgBook has search indices for Names, Addresses, Dates, Attributes, and Credential Types.
-  - TheOrgBook does not "know" the structure of any Credential, so the Issuer must tell TheOrgBook which of the attributes are searchable in what way.
-
-We'll see how these work later in this Guide.
+In this step, we'll quickly review the current files to get a feel for them. No need to learn all the details - when the time comes, documentation for the files can be found in the [VON Agent Configuration Guide](von-x-agent/config/Readme.md). Jump into the documentation and scan the information. We'll be working with these files as we go through the tutorial.
 
 Enough with the configurations - let's get on with issuing credentials.
 
@@ -247,51 +201,190 @@ Save your file and then, from the root folder of the `von-agent-template`, execu
 $ curl -vX POST http://$ENDPOINT_HOST/my-organization/issue-credential -d @von-x-agent/testdata/sample_permit.json --header "Content-Type: application/json"
 ```
 
-You should see the results from the `curl` command with an HTTP response of `200` (success) and JSON structure with the status, usually:
+You should see the results from the `curl` command with an HTTP response of `200` (success) and JSON structure with the status, something like this:
 
 ```
-{"success": false, "result": "Bad response from post_json: (400) Issuer registration 'topic' must specify at least one valid topic name OR topic type and topic source_id"}
+[{"success": true, "result": "05da7e24-c24b-4162-b201-157d8afe7a04", "served_by": "b2179bc0df16"}]
 ```
 
 If the `curl` command failed - check for typos in your JSON structure and the command you submitted.  Did you remember to change "my-organization" to the name of your organization?
 
-Once the `curl` command succeeds and the Verifiable Credential has been issued, go into OrgBook, find the Organization again and verify that the Credential was indeed issued.  If you want, update the dates on the attributes and re-submit the curl command again. Each time you do, OrgBook will:
+Once the `curl` command succeeds and the Verifiable Credential has been issued, go into OrgBook, find the Organization again and verify that the Credential was indeed issued.  If you want, update the dates on the attributes and re-submit the curl command again. Each time you do, OrgBook will make sure that:
 
-- mark the previous version of the Credential as "revoked"
-- make the newly issued Verifiable Credential the currently active one.
+- the latest issued Credential is "active"
+- older credentials are tagged as "revoked" and will not be used for creating Proofs
 
-Note that it's up to the submitter to make sure that the dates make sense. OrgBook has very limited business rules knowledge and knows nothing about the process your organization uses for issuing/revoking Credentials. As such, the business rules for making sure the right Verifiable Credentials are issued must be within your agent.
+Note that it's up to the Issuer to make sure that the dates make sense. OrgBook has very few business rules and knows nothing about the process your organization uses for issuing/revoking Credentials. As such, the business rules for making sure the right Verifiable Credentials are issued with the right dates must come the (backend) code that Issues the permits and licences.
 
 So, we have a working Agent, and we can issue Credentials using a Form or an API.  Time to make some changes to the Credential we are issuing.
 
 ## Step 6: Customizing your Credential
 
-The first thing we are going to change are the attributes (claims) within your Credential - changing the name of an attribute and adding a new one. What exactly you change is up to you - within limits.  You can't change the "corp_num" or "legal_name" fields, since they come from the prerequisite Verifiable Credential - dFlow Registration. All others can be renamed and please add a new field.  Things to remember:
+Now that we have a working agent, let's make some changes and really make it our own. We'll start simple and make some changes to the attributes (claims) within your Credential - changing the name of an attribute and adding a new one or two. What exactly you change is up to you - within limits.  You can't change the "corp_num" or "legal_name" fields, since they come from the prerequisite Verifiable Credential - dFlow Registration. All others can be renamed and new fields can be added as needed.  Things to remember:
 
 1. The files to be edited are in the `von-x-agent/config` folder - `schema.yml`, `routes.yml` and `services.yml`. No need to change `settings.yml`
 2. If you rename an attribute, check in all three files for the name and change it in all three.
 3. If you add an attribute, you need only add it in `schema.yml` and `routes.yml`. Recall that in `routes.yml` you are defining how to populate the attribute when submitting the Credential data via a form. Best choice for this exercise is to add it as a visible form field (e.g. below `permit_type`).
 4. See the `Stopping and restarting` notes below to see if you need to change the `version` of your schema.
 5. Remember to save your files.
-6. If you are using `Play with Docker` and the `Play with Docker` editor - be warned - it has a bad habit of deleting characters at the bottom of a file (it's a known problem).  If you have a problem in doing this exercise - check for that.
+6. If you are using `Play with Docker` and the `Play with Docker` editor - be warned - it has a bad habit of deleting characters at the bottom of a file (it's a known problem to that service).  If you have a problem in doing this exercise - check for that.
 
 ### Stopping and restarting your Agent
 
 When you make changes to the configuration, you will need to stop, rebuild and redeploy your Agent.  Here's some guidance about doing that.
 
 1. To stop the Agent but keep it's wallet, go to the Agent's docker folder and run the command `./manage stop`. To stop the Agent *AND* delete the wallet, run the command `./manage down`.
-2. Once you've made your changes and are ready to test them, run the commands `./manage build` and `./manage start`. You **must** run the `build` command to pick up your configuration changes.
-3. If you are keeping the Ledger you are using (e.g. always when using Play With Docker and when you don't bring down and restart your Local Ledger), you will need to bump the `version` of your schema in `schemas.yml`.
+2. Once you've made your changes, stopped your agent and are ready to test, run the commands `./manage build` and `./manage start`. You **must** run the `build` command to pick up your configuration changes.
+3. If the Ledger you are using is persistent (e.g. always when using Play With Docker and locally, when you don't bring down and restart the Ledger), you will need to bump the `version` of your schema in `schemas.yml`.
 
-Once you have restarted your Agent, try the steps to issue a new Credential using dFlow.  All good? Great! If not, make sure you carried out all the steps and try again.
+Once you have restarted your Agent, try the steps we went through previously to issue a new Credential using dFlow.  All good? Great! If not, make sure you carried out all the steps and try again.
 
 ## Step 7: Changing a Dependency
 
-Another quick change you can make is to change the dFlow prerequisites to add another Credential. To do that, we need to edit the `services.yml` file and add a second proof request dependency. We're going to add the dFlow PST Number Credential as a dependency. Here's what you have to do:
+A second change we'll make is to the proof request prerequisites for your Credential.  We'll add another Credential to the prerequisites. To do that, we need to edit the `services.yml` file and add a second proof request dependency. In the following, we're going to add the dFlow `PST Number` Credential as a dependency, but feel free to add others. Here's what you have to do i the `services.yml` file:
 
-1. Add `pst_number` after `permitfy_registration` in the `depends_on` config element. 
+1. Add `pst_number` after `permitfy_registration` in the `depends_on` config element.
+2. Copy the `permitify_registration` sub-section of yaml, within `proof_requests` (bottom of the file), and paste immediately below so there are two sections in `proof_requests`.
+3. Update the fields as appropriate for the Credential you are using.
+   1. To get the values for `did`, `name` and `version`, go to the Ledger and look up the schema. Click "Domain" and then search for "pst" (or whatever Credential you want to use) and use the `From nym`, `Schema Name` and `Schema version` fields, respectively.
+   2. Ensure that only Attributes that are in the selected schema are in the "Attributes" section.
+      1. You can remove the Attributes section entirely if you want.  That would be used to prove that the Holder has the required Verifiable Credential without requesting to any of the data within the Credential.
+4. Save the file.
+5. Stop, build and restart the Agent as per the instructions in the previous step.
+
+Once you have done that, go to the dFlow app and select your Agent's credential as the one to be acquired. On the workflow screen you'll see a graph of the new requirements.
+
+Once you have acquired the Credentials for a newly registered Organization - try requesting the Credential for an organization that already has an instance of the Credential. You might find that while the organization has the desired credential, it doesn't have all of the prerequisite(s). This is as expected - just like a paper-based permit-issuing organization changing their business rules on the fly - existing Credentials (probably) should continue to be valid, but new applications must meet the new requirements. Of course, a Service changing it's rules could choose to revoke the Credentials issued to Organizations that don't already have the new prerequisite - asking/requiring that they proof they have that Credential before being re-authorized.
 
 ## Step 7: Adding a second, multi-cardinality Credential
 
-- Adding a second dependent credential with an Address and Address type
-- Adding multiple instances of the credential
+The final exercise is the biggest - thing of it as your final exam.  In this step we'll add an entire new Credential, one dependent on the Credential already issued by your Agent. Here's the scenario:
+
+The Service offers "Multiple Location" permit that extends the authority of the existing permit to several location.  If an organization can prove it has been issued the first Verifiable Credential, it can get the subsequent permits for other named locations by supplying a "Multiple Location" name and address.
+
+The following are the tasks to be done and notes about the changes to be made to the files in `von-x-agent/config`:
+
+### schemas.yml
+
+`schemas.yml` describes the credentials. To add the second credential, copy the existing one (the entire `name` element of the YAML), paste it as a second instance, and edit the following:
+
+- Update the `name`, and `version` for the new credential
+- Keep `topic` the same - that associates the credential with the subject organization
+- Change `proof_request` to the name of your first Credential (more on that later)
+
+Update the list of attributes:
+
+- Keep `corp_num`, `permit_id`, `effective_date`, `permit_issued_date` and remove the others. You might note the names of the fields you remove for later.
+- Add the name address attributes - `location_name`, `addressee`, `civic_address`, `city`, `province`, `postal_code` and `country`
+
+Final change - near the top of the new Credential, below `topic` and the following:
+
+```
+  cardinality: location_name
+```
+
+`Cardinality` enables an organization to be the subject of multiple of these Credentials for multiple locations. If the `location_name` in a Verifiable Credential for an organization has not been seen before by OrgBook, the Credential is assumed to be a new one.  If the `location_name` has been seen before for that organization, OrgBook assumes it's a reissuance and revokes the old Credential and makes the new one current. See the VON Issuer/Verifier Agent documentation for more details.
+
+OK, Done! Save your work.
+
+### In `routes.yml`
+  - 
+`routes.yml` describes the form to be displayed for collecting information about the new credential.  Again, we'll do a big copy'n'paste to get started. Copy everything from the line below `forms` - that's the entire entry for the first credential - and then paste it below.  Once done, start making changes:
+
+- Remove the sub-sections that reference the fields that you removed from `schemas.yml`.
+- Change the name of the Credential, the path, the schema name, page_title, title, description and explanation. It should be fairly obvious what to put for each.
+- Change `id` under `proof_request` to be the name of the existing credential. More on that later. 
+- Recall that we added the location name and address fields to the schema, and we have to add them here as well. In `routes.yml`, there is a shortcut for adding addresses to a form as you'll see below. Add the following text within the `fields` list. Note that indenting in YAML matters, so make sure the section lines up with the rest of the elements of the `fields` list and only put spaces at the start of lines.
+
+```
+      - name: location_name
+        label: Location Name
+        type: text
+        required: true
+
+      - name: address
+        label: Mailing Address
+        type: address
+        required: true
+```
+
+- Remove `permit_id` from the `mapping` section and add it back into the `fields` section. Put it below `corp_num` with the same `type` and `text` values.
+
+Those are a lot of changes, but we're done with that file. Save your work!
+
+### In `services.yml`
+
+As we did in the previous files, we'll copy and paste the existing credential to make the new one and edit from there.  In the case copy the text from the `description` element below `credential_types` down through the end of the last `model: attribute` element and paste all of that below the existing credential.  The edits to be made are the following:
+
+- Update `description`, `schema` and `issuer_url` for the new Credential
+- Change `permitify_registration` under `depends_on` to the new of the existing Credential.
+- Leave the `credential` and `topic` elements as is.
+- Add in the following `cardinality_fields` section, to match what is in the `schemas.yml` section. Again - check your indenting!
+
+```
+      cardinality_fields:
+        - additionl_cred_type_attr
+
+```
+
+- In the mapping, remove all of the mappings for attributes removed from the schema.
+- Add in an `address` section. OrgBook "knows" about addresses and so we want to map the address attributes to OrgBook's address search fields.  The YAML for that is below.
+
+```
+        - model: address
+          fields:
+            addressee:
+              input: addressee
+              from: claim
+            civic_address:
+              input: address_line_1
+              from: claim
+            city:
+              input: city
+              from: claim
+            province:
+              input: province
+              from: claim
+            postal_code:
+              input: postal_code
+              from: claim
+            country:
+              input: country
+              from: claim
+```
+
+Make sure that the indenting is with spaces and the same as the other `model` elements.
+
+The final section to update is the `proof_requests` at the bottom of the file. Once again, we want to copy the existing elements, paste them and edit them.
+
+- Copy from `permitify_registration` to the list of attributes and paste it immediately below.
+- Rename the element to the name of the first Credential - as you have earlier for other references to proof requests.
+- Look on the Ledger for your first credential to get the `did`, `name` and `version` values.
+- For attributes, list `corp_num` and `permit_id`.
+
+That's it - you should have be good to go.  Time to test.
+
+### Stop and Start the Agent
+
+Use the process presented early in this tutorial to stop the Agent (without deleting it's wallet), building it and starting it again.
+
+Use dFlow to test that you can issue the new Credential (do you get the correct workflow?) via the form. dFlow doesn't yet support issuing multiple of the same Credential for a single organization, so we'll have to use `curl` to test that. We've added a JSON file ([von-x-agent/testdata/sample-location.json](von-x-agent/testdata/sample-location.json)) that you can edit and use to issue multiple Credentials to the same organization. Make sure to update the fields to the correct values (especially corp_num and permit_id) before running the curl command.  Try issuing multiple credentials with different dates but the same `location_name` value to see how OrgBook handles that situation. Look in OrgBook to see the results.
+
+## Conclusion
+
+With that, you should have a pretty good idea of how VON Issuer/Verifier Agents are configured and deployed. See the Agent configuration documentation for more details about all of the elements of the YAML files.
+
+If you discovered any problems in completing this tutorial, please let us know either by submitting an issue to the source GitHub repo, or by updating the files or documentation and submitting a Pull Request. If you want to compare your config files with our version of the completed tutorial, look at files in the folder [von-x-agent/testdata/completed](von-x-agent/testdata/completed).  
+
+### Next Steps
+
+If you are going to be deploying a production Agent, you have a few things to consider that become possible within an Issuer/Verifier:
+
+- What Credentials (registrations, permits, licences, authorizations, etc.) does your Service issue? Which of these should be issued as Verifiable Credentials?
+- What events in your existing system trigger the (re)issuance of each of those Credentials?
+- Within the Credentials, what attributes would be useful for an organization to have in their Wallet when they need to Prove they hold the Credentials?
+- What are the prerequisites for an entity to be issued your Service's Credentials?
+- What changes could be made in your existing process to support Verifiable Credentials?
+  - What steps can be bypassed by receiving a proof that an organization holds prerequisite Verifiable Credentials?
+  - What data elements can be pulled from a prerequisite Verifiable Credentials such that they need not be re-typed by the process participants?
+  - When should Credentials be issued in your existing process?

@@ -1,21 +1,14 @@
-# This file contains Web App paths for, and details about, web forms
-# used by organization applying to be issued a Credential. Multiple
-# forms can be defined, each corresponding to a different Credential type.
-#
-# The web forms UI will not typically be used in a real application, but are
-# more a helper for testing.
+# Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
 
 forms:
-  # form name - typically one form per credential
   my-permit:
 
-    # URL for the Web form - becomes <server>/<path> e.g. http://localhost:5000/my-organization/permit-name
+    # URL for the Web form - becomes <server>/<path> e.g. http://localhost:5000/my-organization/my-permit
     path: /my-organization/my-permit
   
     # type is always "issue-credential"
     type: issue-credential
   
-    # schema name, and other information that will be displayed on the page
     schema_name: my-permit.my-organization.ca
     page_title: my-org-full-name Permits
     title: Application for my-permit
@@ -23,23 +16,18 @@ forms:
     # Templates are defined in von-x-agent/templates
     template: bcgov.index.html
   
-    # Short description of the form
     description: >
       my-org-full-name issues my-permit credentials to organizations to authorize those organizations to be able to do something.
   
-    # Short explanation of how to use the form
     explanation: Use the form below to apply for a my-permit for your organization.
 
-    # link to a dependent proof request - attributes are mapped automatically, by name
     proof_request:
       id: permitify_registration
       connection_id: bctob
 
-    # optionally can serve javascript
     #js_includes:
     #  - src: js/bc_registries.js
 
-    # Fields - define how to display and generate credential attribute information
     # "fields" are displayed on the UI for the user to enter values
     fields:
       - name: corp_num
@@ -55,24 +43,17 @@ forms:
       - name: permit_type
         label: Permit Type requested
         type: select
-        # "options" are the available values for the field
         options:
           - Limited Use Authorization
           - Unlimited Use Authorization
         required: true
-
-# The following is how an address can be place on a form. No need to define each field and includes lookup functionality (Canada Post)
-#      - name: address
-#        label: Mailing Address
-#        type: address
-#        required: true
 
       - name: effective_date
         label: Effective Date
         type: date
         required: true
 
-    # "mapping" identifies attributes that are auto-populated, by "helpers"
+    # "mapping" identifies attributes that are auto-populated
     mapping:
       attributes:
         - name: permit_id
@@ -87,10 +68,5 @@ forms:
           from: literal
           source: ACT
 
-#################################################################
-# Insert new route here, aligned with and following the format of:
-# permit:
-
-#################################################################
 
 ### eof ###
