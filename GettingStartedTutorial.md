@@ -15,12 +15,15 @@ This Getting Started guide is to get someone new to VON Agents up and running wi
     - [Local Machine](#local-machine-1)
   - [Step 1: Looking At What's Already Started](#step-1-looking-at-whats-already-started)
   - [Step 2: Get your VON-Agent Running](#step-2-get-your-von-agent-running)
+    - [In Browser](#in-browser-2)
+    - [Local Machine](#local-machine-2)
+    - [Clone, Initialize and Start Your Agent](#clone-initialize-and-start-your-agent)
   - [Step 3: Review the Configuration Files](#step-3-review-the-configuration-files)
   - [Step 4: Issuing a Credential using dFlow](#step-4-issuing-a-credential-using-dflow)
   - [Step 5: Issuing a Credential using a JSON File](#step-5-issuing-a-credential-using-a-json-file)
   - [Step 6: Customizing your Credential](#step-6-customizing-your-credential)
     - [Stopping and restarting your Agent](#stopping-and-restarting-your-agent)
-  - [Step 7: Changing a Dependency](#step-7-changing-a-dependency)
+  - [Step 7: Changing a Proof Request Prerequisite](#step-7-changing-a-proof-request-prerequisite)
   - [Step 7: Adding a second, multi-cardinality Credential](#step-7-adding-a-second-multi-cardinality-credential)
     - [schemas.yml](#schemasyml)
     - [In `routes.yml`](#in-routesyml)
@@ -122,7 +125,17 @@ When you want to bring down the instances, `cd` to the folder where the `./manag
 
 ## Step 2: Get your VON-Agent Running
 
-In this step, we'll get an instance of the VON Issuer/Verifier Agent running and issuing Credentials. The steps are the same whether you are running `In Browser` or `Local Machine`, starting from the home directory (`In Browser`) or in the folder where you store your cloned repos (`Local Machine`).
+In this step, we'll get an instance of the VON Issuer/Verifier Agent running and issuing Credentials. 
+
+### In Browser
+
+Start in the root folder of your Docker instance - right where you started.
+
+### Local Machine
+
+Use a different shell from the one used to start the three other components. After opening the new shell, start in the folder where you normally put the clones of your GitHub repos.
+
+### Clone, Initialize and Start Your Agent
 
 Clone the repo, and run the initialization script.
 
@@ -130,10 +143,10 @@ Clone the repo, and run the initialization script.
 # Start in folder with repos (Local Machine) or home directory (In Browser)
 $ git clone https://github.com/bcgov/von-agent-template
 $ cd von-agent-template
-$ ./init.sh  # And follow the prompts
+$ . init.sh  # And follow the prompts
 ```
 
-The init script does a number of things:
+The `init.sh` script does a number of things:
 
 1. Prompts for some names to use for your basic Agent.
 2. Prompts for whether you are running with Play With Docker or locally and sets some variables accordingly.
@@ -186,7 +199,7 @@ Now that we have seen how a user can trigger the issuance of a Verifiable Creden
 
 > **NOTE:** If you are running this using the "Local Machine" approach - make sure that you have curl installed. At the command just run "curl" and see if the command is found. If not, see the prerequisites for how you can install it.
 
-Rememeber that your credential is set up to depend on a dFlow Registration credential. To populate the JSTON structure, we need to get some information from an existing Registration credential. Recall one that you have already issued (or issue a new one using dFlow), and then find it in the OrgBook on a screen where you can see the  Registration ID and the Legal Name of the company. Recall that in the dFlow run we did previously, those fields came from the Proof Request. In this case, we're not going to do the Proof Request, so we need to (correctly!) populate them in the JSON for the API call.
+Remember that your credential is set up to depend on a dFlow Registration credential. To populate the JSTON structure, we need to get some information from an existing Registration credential. Recall one that you have already issued (or issue a new one using dFlow), and then find it in the OrgBook on a screen where you can see the  Registration ID and the Legal Name of the company. Recall that in the dFlow run we did previously, those fields came from the Proof Request. In this case, we're not going to do the Proof Request, so we need to (correctly!) populate them in the JSON for the API call.
 
 The JSON File we're going to submit is in the `von-agent-template` repo, in the `von-x-agent/testdata` folder. Edit that file and the following changes:
 
@@ -216,16 +229,24 @@ Once the `curl` command succeeds and the Verifiable Credential has been issued, 
 
 Note that it's up to the Issuer to make sure that the dates make sense. OrgBook has very few business rules and knows nothing about the process your organization uses for issuing/revoking Credentials. As such, the business rules for making sure the right Verifiable Credentials are issued with the right dates must come the (backend) code that Issues the permits and licences.
 
-So, we have a working Agent, and we can issue Credentials using a Form or an API.  Time to make some changes to the Credential we are issuing.
+So, we now have a working Agent, and we can issue Credentials using a Form or an API.  Time to make some changes to the Credential we are issuing.
 
 ## Step 6: Customizing your Credential
 
-Now that we have a working agent, let's make some changes and really make it our own. We'll start simple and make some changes to the attributes (claims) within your Credential - changing the name of an attribute and adding a new one or two. What exactly you change is up to you - within limits.  You can't change the "corp_num" or "legal_name" fields, since they come from the prerequisite Verifiable Credential - dFlow Registration. All others can be renamed and new fields can be added as needed.  Things to remember:
+Now that we have a working agent, let's make some changes and really make it our own. We'll start simple and make some changes to the attributes (claims) within your Credential - changing the name of an attribute and adding a new one.
+
+- The "permit_type" field is really about what authorization is being asked for/issued, so let's change that field name to "permit_authorization"
+- Let's add another field "permit_notes" that is a free form text field that can be used to add any notes/conditions/limitations about the permit.
+
+
+If you want, you can make other changes - within limits.  You can't change the "corp_num" or "legal_name" fields, since they come from the prerequisite Verifiable Credential - dFlow Registration. All others can be renamed and new fields can be added as needed.
+
+Things to remember as you make the changes:
 
 1. The files to be edited are in the `von-x-agent/config` folder - `schema.yml`, `routes.yml` and `services.yml`. No need to change `settings.yml`
-2. If you rename an attribute, check in all three files for the name and change it in all three.
-3. If you add an attribute, you need only add it in `schema.yml` and `routes.yml`. Recall that in `routes.yml` you are defining how to populate the attribute when submitting the Credential data via a form. Best choice for this exercise is to add it as a visible form field (e.g. below `permit_type`).
-4. See the `Stopping and restarting` notes below to see if you need to change the `version` of your schema.
+2. If you rename a Credential attribute, check in all three files for the name and change it in all three.
+3. If you add an attribute, you need only add it in `schema.yml` and `routes.yml`. Recall that in `routes.yml` you are defining how to populate the attribute when submitting the Credential data via a form. Best choice for this exercise is to add it as a visible form field (for example just below `permit_type`).
+4. See the `Stopping and restarting` notes below to see if you need to change the `version` of your schema. **Hint** - because you are changing the Credential schema in this exercise, you do have to bump the version.
 5. Remember to save your files.
 6. If you are using `Play with Docker` and the `Play with Docker` editor - be warned - it has a bad habit of deleting characters at the bottom of a file (it's a known problem to that service).  If you have a problem in doing this exercise - check for that.
 
@@ -235,13 +256,15 @@ When you make changes to the configuration, you will need to stop, rebuild and r
 
 1. To stop the Agent but keep it's wallet, go to the Agent's docker folder and run the command `./manage stop`. To stop the Agent *AND* delete the wallet, run the command `./manage down`.
 2. Once you've made your changes, stopped your agent and are ready to test, run the commands `./manage build` and `./manage start`. You **must** run the `build` command to pick up your configuration changes.
-3. If the Ledger you are using is persistent (e.g. always when using Play With Docker and locally, when you don't bring down and restart the Ledger), you will need to bump the `version` of your schema in `schemas.yml`.
+3. If you change any of the defined Schema and the Ledger you are using is persistent (e.g. always when using Play With Docker and locally, when you don't bring down and redeploy the Ledger between runs), you will need to bump the `version` of your schema in `schemas.yml`.
 
-Once you have restarted your Agent, try the steps we went through previously to issue a new Credential using dFlow.  All good? Great! If not, make sure you carried out all the steps and try again.
+Once you have restarted your Agent, try the steps we went through previously to issue a new Credential using dFlow.  Notice that both the old (1.0.0) and new (1.0.1) versions of the Schema are listed in dFlow. That's to be expected (at least for now - we may change/fix that in the future). Note that when you run locally and do restart the Ledger and all the components from scratch, you can go back to version 1.0.0 of the Credential if you want.
 
-## Step 7: Changing a Dependency
+All good? Great! If not, make sure you carried out all the steps and try again.
 
-A second change we'll make is to the proof request prerequisites for your Credential.  We'll add another Credential to the prerequisites. To do that, we need to edit the `services.yml` file and add a second proof request dependency. In the following, we're going to add the dFlow `PST Number` Credential as a dependency, but feel free to add others. Here's what you have to do i the `services.yml` file:
+## Step 7: Changing a Proof Request Prerequisite
+
+Let's also change the proof request prerequisites for your Credential.  We'll add another Credential to the prerequisites. To do that, we need to edit the `services.yml` file and add a second proof request dependency. In the following, we're going to add the dFlow `PST Number` Credential as a dependency, but feel free to add others. Here's what you have to do i the `services.yml` file:
 
 1. Add `pst_number` after `permitfy_registration` in the `depends_on` config element.
 2. Copy the `permitify_registration` sub-section of yaml, within `proof_requests` (bottom of the file), and paste immediately below so there are two sections in `proof_requests`.
@@ -258,7 +281,7 @@ Once you have acquired the Credentials for a newly registered Organization - try
 
 ## Step 7: Adding a second, multi-cardinality Credential
 
-The final exercise is the biggest - thing of it as your final exam.  In this step we'll add an entire new Credential, one dependent on the Credential already issued by your Agent. Here's the scenario:
+The final exercise is the biggest - think of it as your final exam.  In this step we'll add an entire new Credential, one dependent on the Credential already issued by your Agent. Here's the business scenario:
 
 The Service offers "Multiple Location" permit that extends the authority of the existing permit to several location.  If an organization can prove it has been issued the first Verifiable Credential, it can get the subsequent permits for other named locations by supplying a "Multiple Location" name and address.
 
@@ -275,7 +298,7 @@ The following are the tasks to be done and notes about the changes to be made to
 Update the list of attributes:
 
 - Keep `corp_num`, `permit_id`, `effective_date`, `permit_issued_date` and remove the others. You might note the names of the fields you remove for later.
-- Add the name address attributes - `location_name`, `addressee`, `civic_address`, `city`, `province`, `postal_code` and `country`
+- Add the name and address attributes - `location_name`, `addressee`, `civic_address`, `city`, `province`, `postal_code` and `country`
 
 Final change - near the top of the new Credential, below `topic` and the following:
 
