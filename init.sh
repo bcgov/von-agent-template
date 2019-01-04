@@ -44,12 +44,22 @@ select example in "1" "2" "3"; do
             export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.labs.play-with-docker.com"
             export LEDGER=http://138.197.138.255
             export GENESIS_URL=${LEDGER}/genesis
+            __TOBAPIURL=https://demo-api.orgbook.gov.bc.ca/api/v2/
+            __TOBAPPURL=https://demo.orgbook.gov.bc.ca/en/home
 
             break;;
         2 ) 
             unset ENDPOINT_HOST
             export LEDGER=http://localhost:9000
             export GENESIS_URL=${LEDGER}/genesis
+            __TOBAPIURL=http://tob-api:8080/api/v2
+            __TOBAPPURL=http://localhost:8080
+
+            # Adjustments to files for local execution
+            sed -i.bak "s/#local//g" docker/docker-compose.yml
+            sed -i.bak "s/ INDY_GENESIS_URL/ #INDY_GENESIS_URL/" von-x-agent/config/settings.yml
+            sed -i.bak "s/ AUTO_REGISTER_DID/ #AUTO_REGISTER_DID/" von-x-agent/config/settings.yml
+            find docker von-x-agent -name "*.bak" -type f|xargs rm -f
 
             break;;
         3 ) 
@@ -64,10 +74,14 @@ select example in "1" "2" "3"; do
 done
 echo ""
 
-sed -i.bak s/my-organization_0000000000000000/$MY_SEED/g von-x-agent/config/settings.yml
-find von-x-agent/config -name "*.yml" -exec sed -i.bak "s/my-org-full-name/$ORG_TITLE/g" {} +
-find von-x-agent/config -name "*.yml" -exec sed -i.bak s/my-organization/$MY_ORG/g {} +
-find von-x-agent/config -name "*.yml" -exec sed -i.bak s/my-permit/$MY_PERMIT/g {} +
+# OK - time to make all the substitutions...
+sed -i.bak "s/my-organization_0000000000000000/${MY_SEED}/g" von-x-agent/config/settings.yml
+sed -i.bak "s#TOBAPIURL#${__TOBAPIURL}#g" von-x-agent/config/settings.yml
+sed -i.bak "s#TOBAPPURL#${__TOBAPPURL}#g" von-x-agent/config/settings.yml
+sed -i.bak "s#GENESISURL#${GENESIS_URL}#g" von-x-agent/config/settings.yml
+find von-x-agent/config -name "*.yml" -exec sed -i.bak "s/my-org-full-name/${ORG_TITLE}/g" {} +
+find von-x-agent/config -name "*.yml" -exec sed -i.bak s/my-organization/${MY_ORG}/g {} +
+find von-x-agent/config -name "*.yml" -exec sed -i.bak s/my-permit/${MY_PERMIT}/g {} +
 find von-x-agent -name "*.bak" -type f|xargs rm -f
 
 # Register DID
@@ -94,4 +108,9 @@ grep ${MY_ORG} von-x-agent/config/*.yml
 grep ${MY_PERMIT} von-x-agent/config/*.yml
 grep ${MY_DID} von-x-agent/config/*.yml
 grep ${MY_SEED} von-x-agent/config/*.yml
+grep ${__TOBAPIURL} von-x-agent/config/*.yml
+grep ${__TOBAPPURL} von-x-agent/config/*.yml
+grep ${GENESIS_URL} von-x-agent/config/*.yml
 
+# Clean up
+unset ORG_TITLE MY_ORG MY_PERMIT MY_DID MY_SEED __TOBAPIURL __TOBAPPURL
