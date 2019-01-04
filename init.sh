@@ -68,6 +68,9 @@ select example in "1" "2" "3"; do
             read -p "Enter the URL of the ledger you are using: " __LEDGER
             export LEDGER=${__LEDGER}
             export GENESIS_URL=${LEDGER}/genesis
+            __TOBAPIURL=Update-With-OrgBook-API-URL
+            __TOBAPPURL=Update-With-OrgBook-Application-URL
+            echo NOTE: TheOrgBook API and Application URLs must be updated in von-x-agent/config/settings.yml
 
             break;;
     esac
