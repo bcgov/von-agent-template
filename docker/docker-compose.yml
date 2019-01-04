@@ -28,8 +28,8 @@ services:
       context: ../von-x-agent
       dockerfile: Dockerfile
     environment:
-      APPLICATION_URL: ${APPLICATION_URL:-http://localhost:5000}
-      ENDPOINT_URL: ${ENDPOINT_URL:-http://localhost:5000}
+      APPLICATION_URL: ${APPLICATION_URL:-http://localhost:5001}
+      ENDPOINT_URL: ${ENDPOINT_URL:-http://localhost:5001}
       CONFIG_ROOT: ../config
       ENVIRONMENT: ${ENVIRONMENT:-default}
       ENABLE_GUNICORN: ${ENABLE_GUNICORN:-0}
@@ -51,7 +51,7 @@ services:
       ISSUER_WALLET_DID: ${ISSUER_WALLET_DID}
       HTTP_FORCE_CLOSE_CONNECTIONS: "true"
     networks:
-      - orgbook
+#local      - orgbook
       - myorg
     depends_on:
       - myorg-wallet-db
@@ -71,7 +71,7 @@ services:
       - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
       - POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD}
     networks:
-      - orgbook
+#local      - orgbook
       - myorg
     ports:
       - 5435:5432
@@ -86,6 +86,6 @@ volumes:
 
 networks:
   myorg:
-  orgbook:
-    external:
-      name: tob_tob
+#local  orgbook:
+#local    external:
+#local      name: tob_tob

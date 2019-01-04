@@ -2,31 +2,15 @@ default:
   APPLICATION_URL_VONX: $APPLICATION_URL/my-organization/my-permit
   TEMPLATE_PATH: ../templates
 
-  # Use to connect to a Local Docker environment
-  # Note: also uncomment references to the orgbook network in docker-compose.yml
-  TOB_API_URL: http://tob-api:8080/api/v2
-  TOB_APP_URL: http://localhost:8080
+  TOB_API_URL: TOBAPIURL
+  TOB_APP_URL: TOBAPPURL
 
-  # Use to connect to the BC Gov DEV environment
-  #TOB_API_URL: https://django-devex-von-dev.pathfinder.gov.bc.ca/api/v2
-  #TOB_APP_URL: https://devex-von-dev.pathfinder.gov.bc.ca
-
-  # Use to connect to the BC Gov TEST environment
-  # TOB_API_URL: https://demo-api.orgbook.gov.bc.ca/api/v2/
-  # TOB_APP_URL: https://demo.orgbook.gov.bc.ca/en/home
 
   WALLET_SEED_VONX: my-organization_0000000000000000
 
-  # Leave all commented out to connect to Local Docker Ledger
-  # Use to connect to a Sovrin ledger
-  #INDY_GENESIS_URL: https://raw.githubusercontent.com/sovrin-foundation/sovrin/1.1.50-master/sovrin/pool_transactions_sandbox_genesis
-  # Use to connect to the BC Gov DEV Ledger
-  #INDY_GENESIS_URL: http://159.89.115.24/genesis
-  # Use to connect to the BC Gov TEST Ledger
-  #INDY_GENESIS_URL: http://138.197.138.255/genesis
+  INDY_GENESIS_URL: GENESISURL
 
-  # Uncomment if not using Local Docker Ledger
-  #LEDGER_PROTOCOL_VERSION: "1.6"
-  #AUTO_REGISTER_DID: false
+  LEDGER_PROTOCOL_VERSION: "1.6"
+  AUTO_REGISTER_DID: false
 
 ### eof ###
