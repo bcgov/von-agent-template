@@ -123,7 +123,7 @@ proof_requests:
       - key:
           did: 6qnvgJtqwK44D8LFYnV5Yf
           name: registration.dflow
-          version: '1.0.1'
+          version: '1.0.2'
         attributes:
           - corp_num
           - legal_name
