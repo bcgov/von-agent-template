@@ -13,7 +13,7 @@ This Getting Started guide is to get someone new to VON Agents up and running wi
   - [VON Network Setup](#von-network-setup)
     - [In Browser](#in-browser-1)
     - [Local Machine](#local-machine-1)
-  - [Step 1: Looking At What's Already Started](#step-1-looking-at-whats-already-started)
+  - [Step 1: Investigating VON](#step-1-investigating-von)
   - [Step 2: Get your VON-Agent Running](#step-2-get-your-von-agent-running)
     - [In Browser](#in-browser-2)
     - [Local Machine](#local-machine-2)
@@ -88,40 +88,13 @@ You can open those sites now or later. They'll be referenced by name (e.g. "The 
 
 On a local machine upon which the prerequistes are setup, we will be installing and starting, in order, instances of [von-network](https://github.com/bcgov/von-network), [TheOrgBook](https://github.com/bcgov/TheOrgBook) and [dFlow (currently called Permitify)](https://github.com/bcgov/permitify).
 
-Quick setup guides are available in the respective repos for getting each component for running locally. Here is a quick'n'dirty summary of the steps if you are daring. Repeat with the indicated adjustments for each component.
+Use the [VON Network Quick Start Guide](https://github.com/bcgov/permitify/blob/master/docker/VONNetworkQuickStartGuide.md) to start the prerequisite instances and verify that they are running.
 
-```
-# Start in the folder you keep your repos
-$ git clone https://github.com/bcgov/von-network.git  # Replace von-network with "TheOrgBook" and "permitify" for the latter two
-$ cd von-network      # For TheOrgBook and Permitify - cd into the "docker" folder
-$ ./manage build
-$ ./manage up         # For TheOrgBook run: ./manage up seed=the_org_book_0000000000000000000
-```
+## Step 1: Investigating VON
 
-> **NOTE** the command to bring up TheOrgBook **must** be `./manage up seed=the_org_book_0000000000000000000`.
+If you are new to VON, see the instructions in the respective repos to play with the instances of [von-network](https://github.com/bcgov/von-network), [TheOrgBook](https://github.com/bcgov/TheOrgBook) and [dFlow (currently called Permitify)](https://github.com/bcgov/permitify) you have running.
 
-On the start of each, you will see the container logs running.  Let them run for awhile, watch for errors (stack traces) and once they stablize, verify the component is running before starting the next one. To verify each go to:
-
-- The `von-network` URL - [http://localhost:9000](http://localhost:9000). You should see a Ledger Browser UI showing 4 nodes up and running (blue circles).
-- The `TheOrgBook` URL  - [http://localhost:8080](http://localhost:8080). You should see the OrgBook interface with no companies/credentials loaded.
-  - The URL for the api for `TheOrgBook` is running at [http://localhost:8081](http://localhost:8081)
-- The `permitify` URL - [http://localhost:5000](http://localhost:5000). You should see the dFlow interface, with the "Credential" drop down having a list of 7 Credential types.
-  - If you see some, but not all of the Credential types, wait and refresh your browser until all 7 are listed (Worksafe should be the bottom one).
-
-> **NOTE**: In the Guide steps below, use the `localhost` URLs above when the components are referenced generically (e.g. TheOrgBook URL).
-
-After verifying the current component, go back to the bash command line, hit `Ctrl-C` to stop the logs display, and move on to start the next component or finish.
-
-When you want to bring down the instances, `cd` to the folder where the `./manage` script resides for each component and run `./manage down`. That will stop the instances and remove the persistence (docker volumes) so that you can start another clean run.
-
-## Step 1: Looking At What's Already Started
-
-> To Do: Add details to this section
-
-- Ledger Browser
-- TheOrgBook
-- Permitify - get a Credential
-- TheOrgBook - review the Credential
+In the remainder of this guide, we will be configuring a new Agent that will be available from the "Credentials" drop down in dFlow.
 
 ## Step 2: Get your VON-Agent Running
 
@@ -129,7 +102,7 @@ In this step, we'll get an instance of the VON Issuer/Verifier Agent running and
 
 ### In Browser
 
-Start in the root folder of your Docker instance - right where you started.
+Start in the root folder of your Docker instance - where you started.
 
 ### Local Machine
 
