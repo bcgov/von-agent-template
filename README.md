@@ -1,13 +1,16 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 # von-agent-template
-This repo is a template for creating an instance of a Verifiable Organizations Network (VON) Issuer/Verifier Agent running against a Hyperledger Indy network such as Sovrin. If you are new to VON and want to learn more about the approach we are using to enable Service Organizations to issue Verifiable Credentials, please https://vonx.io.
+This repo is a template for creating an instance of a Verifiable Organizations Network (VON) Issuer/Verifier Agent running against a Hyperledger Indy network such as Sovrin.
 
-An Issuer/Verifier agent and [OrgBook](https://github.com/bcgov/TheOrgBook) are the two major components of local VON ecosystem. OrgBook is an instance of Credential Repository from which a VON Agent instance receives proofs of Verifiable Claims and to which a VON Agent issues Verifiable Credentials. VON Issuer/Verifier Agent instances are configured, deployed and operated by registration, permit and licence issuing Service Organizations that want to issue/verify Verifiable Credentials. One Issuer/Verifier agent instance can support multiple types of credentials and in most cases an organization would only need to run a single agent to process all credential types they need. An agent based on this template is deployed using Docker containers, enabling load balancing and high availability capabilities through a container management platform such as Red Hat's OpenShift, Kubernetes on AWS, Azure or Google Cloud, etc.
+`von-agent-template` is being developed as part of the Verifiable Organizations Network (VON). For more information on VON see https://vonx.io.  Even, better - join in with what we are doing and contribute to VON and the Indy community.
+
+An Issuer/Verifier agent (see examples in [dFlow](https://github.com/bcgov/permitify)) and [TheOrgBook](https://github.com/bcgov/TheOrgBook) are the two major components of a local VON ecosystem. TheOrgBook is an instance of Credential Repository from which a VON Agent instance receives proofs of Verifiable Claims and to which a VON Agent issues Verifiable Credentials. VON Issuer/Verifier Agent instances are configured, deployed and operated by registration, permit and licence issuing Service Organizations that want to issue/verify Verifiable Credentials. One Issuer/Verifier agent instance can support multiple types of credentials and in most cases an organization would only need to run a single agent to process all credential types they need. An agent based on this template is deployed using containers, enabling load balancing and high availability capabilities through a container management platform such as Red Hat's OpenShift, Kubernetes on AWS, Azure or Google Cloud, etc.
 
 In the future, instances of VON Agent will also be able to communicate directly with Personal and Organizational Agents/Wallets and will be able to Issue/Verify Credentials based on different underlying DID Method implementations.
 
 # Getting Started
+
 Use this [VON Issuer/Verifier Getting Started Tutorial](GettingStartedTutorial.md) to go through the basics of configuring a VON Issuer/Verifier Agent created from this template.
 
 # Configuration Guide
@@ -20,7 +23,7 @@ If you are creating an Agent for a Service Organization that will become a VON I
 
 2. Make a fork of this repo, and in that, create a branch that you will use as the deployment branch for your Agent instance. The benefit of this approach is that you can stay up to date with the base repo by applying commits to your branch from the `master`. The downside is a much more complex branching model for your developers and a non-typical deployment model for your code.
 
-3. Likely, the two mechanisms above can be combined, and branches could be created in the main repo for the different instances. This might be an approach that, for example, the BC Gov could use - creating a branch for each Issuer/Verifier Agent in BC Gov. However, we think that the complexity of such a scheme will not be worth the benefits.
+In theory, the two mechanisms above can be combined, and branches could be created in the main repo for the different agent instances. This might be an approach that, for example, the BC Gov could use - creating a branch for each Issuer/Verifier Agent in BC Gov. However, we think that the benefits of such a scheme is not worth the complexity.
 
 # Getting Help or Reporting an Issue
 To report bugs/issues/feature requests, please file an [issue](../../issues).
