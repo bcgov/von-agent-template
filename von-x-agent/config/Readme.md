@@ -105,7 +105,7 @@ forms:
     explanation: Use the form below to apply for a my-permit for your organization.
 
     proof_request:
-      id: permitify_registration
+      id: dflow_registration
       connection_id: bctob
 
     js_includes:
@@ -232,7 +232,7 @@ issuers:
       schema: my-permit.my-organization.ca
       issuer_url: http://localhost:5001/my-organization/my-permit
       depends_on:
-        - permitify_registration
+        - dflow_registration
         - pst_number
       credential:
         effective_date:
@@ -320,7 +320,7 @@ verifiers:
 proof_requests:
   # This Agent's DID - for proof requests based on this Issuer's Credentials
   #      X3tCbZSE9uUb223KYDWd6o
-  permitify_registration:
+  dflow_registration:
     version: '1.0.1'
     schemas:
       - key:
