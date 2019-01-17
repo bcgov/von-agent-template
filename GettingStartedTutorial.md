@@ -80,21 +80,21 @@ The following URLs are used in the steps below for the different components:
 
 - The `von-network` URL - [http://138.197.138.255/](http://138.197.138.255/). You'll see a Ledger Browser UI showing 4 nodes up and running (blue circles).
 - The `TheOrgBook` URL  - [https://demo.orgbook.gov.bc.ca](https://demo.orgbook.gov.bc.ca) - You'll see the OrgBook interface with companies/credentials already loaded.
-- The `permitify` URL - [https://dflow.orgbook.gov.bc.ca](https://dflow.orgbook.gov.bc.ca). You'll see the dFlow interface, with the "Credential" drop down having a list of at least the 7 "dflow" Credential types, and perhaps (many) more.
+- The `dFlow` URL - [https://dflow.orgbook.gov.bc.ca](https://dflow.orgbook.gov.bc.ca). You'll see the dFlow interface, with the "Credential" drop down having a list of at least the 7 "dflow" Credential types, and perhaps (many) more.
 
 You can open those sites now or later. They'll be referenced by name (e.g. "The von-network URL...") in the guide steps.
 
 ### Local Machine
 
-On a local machine upon which the prerequistes are setup, we will be installing and starting, in order, instances of [von-network](https://github.com/bcgov/von-network), [TheOrgBook](https://github.com/bcgov/TheOrgBook) and [dFlow (currently called Permitify)](https://github.com/bcgov/permitify).
+On a local machine upon which the prerequisites are setup, we will be installing and starting, in order, instances of [von-network](https://github.com/bcgov/von-network), [TheOrgBook](https://github.com/bcgov/TheOrgBook) and [dFlow - decentralized workFlow](https://github.com/bcgov/dFlow).
 
-Use the [VON Network Quick Start Guide](https://github.com/bcgov/permitify/blob/master/docker/VONNetworkQuickStartGuide.md) to start the prerequisite instances and verify that they are running.
+Use the [VON Network Quick Start Guide](https://github.com/bcgov/dFlow/blob/master/docker/VONQuickStartGuide.md) to start the prerequisite instances and verify that they are running.
 
 ## Step 1: Investigating VON
 
-If you are new to VON, see the instructions in the respective repos to play with the instances of [von-network](https://github.com/bcgov/von-network), [TheOrgBook](https://github.com/bcgov/TheOrgBook) and [dFlow (currently called Permitify)](https://github.com/bcgov/permitify) you have running.
+If you are new to VON, see the instructions in the respective repos for how to use the running instances of [von-network](https://github.com/bcgov/von-network), [TheOrgBook](https://github.com/bcgov/TheOrgBook) and [dFlow](https://github.com/bcgov/dFlow).
 
-In the remainder of this guide, we will be configuring a new Agent that will be available from the "Credentials" drop down in dFlow.
+Our goal in this guide is to configure a new permit/licence Issuer/Verifier VON Agent so that the Credential will be available from the "Credentials" drop down in dFlow.
 
 ## Step 2: Get your VON-Agent Running
 
@@ -239,8 +239,8 @@ All good? Great! If not, make sure you carried out all the steps and try again.
 
 Let's also change the proof request prerequisites for your Credential.  We'll add another Credential to the prerequisites. To do that, we need to edit the `services.yml` file and add a second proof request dependency. In the following, we're going to add the dFlow `PST Number` Credential as a dependency, but feel free to add others. Here's what you have to do i the `services.yml` file:
 
-1. Add `pst_number` after `permitfy_registration` in the `depends_on` config element.
-2. Copy the `permitify_registration` sub-section of yaml, within `proof_requests` (bottom of the file), and paste immediately below so there are two sections in `proof_requests`.
+1. Add `pst_number` after `dflow_registration` in the `depends_on` config element.
+2. Copy the `dflow_registration` sub-section of yaml, within `proof_requests` (bottom of the file), and paste immediately below so there are two sections in `proof_requests`.
 3. Update the fields as appropriate for the Credential you are using.
    1. To get the values for `did`, `name` and `version`, go to the Ledger and look up the schema. Click "Domain" and then search for "pst" (or whatever Credential you want to use) and use the `From nym`, `Schema Name` and `Schema version` fields, respectively.
    2. Ensure that only Attributes that are in the selected schema are in the "Attributes" section.
@@ -313,7 +313,7 @@ Those are a lot of changes, but we're done with that file. Save your work!
 As we did in the previous files, we'll copy and paste the existing credential to make the new one and edit from there.  In the case copy the text from the `description` element below `credential_types` down through the end of the last `model: attribute` element and paste all of that below the existing credential.  The edits to be made are the following:
 
 - Update `description`, `schema` and `issuer_url` for the new Credential
-- Change `permitify_registration` under `depends_on` to the new of the existing Credential.
+- Change `dflow_registration` under `depends_on` to the new of the existing Credential.
 - Leave the `credential` and `topic` elements as is.
 - Add in the following `cardinality_fields` section, to match what is in the `schemas.yml` section. Again - check your indenting!
 
@@ -353,7 +353,7 @@ Make sure that the indenting is with spaces and the same as the other `model` el
 
 The final section to update is the `proof_requests` at the bottom of the file. Once again, we want to copy the existing elements, paste them and edit them.
 
-- Copy from `permitify_registration` to the list of attributes and paste it immediately below.
+- Copy from `dflow_registration` to the list of attributes and paste it immediately below.
 - Rename the element to the name of the first Credential - as you have earlier for other references to proof requests.
 - Look on the Ledger for your first credential to get the `did`, `name` and `version` values.
 - For attributes, list `corp_num` and `permit_id`.
