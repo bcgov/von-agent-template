@@ -42,9 +42,9 @@ select example in "1" "2" "3"; do
         1 ) 
             myhost=`ifconfig eth1 | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
             export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.labs.play-with-docker.com"
-            export LEDGER=http://138.197.138.255
+            export LEDGER=http://159.89.115.24
             export GENESIS_URL=${LEDGER}/genesis
-            __TOBAPIURL=https://demo-api.orgbook.gov.bc.ca/api/v2/
+            __TOBAPIURL=https://demo.orgbook.gov.bc.ca/api/
             __TOBAPPURL=https://demo.orgbook.gov.bc.ca/en/home
 
             break;;
@@ -117,3 +117,4 @@ grep ${GENESIS_URL} von-x-agent/config/*.yml
 
 # Clean up
 unset ORG_TITLE MY_ORG MY_PERMIT MY_DID MY_SEED __TOBAPIURL __TOBAPPURL
+
