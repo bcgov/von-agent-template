@@ -49,7 +49,7 @@ select example in "1" "2" "3"; do
             # end of host stuff
             export LEDGER=http://138.197.161.221
             export GENESIS_URL=${LEDGER}/genesis
-            __TOBAPIURL=https://demo.orgbook.gov.bc.ca/api/
+            __TOBAPIURL=https://demo-api.orgbook.gov.bc.ca/api/v2
             __TOBAPPURL=https://demo.orgbook.gov.bc.ca/en/home
 
             break;;
