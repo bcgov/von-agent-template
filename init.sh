@@ -41,7 +41,7 @@ select example in "1" "2" "3"; do
     case $example in
         1 ) 
             myhost=`ifconfig eth1 | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
-            export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.play-with-docker.vonx.io
+            export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.play-with-docker.vonx.io"
             export LEDGER=http://138.197.161.221
             export GENESIS_URL=${LEDGER}/genesis
             __TOBAPIURL=https://demo.orgbook.gov.bc.ca/api/
