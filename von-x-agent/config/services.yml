@@ -33,7 +33,7 @@ issuers:
     credential_types:
     - description: Permit
       schema: my-permit.my-organization.ca
-      issuer_url: http://$ENDPOINT_URL/my-organization/my-permit
+      issuer_url: $ENDPOINT_URL/my-organization/my-permit
       depends_on:
         - dflow_registration
       credential:
