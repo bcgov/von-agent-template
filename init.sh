@@ -40,11 +40,20 @@ echo 3 - Some other way
 select example in "1" "2" "3"; do
     case $example in
         1 ) 
-            myhost=`ifconfig eth1 | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
-            export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.labs.play-with-docker.com"
-            export LEDGER=http://138.197.161.221
+            if [ $PWD_HOST_FQDN == "labs.play-with-docker.com" ]
+              then
+                export ETH_CONFIG="eth1"
+              elif [ $PWD_HOST_FQDN == "play-with-docker.vonx.io" ]
+              then
+                export ETH_CONFIG="eth0"
+              else
+                export ETH_CONFIG="eth0"
+              fi
+            myhost=`ifconfig ${ETH_CONFIG} | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
+            export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.${PWD_HOST_FQDN}"
+            export LEDGER=http://dflow.bcovrin.vonx.io
             export GENESIS_URL=${LEDGER}/genesis
-            __TOBAPIURL=https://demo.orgbook.gov.bc.ca/api/
+            __TOBAPIURL=https://demo-api.orgbook.gov.bc.ca/api/v2
             __TOBAPPURL=https://demo.orgbook.gov.bc.ca/en/home
 
             break;;
