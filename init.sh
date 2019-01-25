@@ -49,13 +49,8 @@ select example in "1" "2" "3"; do
               else
                 export ETH_CONFIG="eth0"
               fi
-            # the following two lines work with docker's pwd
-            #myhost=`ifconfig eth1 | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
-            #export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.labs.play-with-docker.com"
-            # the following two lines work with VON's pwd
             myhost=`ifconfig ${ETH_CONFIG} | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
             export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.${PWD_HOST_FQDN}"
-            #export LEDGER=http://138.197.161.221
             export LEDGER=http://dflow.bcovrin.vonx.io
             export GENESIS_URL=${LEDGER}/genesis
             __TOBAPIURL=https://demo-api.orgbook.gov.bc.ca/api/v2
