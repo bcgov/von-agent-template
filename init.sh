@@ -40,8 +40,13 @@ echo 3 - Some other way
 select example in "1" "2" "3"; do
     case $example in
         1 ) 
-            myhost=`ifconfig eth1 | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
+            # the following two lines work with docker's pwd
+            #myhost=`ifconfig eth1 | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
+            #export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.labs.play-with-docker.com"
+            # the following two lines work with VON's pwd
+            myhost=`ifconfig eth0 | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
             export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.play-with-docker.vonx.io"
+            # end of host stuff
             export LEDGER=http://138.197.161.221
             export GENESIS_URL=${LEDGER}/genesis
             __TOBAPIURL=https://demo.orgbook.gov.bc.ca/api/
