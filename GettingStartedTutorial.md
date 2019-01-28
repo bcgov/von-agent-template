@@ -1,6 +1,6 @@
 # VON Agent Getting Started Tutorial
 
-This Getting Started Guide is to get someone new to VON Issuer/Verifier Agents up and running in about an hour.  We assume that if you are here, you have some background in the goals and purpose of the Verifiable Organizations Network (VON), OrgBook and VON Issuer/Verifier Agents.  If this is new to you, please learn more at https://vonx.io. On that site, we recommend the overview in the "About" section, and especially, the webinar linked at the top. 
+This Getting Started Guide is to get someone new to VON Issuer/Verifier Agents up and running in about an hour.  We assume that if you are here, you have some background in the goals and purpose of the Verifiable Organizations Network (VON), OrgBook, VON Issuer/Verifier Agents and dFlow (decentralized workflow).  If any of this is new to you, please learn more at [https://vonx.io](https://vonx.io). On that site, we recommend the overview in the "About" section, and especially, the webinar linked at the top.
 
 ## Table of Contents
 
