@@ -78,7 +78,7 @@ From time to time in the steps in this guide, we'll ask you to edit files. There
 
 The following URLs are used in the steps below for the different components:
 
-- The `von-network` URL - [http://138.197.138.255/](http://138.197.138.255/). You'll see a ledger browser UI showing four nodes up and running (blue circles).
+- The `von-network` URL - [http://dflow.bcovrin.vonx.io](http://138.197.138.255/). You'll see a ledger browser UI showing four nodes up and running (blue circles).
 - The `OrgBook` URL  - [https://demo.orgbook.gov.bc.ca](https://demo.orgbook.gov.bc.ca) - You'll see the OrgBook interface with companies/credentials already loaded.
 - The `dFlow` URL - [https://dflow.orgbook.gov.bc.ca](https://dflow.orgbook.gov.bc.ca). You'll see the dFlow interface, with the "Credential" drop down having a list of at least the seven "dflow" credential types, and perhaps (many) more.
 
