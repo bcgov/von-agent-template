@@ -52,16 +52,6 @@ issuers:
           from: value
 
       mapping:
-        # "name" is a known mapping; "legal_name" is a known field name
-        - model: name
-          fields:
-            text:
-              input: legal_name
-              from: claim
-            type:
-              input: legal_name
-              from: value
-
         # "attribute" defines a generic field in the TOB model
         # "value" identifies where to derive the data value (typically it comes from the claim)
         # "type" - if "value" - is the name of the attribute

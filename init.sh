@@ -3,26 +3,10 @@
 echo This script initializes some config data a run of a new VON Issuer/Verifier Agent.
 echo Please answer the following questions and we will get things all set up for you.
 
-# Uncomment and edit these to bypass the prompts for the values.
-#    If commented out, the reads will be used to ask the user for the config values
-# ORG_TITLE=my-org-full-name
-# MY_ORG=my-organization
-# MY_PERMIT=my-permit
-
-if [ -z ${ORG_TITLE+x} ]; then
-    read -p 'Please provide a descriptive title for your permit-issuing organization (e.g. City of Victoria): ' ORG_TITLE
-fi
-
-if [ -z ${MY_ORG+x} ]; then
-    read -p 'Please provide a domain for your permit-issuing organization - no spaces (e.g. city-of-victoria): ' MY_ORG
-fi
-# Strip white spaces, just to be sure
+read -p 'Please provide a descriptive title for your permit-issuing organization (e.g. City of Victoria): ' ORG_TITLE
+read -p 'Please provide a domain for your permit-issuing organization - no spaces (e.g. city-of-victoria): ' MY_ORG
 MY_ORG=`echo ${MY_ORG// /} | xargs`
-
-if [ -z ${MY_PERMIT+x} ]; then
-    read -p 'Please provide the name of the permit your organization will issue - no spaces (e.g. museum-permit): ' MY_PERMIT
-fi
-# Strip white spaces, just to be sure
+read -p 'Please provide the name of the permit your organization will issue - no spaces (e.g. museum-permit): ' MY_PERMIT
 MY_PERMIT=`echo ${MY_PERMIT// /} | xargs`
 
 echo ""
@@ -58,7 +42,7 @@ select example in "1" "2" "3"; do
 
             break;;
         2 ) 
-            unset ENDPOINT_HOST
+            export ENDPOINT_HOST=localhost:5001
             export LEDGER=http://localhost:9000
             export GENESIS_URL=${LEDGER}/genesis
             __TOBAPIURL=http://tob-api:8080/api/v2
