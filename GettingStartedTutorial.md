@@ -34,7 +34,7 @@ This Getting Started Guide is to get someone new to VON Issuer/Verifier Agents u
 
 ## Running in your Browser or on Local Machine
 
-This guide can be run from within a browser, or if you are more technically inclined, you can run it on your local machine using Docker. In the following sections, there are sub-sections for `In Browser` and `Local Machine`, depending on how you want to run the guide. If you will be going from here to setting up a new VON Issuer/Verifier Agent instance for your organization, you might want to use the `Local Machine` path.
+This guide can be run from within a browser, or if you are more technically inclined, you can run it on your local machine using Docker. In the following sections, there are sub-sections for `In Browser` and `Local Machine`, depending on how you want to run the guide. If you are planning on setting up a new VON Issuer/Verifier Agent instance for your organization, we suggest you use the `Local Machine` path.
 
 ## Prerequisites
 
@@ -64,7 +64,7 @@ To run this guide on your local machine, you must have the following installed:
 
 ### In Browser
 
-Go to the [Play with Docker](https://labs.play-with-docker.com/) and (if necessary) click the login button. *Play With Docker* is operated by Docker to support developers learning to use Docker.
+Go to [Play with Docker](https://labs.play-with-docker.com/) and (if necessary) click the login button. *Play With Docker* is operated by Docker to support developers learning to use Docker.
 
 > If you want to learn more about the `Play with Docker` environment, look at the [About](https://training.play-with-docker.com/about/) and the Docker related tutorials at the Docker Labs [Training Site](https://training.play-with-docker.com). It's all great stuff created by the Docker Community. Kudos!
 
@@ -121,10 +121,10 @@ $ . init.sh  # And follow the prompts
 
 The `init.sh` script does a number of things:
 
-1. Prompts for some names to use for your basic agent.
-2. Prompts for whether you are running with Play With Docker or locally and sets some variables accordingly.
-3. Registers a DID for you on the ledger that you are using.
-4. Shows you the lines that were changed in the agent configuration files (in [von-x-agent/config](von-x-agent/config)).
+- Prompts for some names to use for your basic agent.
+- Prompts for whether you are running with Play With Docker or locally and sets some variables accordingly.
+- Registers a DID for you on the ledger that you are using.
+- Shows you the lines that were changed in the agent configuration files (in [von-x-agent/config](von-x-agent/config)).
 
 The initial agent you have created issues one credential, using the name you gave it, with a handful of claims: permit ID, permit type, etc. That credential depends on the applying organization already having the dFlow "registration" credential. Without already having that credential, an applying organization won't be able to get your agent's credential.
 
@@ -152,21 +152,32 @@ All good?  Whoohoo!
 
 ## Step 3: Review the Configuration Files
 
-Your aAgent is configured using the YAML files in the [von-x-agent/config](von-x-agent/config) folder in this repo. Let's take a look at the files in that folder. If you browse the files in your installation, you'll see the `./init.sh` updates you made to the names.
+Your agent is configured using the YAML files in the von-x-agent/config folder in this repo. Let's take a look at the files in that folder. If you browse the files in your installation, you'll see the `./init.sh` updates you made to the names.
+
+To browse the files in the von-x-agent folder:
+
+Press `CTRL+C` (which stops the agent's internal log from being displayed and takes you to the command line), then
+```
+`cd von-x-agent/config`
+`ls` #lists files
+`more` #views files
+```
+
+Alternatively, you can use the `Editor` built into Docker to view the files in the von-x-agent/config folder.
 
 In this step, we'll quickly review the current files to get a feel for them. No need to learn all the details&mdash;when the time comes, documentation for the files can be found in the [VON Agent Configuration Guide](von-x-agent/config/Readme.md). Jump into the documentation and scan the information. We'll be working with these files as we go through the tutorial.
 
-Enough with the configurations - let's get on with issuing credentials.
+Enough with the configurations&mdash;let's get on with issuing credentials.
 
 ## Step 4: Issuing a Credential Using dFlow
 
-Now let's use some techniques to trigger your agent to issue a credential to the OrgBook so that you can look at it.  We'll start with the easiest way&mdash;using dFlow.
+Now, let's use some techniques to trigger your agent to issue a credential to the OrgBook so that you can look at it.  We'll start with the easiest way&mdash;using dFlow.
 
-Go to the `dFlow URL` (local, in browser) and select your credential as the target credential you want to be issued. In the Company field, either leave it blank or select a company that you created in Step 1. Click `Begin` and you should see a dFlow with the dFlow "Registration" as the first credential, and your agent's credential as the second. Go through the process to collect each credential to make sure everything is working.
+Go to the `dFlow URL` (local, in browser) and select your credential as the target credential you want to be issued. In the Legal Entity field, either leave it blank or select a legal entity that you created in Step 2. Click `Begin` and you should see a dFlow with the dFlow "Registration" as the first credential, and your agent's credential as the second. Go through the process to collect each credential to make sure everything is working.
 
-Go into OrgBook (in browser, local), search for the company and review its credentials. It should now have the first ever credential issued by your agent.  Cool! If you want, go back and try to issue a few more credentials.
+Go into OrgBook (in browser, local), search for the company and review its credentials. It should have the first ever credential issued by your agent.  Cool! If you want, go back and try to issue a few more credentials.
 
-Good stuff. You have a working aAgent that issues a basic aredential.
+Good stuff. You have a working agent that issues a basic aredential.
 
 ## Step 5: Issuing a Credential Using a JSON File
 
@@ -176,7 +187,7 @@ Now that we have seen how a user can trigger the issuance of a verifiable creden
 
 Remember that your credential is set up to depend on a dFlow registration credential. To populate the JSON structure, we need to get some information from an existing registration credential. Recall one that you have already issued (or issue a new one using dFlow), and then find it in OrgBook on a screen where you can see the  registration ID and the legal name of the company. Recall that in the dFlow run we did previously, those fields came from the proof request. In this case, we're not going to do the proof request, so we need to (correctly!) populate them in the JSON for the API call.
 
-The JSON file we're going to submit is in the `von-agent-template` repo, in the `von-x-agent/testdata` folder. Edit that file and the following changes:
+The JSON file we're going to submit is in the `von-agent-template` repo, in the `von-x-agent/testdata` folder (see `sample_permit.json`). Edit that file and the following changes:
 
 - set the "corp_num" field to the "registration ID" field from OrgBook
 - set the "legal_name" field to the legal name of the company from OrgBook
@@ -186,7 +197,7 @@ The JSON file we're going to submit is in the `von-agent-template` repo, in the 
 Save your file and then, from the root folder of the `von-agent-template`, execute this command REPLACING "my-organization" with the name of your organization:
 
 ```
-$ curl -vX POST http://$ENDPOINT_HOST/my-organization/issue-credential -d @von-x-agent/testdata/sample_permit.json --header "Content-Type: application/json"
+curl -vX POST http://$ENDPOINT_HOST/my-organization/issue-credential -d @von-x-agent/testdata/sample_permit.json --header "Content-Type: application/json"
 ```
 
 You should see the results from the `curl` command with an HTTP response of `200` (success) and JSON structure with the status, something like this:
@@ -204,7 +215,7 @@ Once the `curl` command succeeds and the verifiable credential has been issued, 
 
 Note that it's up to the issuer to make sure that the dates make sense. OrgBook has very few business rules and knows nothing about the process your organization uses for issuing or revoking credentials. As such, the business rules for making sure the right verifiable credentials are issued with the right dates must come the (backend) code that issues the permits and licences.
 
-So, we now have a working agent, and we can issue credentials using a form or an API.  Time to make some changes to the credential we are issuing.
+So, we have a working agent, and we can issue credentials using a form or an API.  Time to make some changes to the credential we are issuing.
 
 ## Step 6: Customizing Your Credential
 
@@ -218,18 +229,18 @@ If you want, you can make other changes, within limits.  You can't change the "c
 
 Things to remember as you make the changes:
 
-1. The files to be edited are in the `von-x-agent/config` folder - `schema.yml`, `routes.yml` and `services.yml`. No need to change `settings.yml`
-2. If you rename a credential attribute, check in all three files for the name and change it in all three.
-3. If you add an attribute, you need only add it in `schema.yml` and `routes.yml`. Recall that in `routes.yml` you are defining how to populate the attribute when submitting the credential data via a form. Best choice for this exercise is to add it as a visible form field (for example just below `permit_type`).
-4. See the `Stopping and restarting` notes below to see if you need to change the `version` of your schema. **Hint**: Because you are changing the credential schema in this exercise, you do have to bump the version.
-5. Remember to save your files.
-6. If you are using `Play with Docker` and the `Play with Docker` editor, be warned: it has a bad habit of deleting characters at the bottom of a file (it's a known problem to that service).  If you have a problem doing this exercise, check for that.
+- The files to be edited are in the `von-x-agent/config` folder - `schema.yml`, `routes.yml` and `services.yml`. No need to change `settings.yml`
+- If you rename a credential attribute, check in all three files for the name and change it in all three.
+- If you add an attribute, you need only add it in `schema.yml` and `routes.yml`. Recall that in `routes.yml` you are defining how to populate the attribute when submitting the credential data via a form. Best choice for this exercise is to add it as a visible form field (for example just below `permit_type`).
+- See  `Stopping and Restarting Your Agent`  below to see if you need to change the `version` of your schema. **Hint**: Because you are changing the credential schema in this exercise, you do have to bump the version.
+- Remember to save your files.
+- NOTE: If you are using `Play with Docker` and the `Play with Docker` editor, be warned: it has a bad habit of deleting characters at the bottom of a file (it's a known problem to that service).  If you have a problem doing this exercise, check for that.
 
 ### Stopping and Restarting Your Agent
 
 When you make changes to the configuration, you will need to stop, rebuild and redeploy your agent.  Here's some guidance about doing that.
 
-1. To stop the agent but keep its wallet, go to the agent's docker folder and run the command `./manage stop`. To stop the agent *AND* delete the wallet, run the command `./manage down`.
+1. To stop the agent but keep its wallet, go to the agent's docker folder (`von-agent-template/docker`) and run the command `./manage stop`. To stop the agent *AND* delete the wallet, run the command `./manage down`.
 2. Once you've made your changes, stopped your agent and are ready to test, run the commands `./manage build` and `./manage start`. You **must** run the `build` command to pick up your configuration changes.
 3. If you change any of the defined schema and the ledger you are using is persistent (e.g. always when using Play With Docker and locally, when you don't bring down and redeploy the ledger between runs), you will need to bump the `version` of your schema in `schemas.yml`.
 
