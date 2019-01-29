@@ -6,45 +6,14 @@
   description: my-permit Credential issued by my-org-full-name
   path: /my-organization/my-permit
 
-  # Topic: The attribute from the list below that is the unique ID of the subject organization
-  topic: corp_num
-
-  # Attribute interpreted by TOB as the effective date of the credential
-  effective_date: effective_date
-
-  proof_request: dflow_registration
-
-  # For attributes, the data_type is one of:
-  #      ui_name, ui_address, ui_text, ui_date, ui_select, helper_uuid, helper_now_iso, helper_value
   attributes:
-    corp_num:
-      description: Corporate Registries ID of the organization to be issued the permit-name Credential
-      data_type: ui_text
-      required: true
-    legal_name:
-      description: Legal name of the organization (from Corporate Registries)
-      data_type: ui_text
-      required: true
-    permit_id:
-      description: ID of the my-qpermit issued by my-organization
-      data_type: helper_uuid
-      required: true
-    permit_type:
-      description: Authorization (limited or unlimited) of the my-permit 
-      data_type: ui_select
-      required: true
-    permit_issued_date:
-      description: Permit date (set to current date)
-      data_type: helper_now_iso
-      required: true
-    permit_status:
-      description: Permit status (set to active)
-      data_type: helper_value
-      required: true
-    effective_date:
-      description: Date credential is effective
-      data_type: ui_date
-      required: true
+    - corp_num
+    - legal_name
+    - permit_id
+    - permit_type
+    - permit_issued_date
+    - permit_status
+    - effective_date
 
 ### eof ###
 
