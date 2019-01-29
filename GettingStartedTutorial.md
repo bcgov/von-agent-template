@@ -40,7 +40,7 @@ This guide can be run from within a browser, or if you are more technically incl
 
 ### In Browser
 
-The only prequisite (other than a browser) is an account with [Docker Hub](https://hub.docker.com). Docker Hub is the "Play Store" for the [Docker](https://docker.com) ecosystem.
+The only prerequisite (other than a browser) is an account with [Docker Hub](https://hub.docker.com). Docker Hub is the "Play Store" for the [Docker](https://docker.com) ecosystem.
 
 ### Local Machine
 
@@ -68,17 +68,17 @@ Go to the [Play with Docker](https://labs.play-with-docker.com/) and (if necessa
 
 > If you want to learn more about the `Play with Docker` environment, look at the [About](https://training.play-with-docker.com/about/) and the Docker related tutorials at the Docker Labs [Training Site](https://training.play-with-docker.com). It's all great stuff created by the Docker Community. Kudos!
 
-Click the "Start" button to start a Docker sandbox you can use to run the demo, and then click `+Add an Instance` to start a terminal in your browser. You have an instance of a Linux container running and have a bash command line.  We won't need to use the command line until Step 2 of this tutorial.
+Click the `Start` button to start a Docker sandbox you can use to run the demo, and then click `+Add an Instance` to start a terminal in your browser. You have an instance of a Linux container running and have a bash command line.  We won't need to use the command line until Step 2 of this tutorial.
 
 From time to time in the steps in this guide, we'll ask you to edit files. There are two ways to do that in this environment:
 
 - If you are comfortable with the `vi` editor, you can just use that. If you don't know `vi`, don't try it. It's a little scary.
-- Alternatively, there is an `Editor` link near the top of the screen. Click that and you get a list of files in your home directory, and clicking a file will open it in an editor.  You will probably need to expand the editor window to see the file. Make the changes in the editor and click the "Save" button.
+- Alternatively, there is an `Editor` button near the top of the screen. Click that and you get a list of files in your home directory, and clicking a file will open it in an editor.  You will probably need to expand the editor window to see the file. Make the changes in the editor and click the "Save" button.
   - Don't forget to click the "Save" button.
 
 The following URLs are used in the steps below for the different components:
 
-- The `von-network` URL - [http://dflow.bcovrin.vonx.io](http://138.197.138.255/). You'll see a ledger browser UI showing four nodes up and running (blue circles).
+- The `von-network` URL - [http://dflow.bcovrin.vonx.io](http://dflow.bcovrin.vonx.io). You'll see a ledger browser UI showing four nodes up and running (blue circles).
 - The `OrgBook` URL  - [https://demo.orgbook.gov.bc.ca](https://demo.orgbook.gov.bc.ca) - You'll see the OrgBook interface with companies/credentials already loaded.
 - The `dFlow` URL - [https://dflow.orgbook.gov.bc.ca](https://dflow.orgbook.gov.bc.ca). You'll see the dFlow interface, with the "Credential" drop down having a list of at least the seven "dflow" credential types, and perhaps (many) more.
 
@@ -138,11 +138,13 @@ cd docker   # Assumes you were already in the root of the cloned repo
 
 After the last command, you will see a stream of logging commands as the agent starts up. The logging should stabilize with an "Indy sync complete" entry.
 
+When you need to get back to the command line, click `ctrl-c` to stop the stream of log commands. Hitting `ctrl-c` does not stop the containers running, it just stops the log from displaying. If you want to get back to seeing the log, you can run the command `./manage logs` from the `von-agent-template/docker` folder.
+
 To verify your agent is running:
 
 1. Go to the `Agent URL`, where you should see a "404" (not found) error message. That signals the agent is running, but does not respond to that route.
-   1. For In Browser, click the "5001" link at the top of the screen. That's the path to your agent.
-   2. For `Local Machine`, go to [http://localhost:5001](http://localhost:5001).
+   1. For **In Browser**, click the "5001" link at the top of the screen. That's the path to your agent.
+   2. For **Local Machine**, go to [http://localhost:5001](http://localhost:5001).
 2. Go to the `dFlow URL` (in browser, local) where in the Credential drop down, you should be able to see your agent's credential.
    1. The Credential dropdown box is a search box, so just type the name of your organization or credential in it.
 
