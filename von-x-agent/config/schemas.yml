@@ -1,9 +1,9 @@
 # Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
 
-- name: my-permit.my-organization.ca
+- name: my-permit.my-organization
 
   version: '1.0.0'
-  description: my-permit Credential issued by my-org-full-name
+  description: The my-permit credential issued by my-org-full-name
   path: /my-organization/my-permit
 
   attributes:

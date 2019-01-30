@@ -36,14 +36,16 @@ select example in "1" "2" "3"; do
             myhost=`ifconfig ${ETH_CONFIG} | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
             export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.${PWD_HOST_FQDN}"
             export LEDGER=http://dflow.bcovrin.vonx.io
+            export LEDGER_URL=http://dflow.bcovrin.vonx.io
             export GENESIS_URL=${LEDGER}/genesis
             __TOBAPIURL=https://demo-api.orgbook.gov.bc.ca/api/v2
             __TOBAPPURL=https://demo.orgbook.gov.bc.ca/en/home
 
             break;;
         2 ) 
-            export ENDPOINT_HOST=localhost:5001
+            unset ENDPOINT_HOST
             export LEDGER=http://localhost:9000
+            unset LEDGER_URL
             export GENESIS_URL=${LEDGER}/genesis
             __TOBAPIURL=http://tob-api:8080/api/v2
             __TOBAPPURL=http://localhost:8080
@@ -51,7 +53,7 @@ select example in "1" "2" "3"; do
             # Adjustments to files for local execution
             sed -i.bak "s/#local//g" docker/docker-compose.yml
             sed -i.bak "s/ INDY_GENESIS_URL/ #INDY_GENESIS_URL/" von-x-agent/config/settings.yml
-            sed -i.bak "s/ AUTO_REGISTER_DID/ #AUTO_REGISTER_DID/" von-x-agent/config/settings.yml
+            # sed -i.bak "s/ AUTO_REGISTER_DID/ #AUTO_REGISTER_DID/" von-x-agent/config/settings.yml
             find docker von-x-agent -name "*.bak" -type f|xargs rm -f
 
             break;;
@@ -60,6 +62,7 @@ select example in "1" "2" "3"; do
             export ENDPOINT_HOST=${__AGENTHOST}
             read -p "Enter the URL of the ledger you are using: " __LEDGER
             export LEDGER=${__LEDGER}
+            export LEDGER_URL=${__LEDGER}
             export GENESIS_URL=${LEDGER}/genesis
             __TOBAPIURL=Update-With-OrgBook-API-URL
             __TOBAPPURL=Update-With-OrgBook-Application-URL
@@ -82,31 +85,32 @@ find von-x-agent -name "*.bak" -type f|xargs rm -f
 
 # Register DID
 # https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
-echo ""
-echo Registering DID on Ledger ${LEDGER} - the Ledger MUST be running for this to work
-echo ""
-echo \{\"role\":\"TRUST_ANCHOR\",\"alias\":\"${MY_ORG}\",\"did\":null,\"seed\":\"${MY_SEED}\"\} >tmp.json
-MY_DID=`curl -s -d "@tmp.json" -X POST ${LEDGER}/register | awk -F'"' '/did/ { print $4 }'`
-echo My DID was registered as: $MY_DID
-rm tmp.json
-echo ""
+# echo ""
+# echo Registering DID on Ledger ${LEDGER} - the Ledger MUST be running for this to work
+# echo ""
+# echo \{\"role\":\"TRUST_ANCHOR\",\"alias\":\"${MY_ORG}\",\"did\":null,\"seed\":\"${MY_SEED}\"\} >tmp.json
+# MY_DID=`curl -s -d "@tmp.json" -X POST ${LEDGER}/register | awk -F'"' '/did/ { print $4 }'`
+# echo My DID was registered as: $MY_DID
+# rm tmp.json
+# echo ""
 
 # Update the MY-DID entries in the yml files
-find von-x-agent/config -name "*.yml" -exec sed -i.bak s/X3tCbZSE9uUb223KYDWd6o/$MY_DID/g {} +
-find von-x-agent -name "*.bak" -type f|xargs rm -f
+# find von-x-agent/config -name "*.yml" -exec sed -i.bak s/X3tCbZSE9uUb223KYDWd6o/$MY_DID/g {} +
+# find von-x-agent -name "*.bak" -type f|xargs rm -f
 
 echo -------------------------
 echo The following updates were made to the configuration files:
 echo ""
 
-grep "${ORG_TITLE}" von-x-agent/config/*.yml
-grep ${MY_ORG} von-x-agent/config/*.yml
-grep ${MY_PERMIT} von-x-agent/config/*.yml
-grep ${MY_DID} von-x-agent/config/*.yml
-grep ${MY_SEED} von-x-agent/config/*.yml
-grep ${__TOBAPIURL} von-x-agent/config/*.yml
-grep ${__TOBAPPURL} von-x-agent/config/*.yml
-grep ${GENESIS_URL} von-x-agent/config/*.yml
+grep -E "${ORG_TITLE}|${MY_ORG}|${MY_PERMIT}|${MY_SEED}|${__TOBAPIURL}|${__TOBAPPURL}|${GENESIS_URL}" von-x-agent/config/*.yml
+# grep ${ORG_TITLE} von-x-agent/config/*.yml
+# grep ${MY_ORG} von-x-agent/config/*.yml
+# grep ${MY_PERMIT} von-x-agent/config/*.yml
+# grep ${MY_DID} von-x-agent/config/*.yml
+# grep ${MY_SEED} von-x-agent/config/*.yml
+# grep ${__TOBAPIURL} von-x-agent/config/*.yml
+# grep ${__TOBAPPURL} von-x-agent/config/*.yml
+# grep ${GENESIS_URL} von-x-agent/config/*.yml
 
 # Clean up
 unset ORG_TITLE MY_ORG MY_PERMIT MY_DID MY_SEED __TOBAPIURL __TOBAPPURL

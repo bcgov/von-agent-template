@@ -32,7 +32,7 @@ issuers:
 
     credential_types:
     - description: Permit
-      schema: my-permit.my-organization.ca
+      schema: my-permit.my-organization
       issuer_url: $ENDPOINT_URL/my-organization/my-permit
       depends_on:
         - dflow_registration
@@ -41,8 +41,8 @@ issuers:
           input: effective_date
           from: claim
 
-      # topic identifies the organization id is the subject of the credential
-      # in BC Gov deployment  type is always "registration"
+      # topic identifies the id of the subject of the credential from the foundational credential
+      # in BC Gov deployment type is always "registration" as it is from BC Registries
       topic:
         source_id:
           input: corp_num
@@ -105,8 +105,6 @@ verifiers:
       seed: "tob-verifier-wallet-000000000001"
 
 proof_requests:
-  # This Agent's DID - for proof requests based on this Issuer's Credentials
-  #      X3tCbZSE9uUb223KYDWd6o
   dflow_registration:
     version: '1.0.0'
     schemas:
