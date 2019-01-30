@@ -9,7 +9,7 @@ forms:
     # type is always "issue-credential"
     type: issue-credential
   
-    schema_name: my-permit.my-organization.ca
+    schema_name: my-permit.my-organization
     page_title: my-org-full-name Permits
     title: Application for my-permit
   
