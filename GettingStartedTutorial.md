@@ -14,11 +14,11 @@ This Getting Started Guide is to get someone new to VON Issuer/Verifier Agents u
     - [In Browser](#in-browser-1)
     - [Local Machine](#local-machine-1)
   - [Step 1: Investigating VON](#step-1-investigating-von)
-  - [Step 2: Get Your VON Issuer/Verifier Agent Running](#step-2-get-your-von-issuerverifier-agent-running)
+  - [Step 2: Getting Your VON Issuer/Verifier Agent Running](#step-2-getting-your-von-issuerverifier-agent-running)
     - [In Browser](#in-browser-2)
     - [Local Machine](#local-machine-2)
     - [Clone, Initialize and Start Your Agent](#clone-initialize-and-start-your-agent)
-  - [Step 3: Review the Configuration Files](#step-3-review-the-configuration-files)
+  - [Step 3: Reviewing the Configuration Files](#step-3-reviewing-the-configuration-files)
     - [In Browser](#in-browser-3)
     - [Local Machine](#local-machine-3)
   - [Step 4: Issuing a Credential Using dFlow](#step-4-issuing-a-credential-using-dflow)
@@ -75,7 +75,7 @@ Click the `Start` button to start a Docker sandbox you can use to run the demo, 
 From time to time in the steps in this guide, we'll ask you to edit files. There are two ways to do that in this environment:
 
 - If you are comfortable with the `vi` editor, you can just use that. If you don't know `vi`, don't try it. It's a little scary.
-- Alternatively, there is an `Editor` button near the top of the screen. Click that and you get a list of files in your home directory, and clicking a file will open it in an editor.  You will probably need to expand the editor window to see the file. Make the changes in the editor and click the "Save" button.
+- Alternatively, there is an `Editor` button near the top of the screen. Click that and you get a list of files in your home directory, and clicking a file will open it in an editor.  You will probably need to expand the editor window to see the file. Make the changes in the editor and click the `Save` button.
   - Don't forget to click the `Save` button.
 
 The following URLs are used in the steps below for the different components:
@@ -98,7 +98,7 @@ If you are new to VON, see the instructions in the respective repos for how to u
 
 Our goal in this guide is to configure a new permit and/or licence VON issuer/verifier agent so that the credential will be available from the `Credential` drop down in dFlow.
 
-## Step 2: Get Your VON Issuer/Verifier Agent Running
+## Step 2: Getting Your VON Issuer/Verifier Agent Running
 
 In this step, we'll get an instance of your new VON issuer/verifier agent running and issuing credentials.
 
@@ -138,7 +138,7 @@ cd docker   # Assumes you were already in the root of the cloned repo
 ./manage start
 ```
 
-After the last command, you will see a stream of logging commands as the agent starts up. The logging should stabilize with an "Completed sync: indy" entry.
+After the last command, you will see a stream of logging commands as the agent starts up. The logging should stabilize with a "Completed sync: indy" entry.
 
 When you need to get back to the command line, you can press `CTRL+C` to stop the stream of log commands. Pressing `CTRL+C` does not stop the containers running, it just stops the log from displaying. If you want to get back to seeing the log, you can run the command `./manage logs` from the `von-agent-template/docker` folder.
 
@@ -152,9 +152,9 @@ To verify your agent is running:
 
 All good?  Whoohoo!
 
-## Step 3: Review the Configuration Files
+## Step 3: Reviewing the Configuration Files
 
-Your agent is configured using the YAML files in the `von-x-agent/config` folder in the repo. In the following, we'll take a look at the files in that folder. As you browse the files in your installation, you should see the organization and permit names you entered during initialization.
+Your agent is configured using the YAML files in the `von-x-agent/config` folder in the repo. In the following, we'll take a look at the files in that folder. As you browse these files, you should see the organization and permit names you entered during initialization.
 
 We'll be working with the files as we go through the tutorial. No need to learn all the details about the YAML file right now. When the time comes, documentation for the files can be found in the [VON Agent Configuration Guide](von-x-agent/config/Readme.md).
 
@@ -177,19 +177,38 @@ more schemas.yml # view files - repeat for other .yml files
 
 Let's use some techniques to trigger your agent to issue a credential to the OrgBook so that you can look at it.  We'll start with the easiest way&mdash;using dFlow.
 
-Go to the `dFlow URL` ([In Browser](https://dflow.orgbook.gov.bc.ca), [Local Machine](http://localhost:5000)) and select your credential as the target credential you want to be issued. Leave the Legal Entity field blank. Click `Begin` and you will see a dFlow graph with "registration" as the first credential, and your agent's credential as the second. Go through the process to collect each credential to make sure everything is working.
+Go to the `dFlow URL` ([In Browser](https://dflow.orgbook.gov.bc.ca), [Local Machine](http://localhost:5000)) and select your credential as the target credential you want to be issued. Leave the Legal Entity field blank. Click `Begin` and you will see a dFlow graph with "registration" as the first credential, and your agent's credential as the second. As you will recall from the dFlow demo earlier, dFlow shows credential dependencies and the colour of the credential label indicates its status. 
+
+![How dFlow Labels Credential Dependencies](images/credential_dependencies.png)
+
+Let's look at an example:
+
+You work in the IT department for the City of Langford so as such, you create a credential type for building permits.
+
+![Issuing a Credential](images/issuing_a_cred.png)
+
+Now, let's say you are a contractor and  you want to get a building permit from the City of Langford. Using VON dFlow, you would see (by way of the red building-permit label) that you can't apply for the permit until you prove that you have a company. You would proceed by clicking the + in the registration lable and filling out the required paperwork to register your company. 
+
+![registering_company](images/registering_co_part1.png)
+
+![Issuing a Credential](images/registering_your_co.png)
+
+Once your company is registered, dFlow updates the credential dependencies to the following:
+
+![Issuing a Credential](images/issued_credential.png)
+
 
 > NOTE: When you get the second credential, the one from your agent, you will have to use the browser back arrow to get back to the dFlow graph screen.
 
 Go into OrgBook ([In Browser](https://demo.orgbook.gov.bc.ca), [Local Machine](http://localhost:8080)), and search for the name of the organization you used for the credentials, and review that organization's credentials. It should have the first ever credential issued by your agent. Cool!
 
-Repeat the dFlow process one more time, but stopping at the first credential&mdash;the registration. You'll need the new company in the next step so remember its name!
+We will need yet another company registered for the exercise in the next step so repeat the dFlow process one more time for a new company. And, remember its name because you'll need it again! Stop at the first credential&mdash;the registration. 
 
 Good stuff. You have a working agent that issues a basic credential!
 
 ## Step 5: Issuing a Credential Using a JSON File
 
-Now that we have seen how a user can trigger the issuance of a verifiable credential via a web form, let's look at how an app can issue one via an API call. In most production cases, verifiable credentials will be issued from a service's existing backend application. The application will be adjusted so that when a permit or licence is issued or updated, an "issue verifiable credential" API call is made with the data for the verifiable credential passed in a chunk of JSON. Let's see how that API call works.
+Now that you have seen how a user can trigger the issuance of a verifiable credential via a web form, let's look at how an application can issue one via an API call. In most production cases, verifiable credentials will be issued from a service's existing backend application. The application will be adjusted so that when a permit or licence is issued or updated, an "issue verifiable credential" API call is made with the data for the verifiable credential passed in a chunk of JSON. Let's see how that API call works.
 
 > **Note:** If you are running this using the "Local Machine" approach, make sure that you have curl installed. At the command line just run "curl" and see if the command is found. If not, see the prerequisites for how you can install it.
 
@@ -214,7 +233,11 @@ You should see the results from the `curl` command with an HTTP response of `200
 [{"success": true, "result": "05da7e24-c24b-4162-b201-157d8afe7a04", "served_by": "b2179bc0df16"}]
 ```
 
-If the `curl` command failed, check for typos in your JSON structure and the command you submitted (to review run the command `cat von-x-agent/testdata/sample_permit.json`).  Did you remember to change "my-organization" to the name of your organization?
+If the `curl` command failed:
+  - Check for typos in your JSON structure 
+  - Check for typos in the command you submitted (to review run the command `cat von-x-agent/testdata/sample_permit.json`)
+  - Check that you are in the  `von-agent-template` folder. 
+  - Did you remember to change "my-organization" to the name of your organization?
 
 Once the `curl` command succeeds and the verifiable credential has been issued, go into OrgBook, find the organization again and verify that the credential was indeed issued.  If you want, update the dates attributes in the JSON and re-submit the curl command again. Each time you do, OrgBook will make sure that:
 
