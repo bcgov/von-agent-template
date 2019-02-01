@@ -35,6 +35,7 @@ select example in "1" "2" "3"; do
               fi
             myhost=`ifconfig ${ETH_CONFIG} | grep inet | cut -d':' -f2 | cut -d' ' -f1 | sed 's/\./\-/g'`
             export ENDPOINT_HOST="ip${myhost}-${SESSION_ID}-5001.direct.${PWD_HOST_FQDN}"
+            export APPLICATION_URL=http://${ENDPOINT_HOST}
             export LEDGER=http://dflow.bcovrin.vonx.io
             export LEDGER_URL=http://dflow.bcovrin.vonx.io
             export GENESIS_URL=${LEDGER}/genesis
