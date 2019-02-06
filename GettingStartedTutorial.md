@@ -423,7 +423,7 @@ That's it, you should be good to go.  Time to test.
 
 With that, you should have a pretty good idea of how VON issuer/verifier agents are configured and deployed. See the [agent configuration documentation](von-x-agent/config/README.md) for more details about all of the elements of the YAML files.
 
-If you discover any problems in completing this tutorial, please let us know either by submitting an issue to the source GitHub repo, or by updating the files or documentation and submitting a Pull Request. If you want to compare your config files with our version of the completed tutorial, look at files in the folder [von-x-agent/testdata/completed](von-x-agent/testdata/completed).
+If you discover any problems in completing this tutorial, please let us know either by submitting an issue to the source GitHub repo, or by updating the files or documentation and submitting a Pull Request.
 
 ### Next Steps
 
