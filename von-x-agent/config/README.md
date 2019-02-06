@@ -11,7 +11,6 @@ This folder contains the files used to configure a VON Issuer/Verifier. If you a
   - [File: settings.yml](#file-settingsyml)
   - [File: routes.yml](#file-routesyml)
   - [File: services.yml](#file-servicesyml)
-  - [The Config Files Generator](#the-config-files-generator)
 
 ## Summary: The Configuration Files
 
@@ -34,19 +33,15 @@ The following is a simple `schemas.yml` file with a single credential having a s
 - name: my-permit.my-organization.ca
   version: '1.0.2'
   attributes:
-    corp_num:
-      label_en: Corporate Number
-      description_en: Corporate Number issued by the Registries
-      required: true
+    - corp_num
+    - legal_name
 ```
-The following are notes about the example file above and `schemas.yml` files in general.
+Pretty simple!  The following are notes about the example file above and `schemas.yml` files in general.
 
-- The entire `name` structure should be repeated for each type of Credential that is to be Issued by the Agent.
-- The elements `name`, `version` and the `attributes` list (e.g. `corp_name` in the above example) correspond exactly to those same elements in a Hyperledger Indy schema. If the Indy schema structure evolves, the VON schema structure in this file will evolve to match.
+- The entire `name` structure is repeated for each type of Credential that is to be Issued by the Agent.
+- The elements `name`, `version` and the `attributes` list (e.g. `corp_name` in the above example) correspond exactly to those same elements in a Hyperledger Indy schema. If the Indy schema structure evolves, the VON schema structure in this file will likely evolve to match.
 - The sub-elements within each `attribute` (`label_en`, etc.) are used in VON - they do not flow to the Hyperledger Indy schema.
 - The "_en" fields are localized (in this case for English). You can pass additional fields with different suffixes for other languages (e.g. "_fr") to enable localized presentation in OrgBook.
-
-A config file generator has been created that can be used to derive sections of the `services.yml` and `routes.yml` files from the `schemas.yml` file. That is done by adding some extra fields in this file (that are ignored by the VON Agent code). Those extra fields are documented in the section below on the config file generator.
 
 
   On Agent startup, the Agent reads the `schemas.yml` file and looks in it's Wallet for the corresponding Credential Definitions and Schemata. If it does not find them, the Agent publishes them to the Ledger. 
@@ -340,7 +335,3 @@ proof_requests:
   - The `schemas` is a list of Hyperledger Indy schema keys (DID of the creator of the schema, it's name and version) and an optional list of attributes to be included in the Proof Requests.
     - While not currently supported, we expect to add support for zero knowledge proofs of specific claims - e.g. that a date is less than 5 years ago without revealing the date itself.
     - If no attributes are provided, the proof request is still performed to prove that the necessary Credential is held without revealing the contents of the Credential.
-
-## The Config Files Generator
-
-To Do: Add this...
