@@ -110,7 +110,7 @@ proof_requests:
     schemas:
       - key:
           did: 6qnvgJtqwK44D8LFYnV5Yf
-          name: registration.dflow
+          name: Registered Corporation
           version: '1.0.3'
         attributes:
           - corp_num
