@@ -1,11 +1,10 @@
 # VON Agent Getting Started Tutorial
 
-This Getting Started Guide is to get someone new to VON Issuer/Verifier Agents up and running in about an hour.  We assume that if you are here, you have some background in the goals and purpose of the Verifiable Organizations Network (VON), OrgBook, VON Issuer/Verifier Agents and dFlow (decentralized workflow).  If any of this is new to you, please learn more at [https://vonx.io](https://vonx.io). On that site, we recommend the overview in the "About" section, and especially, the webinar linked at the top.
+This Getting Started Guide is to get someone new to VON Issuer/Verifier Agents up and running in about an hour.  We assume that if you are here, you have some background in the goals and purpose of the Verifiable Organizations Network (VON), OrgBook, VON Issuer/Verifier Agents and GreenLight (decentralized workflow).  If any of this is new to you, please learn more at [https://vonx.io](https://vonx.io). On that site, we recommend the overview in the "About" section, and especially, the webinar linked at the top.
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
 - [VON Agent Getting Started Tutorial](#von-agent-getting-started-tutorial)
-  - [Table of Contents](#table-of-contents)
   - [Running in your Browser or on Local Machine](#running-in-your-browser-or-on-local-machine)
   - [Prerequisites](#prerequisites)
     - [In Browser](#in-browser)
@@ -21,7 +20,7 @@ This Getting Started Guide is to get someone new to VON Issuer/Verifier Agents u
   - [Step 3: Reviewing the Configuration Files](#step-3-reviewing-the-configuration-files)
     - [In Browser](#in-browser-3)
     - [Local Machine](#local-machine-3)
-  - [Step 4: Issuing a Credential Using dFlow](#step-4-issuing-a-credential-using-dflow)
+  - [Step 4: Issuing a Credential Using GreenLight](#step-4-issuing-a-credential-using-greenlight)
   - [Step 5: Issuing a Credential Using a JSON File](#step-5-issuing-a-credential-using-a-json-file)
   - [Step 6: Customizing Your Credential](#step-6-customizing-your-credential)
     - [Stopping and Restarting Your Agent](#stopping-and-restarting-your-agent)
@@ -80,23 +79,23 @@ From time to time in the steps in this guide, we'll ask you to edit files. There
 
 The following URLs are used in the steps below for the different components:
 
-- The `von-network` URL - [http://dflow.bcovrin.vonx.io](http://dflow.bcovrin.vonx.io). You'll see a ledger browser UI showing four nodes up and running (blue circles).
+- The `von-network` URL - [http://greenlight.bcovrin.vonx.io](http://greenlight.bcovrin.vonx.io). You'll see a ledger browser UI showing four nodes up and running (blue circles).
 - The `OrgBook` URL  - [https://demo.orgbook.gov.bc.ca](https://demo.orgbook.gov.bc.ca) - You'll see the OrgBook interface with companies/credentials already loaded.
-- The `dFlow` URL - [https://dflow.orgbook.gov.bc.ca](https://dflow.orgbook.gov.bc.ca). You'll see the dFlow interface, with the `Credential` drop down having a list of at least the seven "dflow" credential types, and perhaps (many) more. Typing into the `Credential` text box enables a search of the credentials list.
+- The `GreenLight` URL - [https://greenlight.orgbook.gov.bc.ca](https://greenlight.orgbook.gov.bc.ca). You'll see the GreenLight interface, with the `Credential` drop down having a list of at least the seven demo credential types, and perhaps (many) more. Typing into the `Credential` text box enables a search of the credentials list.
 
 You can open those sites now or later. They'll be referenced by name (e.g. "The von-network URL...") in the guide steps.
 
 ### Local Machine
 
-On a local machine upon which the prerequisites are setup, we will be installing and starting, in order, instances of [von-network](https://github.com/bcgov/von-network), [OrgBook](https://github.com/bcgov/TheOrgBook) and [dFlow](https://github.com/bcgov/dFlow) (decentralized workflow).
+On a local machine upon which the prerequisites are setup, we will be installing and starting, in order, instances of [von-network](https://github.com/bcgov/von-network), [OrgBook](https://github.com/bcgov/TheOrgBook) and [GreenLight (aka dFlow)](https://github.com/bcgov/dFlow) (decentralized workflow).
 
 Use the [VON Network Quick Start Guide](https://github.com/bcgov/dFlow/blob/master/docker/VONQuickStartGuide.md) to start the prerequisite instances and verify that they are running.
 
 ## Step 1: Investigating VON
 
-If you are new to VON, see the instructions in the respective repos for how to use the running instances of [von-network](https://github.com/bcgov/von-network), [OrgBook](https://github.com/bcgov/TheOrgBook) and [dFlow](https://github.com/bcgov/dFlow).
+If you are new to VON, see the instructions in the respective repos for how to use the running instances of [von-network](https://github.com/bcgov/von-network), [OrgBook](https://github.com/bcgov/TheOrgBook) and [GreenLight (aka dFlow)](https://github.com/bcgov/dFlow).
 
-Our goal in this guide is to configure a new permit and/or licence VON issuer/verifier agent so that the credential will be available from the `Credential` drop down in dFlow.
+Our goal in this guide is to configure a new permit and/or licence VON issuer/verifier agent so that the credential will be available from the `Credential` drop down in GreenLight.
 
 ## Step 2: Getting Your VON Issuer/Verifier Agent Running
 
@@ -128,7 +127,7 @@ The `init.sh` script does a number of things:
 - Registers a DID for you on the ledger that you are using.
 - Shows you the lines that were changed in the agent configuration files (in [von-x-agent/config](von-x-agent/config)).
 
-The initial agent you  created issues one credential, using the name you gave it, with a handful of claims: permit ID, permit type, etc. That credential depends on the applying organization already having the dFlow "registration" credential. Without already having that credential, an applying organization won't be able to get your agent's credential.
+The initial agent you  created issues one credential, using the name you gave it, with a handful of claims: permit ID, permit type, etc. That credential depends on the applying organization already having the BC Registries "Registration" credential. Without already having that credential, an applying organization won't be able to get your agent's credential.
 
 To start your agent, run through these steps:
 
@@ -147,7 +146,7 @@ To verify your agent is running:
 1. Go to the `agent URL`, where you should see a "404" (not found) error message. That signals the agent is running, but does not respond to that route.
    1. For `In Browser`, click the "5001" link at the top of the screen. That's the path to your agent.
    2. For `Local Machine`, go to [http://localhost:5001](http://localhost:5001).
-2. Go to the `dFlow URL` (In Browser, Local Machine) where in the `Credential` drop down, you should be able to see your agent's credential.
+2. Go to the `GreenLight URL` (In Browser, Local Machine) where in the `Credential` drop down, you should be able to see your agent's credential.
    1. The `Credential` drop down box is a search box, so just type the name of your organization or credential in it.
 
 All good?  Whoohoo!
@@ -156,7 +155,7 @@ All good?  Whoohoo!
 
 Your agent is configured using the YAML files in the `von-x-agent/config` folder in the repo. In the following, we'll take a look at the files in that folder. As you browse these files, you should see the organization and permit names you entered during initialization.
 
-We'll be working with the files as we go through the tutorial. No need to learn all the details about the YAML file right now. When the time comes, documentation for the files can be found in the [VON Agent Configuration Guide](von-x-agent/config/Readme.md).
+We'll be working with the files as we go through the tutorial. No need to learn all the details about the YAML file right now. When the time comes, documentation for the files can be found in the [VON Agent Configuration Guide](von-x-agent/config/README.md).
 
 ### In Browser
 
@@ -173,36 +172,19 @@ ls # list files
 more schemas.yml # view files - repeat for other .yml files
 ```
 
-## Step 4: Issuing a Credential Using dFlow
+## Step 4: Issuing a Credential Using GreenLight
 
-Let's use some techniques to trigger your agent to issue a credential to the OrgBook so that you can look at it.  We'll start with the easiest way&mdash;using dFlow.
+Let's use some techniques to trigger your agent to issue a credential to the OrgBook so that you can look at it.  We'll start with the easiest way&mdash;using GreenLight.
 
-Go to the `dFlow URL` ([In Browser](https://dflow.orgbook.gov.bc.ca), [Local Machine](http://localhost:5000)) and select your credential as the target credential you want to be issued. Leave the Legal Entity field blank. Click `Begin` and you will see a dFlow graph with "registration" as the first credential, and your agent's credential as the second. As you will recall from the dFlow demo earlier, dFlow shows credential dependencies and the colour of the credential label indicates its status. 
+Go to the `GreenLight URL` ([In Browser](https://greenlight.orgbook.gov.bc.ca), [Local Machine](http://localhost:5000)) and select your credential as the target credential you want to be issued. Leave the Legal Entity field blank. Click `Begin` and you will see a GreenLight graph with "Registration" as the first credential, and your agent's credential as the second. As you will recall from the GreenLight demo earlier, GreenLight shows credential dependencies and the colour of the credential label indicates its status.
 
-![How dFlow Labels Credential Dependencies](images/credential_dependencies.png)
+If you are wondering about how GreenLight works the [How To](https://greenlight.orgbook.gov.bc.ca/about) page provides details about the processing, the graph colours and actions that can be taken.
 
-Let's look at an example:
-
-You work in the IT department for the City of Langford so as such, you create a credential type for building permits.
-
-![Issuing a Credential](images/issuing_a_cred.png)
-
-Now, let's say you are a contractor and  you want to get a building permit from the City of Langford. Using VON dFlow, you would see (by way of the red building-permit label) that you can't apply for the permit until you prove that you have a company. You would proceed by clicking the + in the registration lable and filling out the required paperwork to register your company. 
-
-![registering_company](images/registering_co_part1.png)
-
-![Issuing a Credential](images/registering_your_co.png)
-
-Once your company is registered, dFlow updates the credential dependencies to the following:
-
-![Issuing a Credential](images/issued_credential.png)
-
-
-> NOTE: When you get the second credential, the one from your agent, you will have to use the browser back arrow to get back to the dFlow graph screen.
+> NOTE: When getting the credential from your agent, you will have to use the browser back arrow to get back to the GreenLight graph screen. This is different from the core GreenLight credentials which go back to the graph automatically.
 
 Go into OrgBook ([In Browser](https://demo.orgbook.gov.bc.ca), [Local Machine](http://localhost:8080)), and search for the name of the organization you used for the credentials, and review that organization's credentials. It should have the first ever credential issued by your agent. Cool!
 
-We will need yet another company registered for the exercise in the next step so repeat the dFlow process one more time for a new company. And, remember its name because you'll need it again! Stop at the first credential&mdash;the registration. 
+We will need yet another company registered for the exercise in the next step so repeat the GreenLight process one more time for a new company. And, remember its name because you'll need it again! Stop at the first credential&mdash;Registration. 
 
 Good stuff. You have a working agent that issues a basic credential!
 
@@ -212,7 +194,7 @@ Now that you have seen how a user can trigger the issuance of a verifiable crede
 
 > **Note:** If you are running this using the "Local Machine" approach, make sure that you have curl installed. At the command line just run "curl" and see if the command is found. If not, see the prerequisites for how you can install it.
 
-Remember that your credential is set up to depend on a dFlow registration credential. To populate the JSON structure, we need to get some information from an existing registration credential. Use the second one that you created in the previous tutorial step (you remembered the name, right?). Find the name in OrgBook and on its organization screen, find the "Registration ID" and "Legal Name". When we used dFlow, those fields came from the proof request. In this case, we're not going to do the proof request, so we need to (correctly!) populate them in the JSON for the API call.
+Remember that your credential is set up to depend on the BC Registries `Registration` credential. To populate the JSON structure, we need to get some information from an existing registration credential. Use the second one that you created in the previous tutorial step (you remembered the name, right?). Find the name in OrgBook and on its organization screen, find the "Registration ID" and "Legal Name". When we used GreenLight, those fields came from the proof request. In this case, we're not going to do the proof request, so we need to (correctly!) populate them in the JSON for the API call.
 
 The JSON file we're going to submit is in the `von-agent-template/von-x-agent/testdata` folder, called `sample_permit.json`. Edit that file and make the following changes:
 
@@ -236,7 +218,7 @@ You should see the results from the `curl` command with an HTTP response of `200
 If the `curl` command failed:
   - Check for typos in your JSON structure 
   - Check for typos in the command you submitted (to review run the command `cat von-x-agent/testdata/sample_permit.json`)
-  - Check that you are in the  `von-agent-template` folder. 
+  - Check that you are in the `von-agent-template` folder.
   - Did you remember to change "my-organization" to the name of your organization?
 
 Once the `curl` command succeeds and the verifiable credential has been issued, go into OrgBook, find the organization again and verify that the credential was indeed issued.  If you want, update the dates attributes in the JSON and re-submit the curl command again. Each time you do, OrgBook will make sure that:
@@ -256,7 +238,7 @@ Now that you have a working agent, let's make some changes and really make it yo
 - Let's add another field "permit_notes" that is a free form text field that can be used to add any notes/conditions/limitations about the permit.
 
 
-If you want, you can make other changes, within limits.  You can't change the "corp_num" or "legal_name" fields, since they come from the prerequisite verifiable credential, dFlow registration. All others can be renamed and new fields can be added as needed.
+If you want, you can make other changes, within limits.  You can't change the "corp_num" or "legal_name" fields, since they come from the prerequisite verifiable credential, BC Registries' Registration credential. All others can be renamed and new fields can be added as needed.
 
 Things to remember as you make the changes:
 
@@ -276,20 +258,20 @@ When you make changes to the configuration, you will need to stop, rebuild and r
 2. Once you've made your changes, stopped your agent and are ready to test, run the commands `./manage build` and `./manage start`. You **must** run the `build` command to pick up your configuration changes.
 3. If you change any of the defined schema, you will need to bump the `version` of your schema in `schemas.yml` (e.g. from "1.0.0" to "1.0.1").
 
-> **NOTE**: The command `./manage down` both stops the agent AND deletes the wallet storage. You should only do that when running locally and you want to restart everything - von-network, TheOrgBook and dFlow.
+> **NOTE**: The command `./manage down` both stops the agent AND deletes the wallet storage. You should only do that when running locally and you want to restart everything - von-network, TheOrgBook and GreenLight.
 
-Once you have restarted your agent, run the dFlow instructions (Step 4) again to issue a new credential. Notice that both the old (1.0.0) and new (1.0.1) versions of the schema are listed in dFlow. That's to be expected (at least for now, we may change/fix that in the future). Note that when you run locally and restart all the components from scratch, you can go back to version 1.0.0 of the credential if you want.
+Once you have restarted your agent, run the GreenLight instructions (Step 4) again to issue a new credential. Notice that both the old (1.0.0) and new (1.0.1) versions of the schema are listed in GreenLight. That's to be expected (at least for now, we may change/fix that in the future). Note that when you run locally and restart all the components from scratch, you can go back to version 1.0.0 of the credential if you want.
 
 All good? Great! If not, make sure you carried out all the steps and try again.
 
 ## Step 7: Changing a Proof Request Prerequisite
 
-In this step, we are going to change the proof request prerequisites for your credential by adding another credential to the prerequisite list. To do that, we need to edit the `services.yml` file and add a second proof request dependency. In particular, we're going to add the dFlow `PST Number` credential as a dependency, but feel free to add a different one if you are feeling adventurous. Here's what you have to do in the `services.yml` file:
+In this step, we are going to change the proof request prerequisites for your credential by adding another credential to the prerequisite list. To do that, we need to edit the `services.yml` file and add a second proof request dependency. In particular, we're going to add the Ministry of Finance `PST Number` credential as a dependency. Feel free to add a different one if you are feeling adventurous. Here's what you have to do in the `services.yml` file:
 
 1. Add `pst_number` after `dflow_registration` in the `depends_on` config element.
 2. Copy the `dflow_registration` sub-section of yaml, within `proof_requests` (bottom of the file), and paste immediately below so there are two sections in `proof_requests`.
 3. Update the fields in the second copy as appropriate for the new prerequisite credential.
-   - To get the values for `did`, `name` and `version`, use the ledger browser ([In Browser](http://dflow.bcovrin.vonx.io), [Local Machine](http://localhost:9000)) to look up the schema (see image below).
+   - To get the values for `did`, `name` and `version`, use the ledger browser ([In Browser](http://greenlight.bcovrin.vonx.io), [Local Machine](http://localhost:9000)) to look up the schema (see image below).
       - Click "Domain"
       - Search for "pst" (or whatever credential type you want to use) and find, copy and paste the `From nym`, `Schema Name` and `Schema version` fields, respectively.
    - Ensure that only attributes that are in the selected schema are in the "attributes" section.
@@ -299,7 +281,7 @@ In this step, we are going to change the proof request prerequisites for your cr
 
 ![Searching for Schema on Ledger Browser](images/LedgerExplorerSearch.png)
 
-Once you have done that, go to the dFlow app and select your agent's credential as the one to be acquired. On the workflow screen you'll see a graph of the new requirements.
+Once you have done that, go to the GreenLight app and select your agent's credential as the one to be acquired. On the workflow screen you'll see a graph of the new requirements.
 
 Once you have acquired the credentials for a newly registered organization, try requesting the credential for an organization that already has an instance of your agent's credential. You might find that while the organization has the desired credential, it doesn't have all of the prerequisite(s). This is as expected, just like a paper-based permit-issuing services changing their business rules on the fly. Existing credentials (probably) should continue to be valid, but new applications must meet the new requirements. Of course, a service changing its rules could instead choose to revoke credentials issued to organizations that don't already have the new prerequisite, asking or requiring that they 'prove' they have the prerequisite credential before being re-authorized. It's all up to the business rules of the service.
 
@@ -336,9 +318,9 @@ OK, done! Save your work.
 
   > **NOTE:** Recall that we added the location name and address fields to the schema, and we have to add them here as well. In `routes.yml`, there is a shortcut for adding addresses to a form as you'll see below. 
   
-  4. Add the following text at the bottom of the `fields` list. Remember that indenting in YAML matters, so make sure the additions line up with the rest of the elements of the `fields` list and only uses spaces at the start of lines.
+  1. Add the following text at the bottom of the `fields` list. Remember that indenting in YAML matters, so make sure the additions line up with the rest of the elements of the `fields` list and only uses spaces at the start of lines.
 
-```
+``` yaml
       - name: location_name
         label: Location Name
         type: text
@@ -350,7 +332,7 @@ OK, done! Save your work.
         required: true
 ```
 
-5. Remove `permit_id` from the `mapping` section and add it back into the `fields` section. Put it below `corp_num` with the same `type` and `text` values.
+1. Remove `permit_id` from the `mapping` section and add it back into the `fields` section. Put it below `corp_num` with the same `type` and `text` values.
 
 Those are a lot of changes, but we're done with that file. Save your work!
 
@@ -371,9 +353,10 @@ As we did in the previous files, we'll copy and paste the existing credential to
 
 1. In the `mapping` section, remove all of the entries for attributes removed from `schemas.yml`.
 2. Insert an `address` section (below) immediately above the `- model: attribute` line.
+
   > **NOTE:** OrgBook understands the concept of addresses, so we want to map credential address attributes to OrgBook's address search fields.
 
-```
+```yaml
         - model: address
           fields:
             addressee:
@@ -403,7 +386,8 @@ The final section to update is the `proof_requests` at the bottom of the file. O
 1. Copy from `dflow_registration` to the list of attributes and paste it immediately below.
 2. Rename the element to the name of the first credential, as you have earlier for other references to proof requests.
 3. Look on the ledger for your first credential to get the `did`, `name` and `version` values.
-  - The same steps done in the previous tutorial step.
+
+- The same steps done in the previous tutorial step.
 - For attributes, list `corp_num` and `permit_id`.
 
 That's it, you should be good to go.  Time to test.
@@ -411,10 +395,9 @@ That's it, you should be good to go.  Time to test.
 ### Stop and Start the Agent
 
 1. Use the process presented early in this tutorial to stop the agent (without deleting its wallet), build it and start it again.
+2. Use GreenLight to test that you can issue the new credential via a form. Did you get the correct GreenLight graph?
 
-2. Use dFlow to test that you can issue the new credential via a form. Did you get the correct dFlow workflow graph?
-
-> **NOTE:** dFlow doesn't yet support issuing multiple of the same credential for a single organization, so we'll have to use `curl` to test that. We've added a JSON file ([von-x-agent/testdata/sample-location.json](von-x-agent/testdata/sample-location.json)) that you can edit and use to issue multiple credentials to the same organization. 
+> **NOTE:** GreenLight doesn't yet support issuing multiple of the same credential for a single organization, so we'll have to use `curl` to test that. We've added a JSON file ([von-x-agent/testdata/sample-location.json](https://github.com/bcgov/von-agent-template/blob/master/von-x-agent/testdata/sample_location.json)) that you can edit and use to issue multiple credentials to the same organization. 
 
 3. Update the fields to the correct values (especially corp_num and permit_id) before running the curl command.  Try issuing multiple credentials with different dates but the same `location_name` value to see how OrgBook handles that situation. 
 4. Check in OrgBook to see the results.
