@@ -2,10 +2,9 @@
 
 This folder contains the files used to configure a VON issuer/verifier agent. If you are going to be updating a VON issuer/verifier agent, please review this documentation thoroughly, looking particularly for changes that need to be made across several of the configuration files.
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
 - [VON Issuer/Verifier Agent Configuration](#von-issuerverifier-agent-configuration)
-  - [Table of Contents](#table-of-contents)
   - [Summary: The Configuration Files](#summary-the-configuration-files)
   - [File: schemas.yml](#file-schemasyml)
   - [File: settings.yml](#file-settingsyml)
@@ -148,11 +147,11 @@ As the web form loads, any `proof_request` entries referenced in this file (`rou
 
 `fields` is a list of the attibutes that are to be listed on the web form with a `label` and a `type` that defines how the data will be collected (for example, what widget will be used for the field). The `required` defines if the field must be filled in to submit the credential. The current list of options are the following:
 
-- `text` is a text field
-- `date` is a date field, with calendar support
-- `select` is a dropdown list of enumerated values driven by the `options` list
-- `address` is a special, multi-field widget for entering a Canadian address that includes auto-complete (using the Canada Post auto-complete API)
-  - **NOTE**: An example of the use of the `address` field type can be seen [here in dFlow](https://dflow.orgbook.gov.bc.ca/bcreg/incorporation?credential_ids=&schema_name=registration.dflow&schema_version=1.0.0&issuer_did=6qnvgJtqwK44D8LFYnV5Yf), the fields from the "Mailing Address" label down to "Postal Code" and "Country" fields.
+- `text` - a text field
+- `date` - a date field, with calendar support.
+- `select` - a dropdown list of enumerated values driven by the `options` list.
+- `address` - a special, multi-field widget for entering a Canadian address that includes auto-complete (using the Canada Post auto-complete API).
+  - An example of the use of the `address` field type can be seen [here in GreenLight](https://greenlight.orgbook.gov.bc.ca/bcreg/incorporation?credential_ids=&schema_name=registration.dflow&schema_version=1.0.0&issuer_did=6qnvgJtqwK44D8LFYnV5Yf) - the fields from the "Mailing Address" label down to "Postal Code" and "Country" fields.
 
 `mappings` is a list of attributes that are auto-populated by one of a number of helpers. The current set of helper functions can be found by looking at [this code from the VON-X repo (master branch)](https://github.com/PSPC-SPAC-buyandsell/von-x/blob/master/vonx/web/helpers.py).
 
