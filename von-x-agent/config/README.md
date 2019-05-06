@@ -19,7 +19,7 @@ The following is a brief summary of the purpose of each of the VON issuer/verifi
 
 - **`schemas.yml`** holds the schema attributes for the set of credentials to be issued by the agent. Based on this information, the agent can, on startup, look up on, and if necessary, publish to, the ledger the schema and credential definitions for the credentials to be issued by the agent.
 - **`settings.yml`** contains a list of environment variables that must be set appropriately to allow the agent to connect to the other components of VON, specifically, the ledger being used and an instance of OrgBook. The values in the file change with each environment (e.g. local, in browser, dev, test and prod).
-- **`routes.yml`** holds information that allows the agent to render a form on a web page to collect information about a credential to be issued. While not normally used in a production use case (a service likely already has data collection capabilities), the form is useful for testing purposes and for use with dFlow.
+- **`routes.yml`** holds information that allows the agent to render a form on a web page to collect information about a credential to be issued. While not normally used in a production use case (a service likely already has data collection capabilities), the form is useful for testing purposes and for use with GreenLight.
 - **`services.yml`** defines how attributes in the credentials issued by the agent should be processed by OrgBook. This includes the mapping of attributes to OrgBook search indices and the localization of strings in the UI for each credential.
 
 The sections that follow detail the contents and usage of each file.
@@ -80,7 +80,7 @@ The following describes the purpose of each element:
 
 ## File: [routes.yml](routes.yml)
 
-The `routes.yml` file configures the web server routes for the API and the web forms template invoked by a user requesting a credential interactively, such as with dFlow. The agent web forms are unlikely to be used in a production VON issuer/verifier agent instance, but the form is super useful for testing. The configuration drives a dynamic form (based on the claim names and attributes) so that a user can request a credential by filling out and submitting the web form.
+The `routes.yml` file configures the web server routes for the API and the web forms template invoked by a user requesting a credential interactively, such as with GreenLight. The agent web forms are unlikely to be used in a production VON issuer/verifier agent instance, but the form is super useful for testing. The configuration drives a dynamic form (based on the claim names and attributes) so that a user can request a credential by filling out and submitting the web form.
 
 An example of a simple `routes.yml` file is the following:
 
@@ -99,7 +99,7 @@ forms:
     explanation: Use the form below to apply for a my-permit for your organization.
 
     proof_request:
-      id: dflow_registration
+      id: greenlight_registration
       connection_id: bctob
 
     js_includes:
@@ -151,7 +151,7 @@ As the web form loads, any `proof_request` entries referenced in this file (`rou
 - `date` - a date field, with calendar support.
 - `select` - a dropdown list of enumerated values driven by the `options` list.
 - `address` - a special, multi-field widget for entering a Canadian address that includes auto-complete (using the Canada Post auto-complete API).
-  - An example of the use of the `address` field type can be seen [here in GreenLight](https://greenlight.orgbook.gov.bc.ca/bcreg/incorporation?credential_ids=&schema_name=registration.dflow&schema_version=1.0.0&issuer_did=6qnvgJtqwK44D8LFYnV5Yf) - the fields from the "Mailing Address" label down to "Postal Code" and "Country" fields.
+  - An example of the use of the `address` field type can be seen [here in GreenLight](https://greenlight.orgbook.gov.bc.ca/bcreg/incorporation?credential_ids=&schema_name=registration.greenlight&schema_version=1.0.0&issuer_did=6qnvgJtqwK44D8LFYnV5Yf) - the fields from the "Mailing Address" label down to "Postal Code" and "Country" fields.
 
 `mappings` is a list of attributes that are auto-populated by one of a number of helpers. The current set of helper functions can be found by looking at [this code from the VON-X repo (master branch)](https://github.com/PSPC-SPAC-buyandsell/von-x/blob/master/vonx/web/helpers.py).
 
@@ -226,7 +226,7 @@ issuers:
       schema: my-permit.my-organization.ca
       issuer_url: http://localhost:5001/my-organization/my-permit
       depends_on:
-        - dflow_registration
+        - greenlight_registration
         - pst_number
       credential:
         effective_date:
@@ -314,12 +314,12 @@ verifiers:
 proof_requests:
   # This Agent's DID - for proof requests based on this Issuer's Credentials
   #      X3tCbZSE9uUb223KYDWd6o
-  dflow_registration:
+  greenlight_registration:
     version: '1.0.1'
     schemas:
       - key:
           did: 6qnvgJtqwK44D8LFYnV5Yf
-          name: registration.dflow
+          name: registration.greenlight
           version: '1.0.1'
         attributes:
           - corp_num

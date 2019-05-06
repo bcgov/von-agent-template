@@ -22,7 +22,7 @@ forms:
     explanation: Use the form below to apply for a my-permit for your organization.
 
     proof_request:
-      id: dflow_registration
+      id: greenlight_registration
       connection_id: bctob
 
     #js_includes:

@@ -87,13 +87,13 @@ You can open those sites now or later. They'll be referenced by name (e.g. "The 
 
 ### Local Machine
 
-On a local machine upon which the prerequisites are setup, we will be installing and starting, in order, instances of [von-network](https://github.com/bcgov/von-network), [OrgBook](https://github.com/bcgov/TheOrgBook) and [GreenLight (aka dFlow)](https://github.com/bcgov/dFlow) (decentralized workflow).
+On a local machine upon which the prerequisites are setup, we will be installing and starting, in order, instances of [von-network](https://github.com/bcgov/von-network), [OrgBook](https://github.com/bcgov/TheOrgBook) and [GreenLight](https://github.com/bcgov/greenlight) (decentralized workflow).
 
-Use the [VON Network Quick Start Guide](https://github.com/bcgov/dFlow/blob/master/docker/VONQuickStartGuide.md) to start the prerequisite instances and verify that they are running.
+Use the [VON Network Quick Start Guide](https://github.com/bcgov/greenlight/blob/master/docker/VONQuickStartGuide.md) to start the prerequisite instances and verify that they are running.
 
 ## Step 1: Investigating VON
 
-If you are new to VON, see the instructions in the respective repos for how to use the running instances of [von-network](https://github.com/bcgov/von-network), [OrgBook](https://github.com/bcgov/TheOrgBook) and [GreenLight (aka dFlow)](https://github.com/bcgov/dFlow).
+If you are new to VON, see the instructions in the respective repos for how to use the running instances of [von-network](https://github.com/bcgov/von-network), [OrgBook](https://github.com/bcgov/TheOrgBook) and [GreenLight](https://github.com/bcgov/greenlight).
 
 Our goal in this guide is to configure a new permit and/or licence VON issuer/verifier agent so that the credential will be available from the `Credential` drop down in GreenLight.
 
@@ -268,8 +268,8 @@ All good? Great! If not, make sure you carried out all the steps and try again.
 
 In this step, we are going to change the proof request prerequisites for your credential by adding another credential to the prerequisite list. To do that, we need to edit the `services.yml` file and add a second proof request dependency. In particular, we're going to add the Ministry of Finance `PST Number` credential as a dependency. Feel free to add a different one if you are feeling adventurous. Here's what you have to do in the `services.yml` file:
 
-1. Add `pst_number` after `dflow_registration` in the `depends_on` config element.
-2. Copy the `dflow_registration` sub-section of yaml, within `proof_requests` (bottom of the file), and paste immediately below so there are two sections in `proof_requests`.
+1. Add `pst_number` after `greenlight_registration` in the `depends_on` config element.
+2. Copy the `greenlight_registration` sub-section of yaml, within `proof_requests` (bottom of the file), and paste immediately below so there are two sections in `proof_requests`.
 3. Update the fields in the second copy as appropriate for the new prerequisite credential.
    - To get the values for `did`, `name` and `version`, use the ledger browser ([In Browser](http://greenlight.bcovrin.vonx.io), [Local Machine](http://localhost:9000)) to look up the schema (see image below).
       - Click "Domain"
@@ -341,7 +341,7 @@ Those are a lot of changes, but we're done with that file. Save your work!
 As we did in the previous files, we'll copy and paste the existing credential to make the new one and edit from there.  In this case, copy the text from the `description` element below `credential_types` down through the end of the last `model: attribute` element and paste all of that below the existing credential.  The edits to be made are the following:
 
 1. Update `description`, `schema` and `issuer_url` for the new credential.
-2. Change `dflow_registration` under `depends_on` to the name of the existing credential. Leave the `credential` and `topic` elements as is.
+2. Change `greenlight_registration` under `depends_on` to the name of the existing credential. Leave the `credential` and `topic` elements as is.
 3. Add the following lines immediately above `mapping:`
 
 ```
@@ -383,7 +383,7 @@ Make sure that the indenting is with spaces and the same as the other `model` el
 
 The final section to update is the `proof_requests` at the bottom of the file. Once again, we want to copy the existing elements, paste them and edit them:
 
-1. Copy from `dflow_registration` to the list of attributes and paste it immediately below.
+1. Copy from `greenlight_registration` to the list of attributes and paste it immediately below.
 2. Rename the element to the name of the first credential, as you have earlier for other references to proof requests.
 3. Look on the ledger for your first credential to get the `did`, `name` and `version` values.
 

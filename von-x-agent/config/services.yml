@@ -35,7 +35,7 @@ issuers:
       schema: my-permit.my-organization
       issuer_url: $APPLICATION_URL/my-organization/my-permit
       depends_on:
-        - dflow_registration
+        - greenlight_registration
       credential:
         effective_date:
           input: effective_date
@@ -105,7 +105,7 @@ verifiers:
       seed: "tob-verifier-wallet-000000000001"
 
 proof_requests:
-  dflow_registration:
+  greenlight_registration:
     version: '1.0.0'
     schemas:
       - key:
