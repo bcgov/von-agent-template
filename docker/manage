@@ -80,7 +80,7 @@ configureEnvironment () {
     esac
   done
 
-  export WEB_HTTP_PORT=5001
+  export WEB_HTTP_PORT=5005
   export WEB_HOST_PORT=8081
   export COMPOSE_PROJECT_NAME=myorg
   export COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME:-"myorg"}

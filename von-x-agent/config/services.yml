@@ -1,12 +1,12 @@
 # Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
 
 issuers:
-  my-organization:
-    name: my-org-full-name
-    abbreviation: my-organization
-    url: https://www.my-organization.ca/my-organization-info-page
-    email: info@my-organization.ca
-    logo_path: ../assets/img/my-organization-logo.jpg
+  lcrb:
+    name: Liquor and Cannabis Regulation Branch
+    abbreviation: LCRB
+    url: https://www2.gov.bc.ca/gov/content/employment-business/business/liquor-regulation-licensing
+    email: info@lcrb.ca
+    logo_path: ../assets/img/lcrb-logo.jpg
     endpoint: $ENDPOINT_URL
 
     connection:
@@ -31,11 +31,11 @@ issuers:
         key_derivation_method: ARGON2I_MOD
 
     credential_types:
-    - description: Permit
-      schema: my-permit.my-organization
-      issuer_url: $APPLICATION_URL/my-organization/my-permit
-      depends_on:
-        - greenlight_registration
+    - description: Cannabis Retail Store Licence
+      schema: cannabis-retail-store-licence.justice.gov.bc.ca
+      issuer_url: $APPLICATION_URL/cannabis-retail-store/licence
+      # depends_on:
+      #   - reg
       credential:
         effective_date:
           input: effective_date

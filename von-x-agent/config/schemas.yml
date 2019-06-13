@@ -1,19 +1,23 @@
-# Documentation: https://github.com/bcgov/von-agent-template/tree/master/von-x-agent/config
-
-- name: my-permit.my-organization
-
-  version: '1.0.0'
-  description: The my-permit credential issued by my-org-full-name
-  path: /my-organization/my-permit
-
+- name: cannabis-retail-store-licence.justice.gov.bc.ca
+  version: '0.0.1'
+  description: Cannabis Retail Store Licence Issued by Liquor and Cannabis Regulation Branch
+  path: /cannabis-retail-store/licence
   attributes:
-    - corp_num
-    - legal_name
-    - permit_id
-    - permit_type
-    - permit_issued_date
-    - permit_status
-    - effective_date
-
-### eof ###
-
+    registration_id:
+      description: Registration ID
+      required: Y
+    legal_name:
+      description: Legal Name
+      required: Y
+    licence_number:
+      description: Licence Number
+      required: Y
+    issue_date:
+      description: Issue Date
+      required: Y
+    expiry_date:
+      description: Expiry Date
+      required: Y
+    establishment_name:
+      description: Establishment Name
+      required: Y
