@@ -1,8 +1,10 @@
-- name: cannabis-retail-store-licence.justice.gov.bc.ca
-  version: '0.0.1'
+- name: Cannabis Retail Store Licence
+  version: '0.0.3'
   description: Cannabis Retail Store Licence Issued by Liquor and Cannabis Regulation Branch
   path: /cannabis-retail-store/licence
   attributes:
+    corp_num:
+      required: Y
     registration_id:
       description: Registration ID
       required: Y
@@ -14,6 +16,9 @@
       required: Y
     issue_date:
       description: Issue Date
+      required: Y
+    effective_date:
+      description: Effective Date
       required: Y
     expiry_date:
       description: Expiry Date

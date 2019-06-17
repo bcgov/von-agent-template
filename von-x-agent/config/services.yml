@@ -32,7 +32,7 @@ issuers:
 
     credential_types:
     - description: Cannabis Retail Store Licence
-      schema: cannabis-retail-store-licence.justice.gov.bc.ca
+      schema: Cannabis Retail Store Licence
       issuer_url: $APPLICATION_URL/cannabis-retail-store/licence
       # depends_on:
       #   - reg
@@ -51,49 +51,49 @@ issuers:
           input: registration
           from: value
 
-      mapping:
-        # "attribute" defines a generic field in the TOB model
-        # "value" identifies where to derive the data value (typically it comes from the claim)
-        # "type" - if "value" - is the name of the attribute
-        # "format" is an optional data format (default text)
-        - model: attribute
-          fields:
-            type:
-              input: permit_issued_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: permit_issued_date
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: permit_type
-              from: value
-            value:
-              input: permit_type
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: permit_status
-              from: value
-            value:
-              input: permit_status
-              from: claim
-        - model: attribute
-          fields:
-            type:
-              input: effective_date
-              from: value
-            format:
-              input: datetime
-              from: value
-            value:
-              input: effective_date
-              from: claim
+      # mapping:
+      #   # "attribute" defines a generic field in the TOB model
+      #   # "value" identifies where to derive the data value (typically it comes from the claim)
+      #   # "type" - if "value" - is the name of the attribute
+      #   # "format" is an optional data format (default text)
+      #   - model: attribute
+      #     fields:
+      #       type:
+      #         input: permit_issued_date
+      #         from: value
+      #       format:
+      #         input: datetime
+      #         from: value
+      #       value:
+      #         input: permit_issued_date
+      #         from: claim
+      #   - model: attribute
+      #     fields:
+      #       type:
+      #         input: permit_type
+      #         from: value
+      #       value:
+      #         input: permit_type
+      #         from: claim
+      #   - model: attribute
+      #     fields:
+      #       type:
+      #         input: permit_status
+      #         from: value
+      #       value:
+      #         input: permit_status
+      #         from: claim
+      #   - model: attribute
+      #     fields:
+      #       type:
+      #         input: effective_date
+      #         from: value
+      #       format:
+      #         input: datetime
+      #         from: value
+      #       value:
+      #         input: effective_date
+      #         from: claim
 
 verifiers:
   bctob:
@@ -104,17 +104,17 @@ verifiers:
     wallet:
       seed: "tob-verifier-wallet-000000000001"
 
-proof_requests:
-  greenlight_registration:
-    version: '1.0.0'
-    schemas:
-      - key:
-          did: 6qnvgJtqwK44D8LFYnV5Yf
-          name: Registered Corporation
-          version: '1.0.3'
-        attributes:
-          - corp_num
-          - legal_name
+# proof_requests:
+#   greenlight_registration:
+#     version: '1.0.0'
+#     schemas:
+#       - key:
+#           did: 6qnvgJtqwK44D8LFYnV5Yf
+#           name: Registered Corporation
+#           version: '1.0.3'
+#         attributes:
+#           - corp_num
+#           - legal_name
 
 
 ### eof ###

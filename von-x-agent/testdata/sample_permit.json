@@ -1,16 +1,17 @@
 [
 {
     "attributes": {
-        "corp_num": "reg-field-from-OrgBook",
-        "legal_name": "legal-name-from-OrgBook",
-        "permit_id": "123834234234999",
-        "permit_type": "Unlimited Use Authorization",
-        "permit_issued_date": "2017-11-01T08:00:00+00:00",
-        "permit_status": "ACT",
-        "effective_date": "2017-11-01T08:00:00+00:00"
+        "corp_num": "6f564a2d-e5fc-4580-b5db-2a300409c45c",
+        "registration_id": "6f564a2d-e5fc-4580-b5db-2a300409c45c",
+        "legal_name": "Test Company",
+        "licence_number": "123834234234999",
+        "establishment_name": "Test Company Establishment",
+        "issue_date": "2017-11-01T08:00:00+00:00",
+        "effective_date": "2017-11-01T08:00:00+00:00",
+        "expiry_date": "2017-11-01T08:00:00+00:00"
     },
-    "schema": "my-permit.my-organization.ca",
-    "version": "1.0.0"
+    "schema": "Cannabis Retail Store Licence",
+    "version": "0.0.3"
 }
 ]
 

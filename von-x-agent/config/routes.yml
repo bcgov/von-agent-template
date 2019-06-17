@@ -5,7 +5,7 @@ forms:
     # URL for the Web form - becomes <server>/<path> e.g. http://localhost:5000/lcrb/CannabisRetailStoreLicense
     path: /cannabis-retail-store/licence
     type: issue-credential
-    schema_name: cannabis-retail-store-licence.justice.gov.bc.ca
+    schema_name: Cannabis Retail Store Licence
     page_title: Liquor & Cannabis Regulation Branch
     title: Cannabis Retail Store Licence
 
@@ -25,6 +25,10 @@ forms:
 
     # "fields" are displayed on the UI for the user to enter values
     fields:
+      - name: corp_num
+        type: text
+        required: true
+
       - name: registration_id
         label: Registration ID
         type: text
@@ -42,6 +46,11 @@ forms:
 
       - name: issue_date
         label: Issue Date
+        type: date
+        required: true
+      
+      - name: effective_date
+        label: Effective Date
         type: date
         required: true
       
