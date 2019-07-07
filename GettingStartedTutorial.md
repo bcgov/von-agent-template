@@ -4,34 +4,34 @@ This Getting Started Guide is to get someone new to VON Issuer/Verifier Agents u
 
 ## Table of Contents <!-- omit in toc -->
 
-- [VON Agent Getting Started Tutorial](#von-agent-getting-started-tutorial)
-  - [Running in your Browser or on Local Machine](#running-in-your-browser-or-on-local-machine)
-  - [Prerequisites](#prerequisites)
-    - [In Browser](#in-browser)
-    - [Local Machine](#local-machine)
-  - [VON Network Setup](#von-network-setup)
-    - [In Browser](#in-browser-1)
-    - [Local Machine](#local-machine-1)
-  - [Step 1: Investigating VON](#step-1-investigating-von)
-  - [Step 2: Getting Your VON Issuer/Verifier Agent Running](#step-2-getting-your-von-issuerverifier-agent-running)
-    - [In Browser](#in-browser-2)
-    - [Local Machine](#local-machine-2)
-    - [Clone, Initialize and Start Your Agent](#clone-initialize-and-start-your-agent)
-  - [Step 3: Reviewing the Configuration Files](#step-3-reviewing-the-configuration-files)
-    - [In Browser](#in-browser-3)
-    - [Local Machine](#local-machine-3)
-  - [Step 4: Issuing a Credential Using GreenLight](#step-4-issuing-a-credential-using-greenlight)
-  - [Step 5: Issuing a Credential Using a JSON File](#step-5-issuing-a-credential-using-a-json-file)
-  - [Step 6: Customizing Your Credential](#step-6-customizing-your-credential)
-    - [Stopping and Restarting Your Agent](#stopping-and-restarting-your-agent)
-  - [Step 7: Changing a Proof Request Prerequisite](#step-7-changing-a-proof-request-prerequisite)
-  - [Step 8: Adding a Second, Multi-Cardinality Credential](#step-8-adding-a-second-multi-cardinality-credential)
-    - [Updating `schemas.yml`](#updating-schemasyml)
-    - [Updating `routes.yml`](#updating-routesyml)
-    - [Updating `services.yml`](#updating-servicesyml)
-    - [Stop and Start the Agent](#stop-and-start-the-agent)
-  - [Conclusion](#conclusion)
-    - [Next Steps](#next-steps)
+- [VON Agent Getting Started Tutorial](#VON-Agent-Getting-Started-Tutorial)
+  - [Running in your Browser or on Local Machine](#Running-in-your-Browser-or-on-Local-Machine)
+  - [Prerequisites](#Prerequisites)
+    - [In Browser](#In-Browser)
+    - [Local Machine](#Local-Machine)
+  - [VON Network Setup](#VON-Network-Setup)
+    - [In Browser](#In-Browser-1)
+    - [Local Machine](#Local-Machine-1)
+  - [Step 1: Investigating VON](#Step-1-Investigating-VON)
+  - [Step 2: Getting Your VON Issuer/Verifier Agent Running](#Step-2-Getting-Your-VON-IssuerVerifier-Agent-Running)
+    - [In Browser](#In-Browser-2)
+    - [Local Machine](#Local-Machine-2)
+    - [Clone, Initialize and Start Your Agent](#Clone-Initialize-and-Start-Your-Agent)
+  - [Step 3: Reviewing the Configuration Files](#Step-3-Reviewing-the-Configuration-Files)
+    - [In Browser](#In-Browser-3)
+    - [Local Machine](#Local-Machine-3)
+  - [Step 4: Issuing a Credential Using GreenLight](#Step-4-Issuing-a-Credential-Using-GreenLight)
+  - [Step 5: Issuing a Credential Using a JSON File](#Step-5-Issuing-a-Credential-Using-a-JSON-File)
+  - [Step 6: Customizing Your Credential](#Step-6-Customizing-Your-Credential)
+    - [Stopping and Restarting Your Agent](#Stopping-and-Restarting-Your-Agent)
+  - [Step 7: Changing a Proof Request Prerequisite](#Step-7-Changing-a-Proof-Request-Prerequisite)
+  - [Step 8: Adding a Second, Multi-Cardinality Credential](#Step-8-Adding-a-Second-Multi-Cardinality-Credential)
+    - [Updating `schemas.yml`](#Updating-schemasyml)
+    - [Updating `routes.yml`](#Updating-routesyml)
+    - [Updating `services.yml`](#Updating-servicesyml)
+    - [Stop and Start the Agent](#Stop-and-Start-the-Agent)
+  - [Conclusion](#Conclusion)
+    - [Next Steps](#Next-Steps)
 
 ## Running in your Browser or on Local Machine
 
@@ -81,7 +81,7 @@ The following URLs are used in the steps below for the different components:
 
 - The `von-network` URL - [http://greenlight.bcovrin.vonx.io](http://greenlight.bcovrin.vonx.io). You'll see a ledger browser UI showing four nodes up and running (blue circles).
 - The `OrgBook` URL  - [https://demo.orgbook.gov.bc.ca](https://demo.orgbook.gov.bc.ca) - You'll see the OrgBook interface with companies/credentials already loaded.
-- The `GreenLight` URL - [https://greenlight.orgbook.gov.bc.ca](https://greenlight.orgbook.gov.bc.ca). You'll see the GreenLight interface, with the `Credential` drop down having a list of at least the seven demo credential types, and perhaps (many) more. Typing into the `Credential` text box enables a search of the credentials list.
+- The `GreenLight` URL - [https://greenlight.orgbook.gov.bc.ca](https://greenlight.orgbook.gov.bc.ca). You'll see the GreenLight interface, with the `Permit/License` drop down (a searchable list of credential types); plus the `Corporation/Legal Entity` field, an optional field where you can enter the name of your business or if new, leave blank and use Greenlight to register your entity). 
 
 You can open those sites now or later. They'll be referenced by name (e.g. "The von-network URL...") in the guide steps.
 
@@ -95,7 +95,7 @@ Use the [VON Network Quick Start Guide](https://github.com/bcgov/greenlight/blob
 
 If you are new to VON, see the instructions in the respective repos for how to use the running instances of [von-network](https://github.com/bcgov/von-network), [OrgBook](https://github.com/bcgov/TheOrgBook) and [GreenLight](https://github.com/bcgov/greenlight).
 
-Our goal in this guide is to configure a new permit and/or licence VON issuer/verifier agent so that the credential will be available from the `Credential` drop down in GreenLight.
+Our goal in this guide is to configure a new permit and/or licence VON issuer/verifier agent so that the credential will be available from the `Permit/License` drop down in GreenLight.
 
 ## Step 2: Getting Your VON Issuer/Verifier Agent Running
 
