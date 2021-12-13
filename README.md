@@ -1,4 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Lifecycle:Retired](https://img.shields.io/badge/Lifecycle-Retired-d45500)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
 
 # von-agent-template
 This repo is a template for creating an instance of the Verifiable Organizations Network (VON) Issuer/Verifier Agent running against a Hyperledger Indy network such as Sovrin.
